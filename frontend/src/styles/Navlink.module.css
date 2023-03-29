@@ -1,0 +1,11 @@
+.nav-link {
+    text-decoration: none;
+    color: black;
+}
+.active{
+    background-color: #E2E4EF !important;
+}
+
+.pending {
+    color: aqua;
+}
