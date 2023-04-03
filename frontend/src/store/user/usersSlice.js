@@ -3,18 +3,23 @@ import axiosClient from "../../axios-client.js";
 
 const initialState = {
     users: [],
+    errors: null,
     status: 'idle',
 }
 
 export const createUser = createAsyncThunk(
     "users/createUser",
-    async (payload, thunkAPI) => {
+    async (payload, {rejectWithValue}) => {
         try {
-            const res = await axiosClient.post('/users', payload);
+            const res = await axiosClient.post('/users/create', payload);
             return res.data;
-        } catch (err) {
-            console.log(err);
-            return thunkAPI.rejectWithValue(err);
+        } catch (error) {
+            if (!error.response) {
+                // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const { errors } = error.response.data;
+            return rejectWithValue(errors);
         }
 
     }
@@ -34,16 +39,23 @@ export const createUser = createAsyncThunk(
 const usersSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {},
+    reducers: {
+        clearErrors: (state) => {
+            state.errors = null;
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(createUser.fulfilled, (state, action) => {
             state.status = 'succeeded';
             state.users.push(action.payload);
-        })
+        });
+        builder.addCase(createUser.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.errors = action.payload;
+        });
     },
 });
 
-// export const { addItemToCart, toggleForm, toggleFormType, removeItemToCart } =
-//     userSlice.actions;
+export const {clearErrors} = usersSlice.actions;
 
 export default usersSlice.reducer;
