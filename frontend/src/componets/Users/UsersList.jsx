@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
 import {Button} from "@mui/material";
 import Grid from "@mui/material/Grid";
@@ -20,18 +20,8 @@ import {NavLink} from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
 import LockPersonRoundedIcon from "@mui/icons-material/LockPersonRounded";
-
-function createData(name, calories, fat, carbs, protein) {
-    return {name, calories, fat, carbs, protein};
-}
-
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+import {getUsers} from "../../store/user/usersSlice.js";
+import {useDispatch, useSelector} from "react-redux";
 
 function Item(props) {
     return null;
@@ -39,10 +29,13 @@ function Item(props) {
 
 Item.propTypes = {children: PropTypes.node};
 export default function UsersList() {
+    const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
-    const [rowData, setRowData] = useState(rows);
     const [orderDirection, setOrderDirection] = useState("asc");
 
+    const users = useSelector((state) => state.user.users)
+
+    console.log(users);
     const sortArray = (arr, orderBy) => {
         switch (orderBy) {
             case "asc":
@@ -70,6 +63,10 @@ export default function UsersList() {
     const handleClose = () => {
         setOpen(false);
     };
+
+    useEffect(() => {
+        dispatch(getUsers());
+    }, [])
 
     return (
         <>
@@ -108,36 +105,46 @@ export default function UsersList() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row,i) => (
+                        {users?.map((user, i) => (
                             <TableRow
-                                key={row.name}
+                                key={i}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
                             >
                                 <TableCell component="th" scope="row">
-                                    {i+1}
+                                    {i + 1}
                                 </TableCell><TableCell component="th" scope="row">
-                                    {row.name}
-                                </TableCell>
-                                <TableCell align="right">{row.calories}</TableCell>
-                                <TableCell align="right">{row.fat}</TableCell>
-                                <TableCell align="right">{row.carbs}</TableCell>
-                                <TableCell align="right">{row.protein}</TableCell>
-                                <TableCell align="right">28 March</TableCell>
+                                {user.login}
+                            </TableCell>
+                                <TableCell align="right">{user.first_name}</TableCell>
+                                <TableCell align="right">{user.second_name}</TableCell>
+                                <TableCell align="right">{user.role}</TableCell>
+                                <TableCell align="right" style={{}}>
+                                    <span
+                                        style={{
+                                            backgroundColor: '#aee6eb',
+                                            color:'#00aec1',
+                                            display: "block",
+                                            textAlign:'center',
+                                            width: 65,
+                                            borderRadius: 5,
+                                            float: 'right'
+                                        }}>{user.status}</span></TableCell>
+                                <TableCell align="right">{user.created_at}</TableCell>
                                 <TableCell align="right">
-                                    <NavLink to={`/`} style={{ textDecoration: 'none' }}>
+                                    <NavLink to={`/`} style={{textDecoration: 'none'}}>
                                         <IconButton size="small" color="primary">
-                                            <EditIcon />
+                                            <EditIcon/>
                                         </IconButton>
                                     </NavLink>
-                                    <NavLink to={`/`} style={{ textDecoration: 'none' }}>
+                                    <NavLink to={`/`} style={{textDecoration: 'none'}}>
                                         <IconButton size="small" color="primary">
-                                            <DeleteIcon />
+                                            <DeleteIcon/>
                                         </IconButton>
-                                    </NavLink><NavLink to={`/`} style={{ textDecoration: 'none' }}>
-                                        <IconButton size="small" color="primary">
-                                            <LockPersonRoundedIcon />
-                                        </IconButton>
-                                    </NavLink>
+                                    </NavLink><NavLink to={`/`} style={{textDecoration: 'none'}}>
+                                    <IconButton size="small" color="primary">
+                                        <LockPersonRoundedIcon/>
+                                    </IconButton>
+                                </NavLink>
                                 </TableCell>
                             </TableRow>
                         ))}

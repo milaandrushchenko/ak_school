@@ -24,6 +24,7 @@ import {Outlet} from "react-router-dom";
 import {Avatar, Menu, MenuItem} from "@mui/material";
 import {Logout, PersonAdd, Settings} from "@mui/icons-material";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import {useEffect} from "react";
 
 function Copyright(props) {
     return (

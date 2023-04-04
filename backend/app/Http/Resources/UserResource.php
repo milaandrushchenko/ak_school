@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,15 +16,17 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        //Carbon::setLocale('uk');
         return [
             'id' => $this->id,
             'login' => $this->login,
             'first_name' => $this->first_name,
             'second_name' => $this->second_name,
+            'status' => User::getStatusTitleAttribute($this),
             //'email' => $this->email,
             'role' => $this->getRoleNames()[0],
             'permissions' => $this->getPermissionsViaRoles()->pluck('name'),
-            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'created_at' => Carbon::parse($this->created_at)->isoFormat('DD MMMM, YYYY  hh:mm'),
         ];
     }
 }
