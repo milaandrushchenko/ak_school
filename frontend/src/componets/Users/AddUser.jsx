@@ -46,8 +46,7 @@ export default function AddUser({open, onClose}) {
 
     const roles = useSelector((state) => state.role.roles)
     let errors = useSelector((state) => state.user.errors)
-    const navigate = useNavigate();
-    console.log(errors);
+
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);

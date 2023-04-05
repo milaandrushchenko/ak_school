@@ -25,6 +25,9 @@ import {Avatar, Menu, MenuItem} from "@mui/material";
 import {Logout, PersonAdd, Settings} from "@mui/icons-material";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import {useEffect} from "react";
+import {useDispatch} from "react-redux";
+import {logoutUser} from "../../store/user/currentUserSlice.js";
+import {createUser} from "../../store/user/usersSlice.js";
 
 function Copyright(props) {
     return (
@@ -96,12 +99,13 @@ const mdTheme = createTheme({
             main: '#1a237e',
         },
         secondary: {
-            main: '#3444F7',
+            main: '#2A38C9',
         },
     },
 });
 
-function DashboardContent() {
+export default function DashboardContent() {
+    const dispatch = useDispatch();
     const [open, setOpen] = React.useState(true);
     const toggleDrawer = () => {
         setOpen(!open);
@@ -113,6 +117,12 @@ function DashboardContent() {
     };
     const handleClose = () => {
         setAnchorEl(null);
+    }
+
+    const logout = async (e) => {
+        e.preventDefault();
+
+        dispatch(logoutUser());
     }
 
     return (
@@ -154,7 +164,7 @@ function DashboardContent() {
                         <IconButton color="inherit"
                                     onClick={handleClick}
                                     size="small"
-                                    sx={{ ml: 2 }}
+                                    sx={{ml: 2}}
                                     aria-controls={openEl ? 'account-menu' : undefined}
                                     aria-haspopup="true"
                                     aria-expanded={open ? 'true' : undefined}>
@@ -192,16 +202,16 @@ function DashboardContent() {
                                     },
                                 },
                             }}
-                            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                            transformOrigin={{horizontal: 'right', vertical: 'top'}}
+                            anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
                         >
                             <MenuItem onClick={handleClose}>
-                                <Avatar /> Profile
+                                <Avatar/> Profile
                             </MenuItem>
-                            <Divider />
-                            <MenuItem onClick={handleClose}>
+                            <Divider/>
+                            <MenuItem onClick={logout}>
                                 <ListItemIcon>
-                                    <Logout fontSize="small" />
+                                    <Logout fontSize="small"/>
                                 </ListItemIcon>
                                 Logout
                             </MenuItem>
@@ -273,8 +283,4 @@ function DashboardContent() {
             </Box>
         </ThemeProvider>
     );
-}
-
-export default function Dashboard() {
-    return <DashboardContent/>;
 }

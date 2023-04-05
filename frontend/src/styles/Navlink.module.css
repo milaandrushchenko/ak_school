@@ -2,8 +2,14 @@
     text-decoration: none;
     color: black;
 }
-.active{
+
+.active {
     background-color: #E2E4EF !important;
+
+}
+
+.loginImage {
+    background-image: url("../../public/login.jpg");
 }
 
 .pending {

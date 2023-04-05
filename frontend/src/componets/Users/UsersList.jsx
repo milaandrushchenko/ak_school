@@ -22,12 +22,24 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import LockPersonRoundedIcon from "@mui/icons-material/LockPersonRounded";
 import {getUsers} from "../../store/user/usersSlice.js";
 import {useDispatch, useSelector} from "react-redux";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
 
 function Item(props) {
     return null;
 }
 
 Item.propTypes = {children: PropTypes.node};
+
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#1a237e',
+        },
+        secondary: {
+            main: '#2A38C9',
+        },
+    },
+});
 export default function UsersList() {
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
@@ -69,7 +81,7 @@ export default function UsersList() {
     }, [])
 
     return (
-        <>
+        <ThemeProvider theme={theme}>
             <Grid container spacing={2} justifyContent="space-between"
                   style={{flexWrap: 'wrap', padding: 10}} className={styles['no-padding-top']}>
                 <Grid item xs={12} lg={8} style={{alignItems: 'end'}}
@@ -80,7 +92,7 @@ export default function UsersList() {
                 </Grid>
                 <Grid item xs={12} lg={3} style={{textAlign: 'right'}}
                       className={styles['no-padding-top']}>
-                    <Button style={{backgroundColor: '#1e88e5', color: 'white'}}
+                    <Button color="secondary" style={{backgroundColor: theme.palette.secondary.main, color: 'white'}}
                             onClick={handleClickOpen}>
                         <PersonAddAltOutlinedIcon style={{marginRight: 10}}/>
                         CREATE USER
@@ -121,14 +133,15 @@ export default function UsersList() {
                                 <TableCell align="right" style={{}}>
                                     <span
                                         style={{
-                                            backgroundColor: '#aee6eb',
-                                            color:'#00aec1',
+                                            backgroundColor: `${user.status.backgroundColor}`,
+                                            color: `${user.status.color}`,
                                             display: "block",
-                                            textAlign:'center',
+                                            textAlign: 'center',
                                             width: 65,
                                             borderRadius: 5,
                                             float: 'right'
-                                        }}>{user.status}</span></TableCell>
+                                        }}>{user.status.title}</span>
+                                </TableCell>
                                 <TableCell align="right">{user.created_at}</TableCell>
                                 <TableCell align="right">
                                     <NavLink to={`/`} style={{textDecoration: 'none'}}>
@@ -151,6 +164,6 @@ export default function UsersList() {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </>
+        </ThemeProvider>
     );
 }

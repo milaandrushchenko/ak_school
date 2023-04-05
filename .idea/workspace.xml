@@ -5,14 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="369ea667-65c6-4f76-97c2-3e996c2a7e9c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/AuthController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/app/Http/Requests/LoginRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/login.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Users/Login.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/store/user/currentUserSlice.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Resources/UserResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Resources/UserResource.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/User.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Dashboard/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Dashboard/Dashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Dashboard/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Dashboard/DashboardContent.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Dashboard/listItems.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Dashboard/listItems.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/DefaultLayout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/DefaultLayout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/GuestLayout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/GuestLayout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/AddUser.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Users/AddUser.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/UsersList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Users/UsersList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/user/usersSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/user/usersSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/router.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/styles/Navlink.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/Navlink.module.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,7 +167,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/OSPanel/domains/heroku",
+    "last_opened_file_path": "C:/OSPanel/domains/diploma/frontend/src/store/user",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -171,12 +180,14 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\OSPanel\domains\diploma\frontend\src\store\role" />
       <recent name="C:\OSPanel\domains\diploma\frontend\src\store\user" />
-      <recent name="C:\OSPanel\domains\diploma\frontend\src" />
-      <recent name="C:\OSPanel\domains\diploma\frontend\src\styles" />
+      <recent name="C:\OSPanel\domains\diploma\backend\app\Http\Requests" />
+      <recent name="C:\OSPanel\domains\diploma\frontend\public" />
+      <recent name="C:\OSPanel\domains\diploma\frontend\src\assets" />
+      <recent name="C:\OSPanel\domains\diploma\frontend\src\store\role" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\OSPanel\domains\diploma\frontend\public" />
       <recent name="C:\OSPanel\domains\diploma\frontend" />
     </key>
   </component>
@@ -201,7 +212,8 @@
       <workItem from="1680206504137" duration="5596000" />
       <workItem from="1680255527720" duration="7805000" />
       <workItem from="1680510004173" duration="22246000" />
-      <workItem from="1680640576368" duration="5769000" />
+      <workItem from="1680640576368" duration="6031000" />
+      <workItem from="1680687546997" duration="28453000" />
     </task>
     <servers />
   </component>

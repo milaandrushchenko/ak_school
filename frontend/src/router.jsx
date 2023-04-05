@@ -1,42 +1,41 @@
-import {createBrowserRouter} from "react-router-dom";
+import {createBrowserRouter, Navigate} from "react-router-dom";
 import DefaultLayout from "./componets/DefaultLayout.jsx";
 import GuestLayout from "./componets/GuestLayout.jsx";
-import Dashboard from "./componets/Dashboard/Dashboard.jsx";
 import UsersList from "./componets/Users/UsersList.jsx";
+import Login from "./componets/Users/Login.jsx";
+import DashboardContent from "./componets/Dashboard/DashboardContent.jsx";
 
 const router = createBrowserRouter([
     {
-        path: "/",
+        path: '/',
         element: <DefaultLayout/>,
         children: [
-            {},
-        ],
+            {
+                path: '/dashboard',
+                element: <Navigate to="/"/>
+            },
+
+            {
+                path: "/users",
+                element: <UsersList/>
+            },
+            {
+                path: "/roles",
+                element: <UsersList/>
+            },
+            {
+                path: "/permissions",
+                element: <UsersList/>
+            },
+        ]
     },
     {
         path: '/',
         element: <GuestLayout/>,
         children: [
-            /*  {
-                  path: '/login',
-                  element: <Login/>
-              }*/
-        ]
-    },
-    {
-        path: "/dash",
-        element: <Dashboard/>,
-        children: [
             {
-                path: "/dash/users",
-                element: <UsersList/>
-            },
-            {
-                path: "/dash/roles",
-                element: <UsersList/>
-            },
-            {
-                path: "/dash/permissions",
-                element: <UsersList/>
+                path: '/login',
+                element: <Login/>
             },
         ]
     },

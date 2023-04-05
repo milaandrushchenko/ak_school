@@ -94,7 +94,7 @@ export const secondaryListItems = (
         {/*<ListSubheader component="div" inset>*/}
         {/*  Saved reports*/}
         {/*</ListSubheader>*/}
-        <NavLink to='/dash/users' className={
+        <NavLink to='/users' className={
             classNames(
                 styles['nav-link'],
             )
@@ -110,7 +110,7 @@ export const secondaryListItems = (
                 </ListItemButton>
             )}
         </NavLink>
-        <NavLink to='/dash/roles' className={
+        <NavLink to='/roles' className={
             classNames(
                 styles['nav-link'],
             )
@@ -126,7 +126,7 @@ export const secondaryListItems = (
                 </ListItemButton>
             )}
         </NavLink>
-        <NavLink to='/dash/permissions' className={
+        <NavLink to='/permissions' className={
             classNames(
                 styles['nav-link'],
             )
