@@ -26,7 +26,8 @@ class UserResource extends JsonResource
             //'email' => $this->email,
             'role' => $this->getRoleNames()[0],
             'permissions' => $this->getPermissionsViaRoles()->pluck('name'),
-            'created_at' => Carbon::parse($this->created_at)->isoFormat('DD MMMM, YYYY  hh:mm'),
+            'created_at' => Carbon::parse($this->created_at)->isoFormat('DD MMMM, YYYY HH:mm'),
+
         ];
     }
 }

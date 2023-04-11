@@ -5,7 +5,7 @@ import currentUserSlice from "./user/currentUserSlice.js";
 
 export const store = configureStore({
     reducer: {
-        user: usersSlice,
+        users: usersSlice,
         currentUser: currentUserSlice,
         role: rolesSlice,
     },

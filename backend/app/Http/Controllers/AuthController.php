@@ -23,6 +23,7 @@ class AuthController extends Controller
         /** @var User $user */
         $user = Auth::user();
         $token = $user->createToken('main')->plainTextToken;
+        $user->changeOfStatus();
         return response([
             'user' => new UserResource($user),
             'token' => $token,
@@ -39,9 +40,9 @@ class AuthController extends Controller
 
     public function me(Request $request)
     {
-        $user=$request->user();
+        $user = $request->user();
         return response([
-            'user' =>  new UserResource($user),
+            'user' => new UserResource($user),
         ]);
     }
 }

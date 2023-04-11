@@ -16,18 +16,14 @@ class User extends Authenticatable
     const STATUS_NEW = 0;
     const STATUS_ACTIVE = 1;
 
-    public static function getStatus()
+    public function changeOfStatus()
     {
-        return [
-            self::STATUS_NEW => [
-                'title' => 'New',
-
-            ],
-            self::STATUS_ACTIVE => [
-                'title' => 'Active',
-            ],
-        ];
+        if ($this->status == 0) {
+            $this->status = 1;
+            $this->isDirty('status') && $this->save();
+        }
     }
+
 
     public static function getStatusTitleAttribute($user)
     {
@@ -36,13 +32,13 @@ class User extends Authenticatable
         if ($status == self::STATUS_NEW) {
             return [
                 'title' => 'New',
-                'backgroundColor'=> '#aee6eb',
+                'backgroundColor' => '#aee6eb',
                 'color' => '#00aec1'
             ];
         } elseif ($status == self::STATUS_ACTIVE) {
             return [
                 'title' => 'Active',
-                'backgroundColor'=> '#9fd99f',
+                'backgroundColor' => '#9fd99f',
                 'color' => '#55a71d'
             ];
         } else {

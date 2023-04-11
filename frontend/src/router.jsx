@@ -3,7 +3,6 @@ import DefaultLayout from "./componets/DefaultLayout.jsx";
 import GuestLayout from "./componets/GuestLayout.jsx";
 import UsersList from "./componets/Users/UsersList.jsx";
 import Login from "./componets/Users/Login.jsx";
-import DashboardContent from "./componets/Dashboard/DashboardContent.jsx";
 
 const router = createBrowserRouter([
     {

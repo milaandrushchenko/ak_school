@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
+use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -15,6 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        //$perPage = $request->input('per_page', 10);
         return UserResource::collection(
             User::query()->orderBy('id', 'desc')->get()
         );
@@ -28,7 +30,7 @@ class UserController extends Controller
         $data = $request->validated();
         $data['password'] = bcrypt($data['password']);
         $data['status'] = 0;
-        $role=$data['role'];
+        $role = $data['role'];
         $user = User::create($data);
 
         $role = Role::findByName($role); // знайти роль за іменем
@@ -57,6 +59,6 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+
     }
 }

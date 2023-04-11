@@ -16,10 +16,13 @@ import styles from '../../styles/Navlink.module.css';
 import {jsx} from "@emotion/react";
 import classNames from "classnames";
 import {useDispatch, useSelector} from "react-redux";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {loginUser} from "../../store/user/currentUserSlice.js";
 import {Navigate} from "react-router-dom";
 import {Alert, AlertTitle, FormHelperText} from "@mui/material";
+import {useFormik} from 'formik';
+import * as Yup from 'yup';
+import {createUser} from "../../store/user/usersSlice.js";
 
 
 const theme = createTheme({
@@ -33,31 +36,36 @@ const theme = createTheme({
     },
 });
 
+const initialValues = {
+    login: '',
+    password: '',
+};
+
+const validationSchema = Yup.object().shape({
+    login: Yup.string().required('The login field is required.').min(2, 'Too short'),
+    password: Yup.string().min(6, 'Password must be at least 6 characters').max(55, 'Too long').required('The password field is required.'),
+});
 export default function Login() {
+    const dispatch = useDispatch();
 
     const {userToken} = useSelector((state) => state.currentUser)
-    let errors = useSelector((state) => state.currentUser.errors)
+    let errorsServer = useSelector((state) => state.currentUser.errors)
 
     if (userToken) {
         return <Navigate to='/'/>
     }
-    const dispatch = useDispatch();
-    const defaultUser = {
-        login: '',
-        password: '',
-    };
 
-    const [user, setUser] = useState(defaultUser);
+    const formik = useFormik({
+        initialValues,
+        validationSchema,
+        onSubmit: async (values,{ setErrors,setSubmitting  }) => {
+            dispatch(loginUser(values));
+        },
+    });
 
-    const handleChange = ({target: {value, name}}) => {
-        setUser({...user, [name]: value});
-    };
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
-        dispatch(loginUser(user));
-        console.log(user);
-    };
+    useEffect(() => {
+        formik.setErrors({ ...formik.errors, ...errorsServer });
+    }, [errorsServer]);
 
     return (
         <ThemeProvider theme={theme}>
@@ -103,11 +111,11 @@ export default function Login() {
                         <Typography component="h1" variant="h5">
                             Welcome back
                         </Typography>
-                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1}}>
-                            {errors?.message && (
-                                <Alert severity='error' >
+                        <Box component="form" noValidate onSubmit={formik.handleSubmit} sx={{mt: 1}}>
+                            {errorsServer?.message && (
+                                <Alert severity='error'>
                                     <AlertTitle>Error</AlertTitle>
-                                    {errors.message}
+                                    {errorsServer.message}
                                 </Alert>
                             )}
                             <TextField
@@ -117,13 +125,12 @@ export default function Login() {
                                 id="login"
                                 label="Your login"
                                 name="login"
-                                autoComplete="login"
                                 autoFocus
-                                value={user.login}
-                                onChange={handleChange}
-                                error={errors?.login ? true : false}
+                                value={formik.values.login}
+                                onChange={formik.handleChange}
+                                error={formik.touched.login && Boolean(formik.errors?.login)}
+                                helperText={formik.touched.login && formik.errors && formik.errors.login}
                             />
-                            {errors?.login && <FormHelperText error>{errors?.login}</FormHelperText>}
                             <TextField
                                 margin="normal"
                                 required
@@ -132,13 +139,11 @@ export default function Login() {
                                 label="Password"
                                 type="password"
                                 id="password"
-                                autoComplete="current-password"
-                                value={user.password}
-                                onChange={handleChange}
-                                error={errors?.password ? true : false}
+                                value={formik.values.password}
+                                onChange={formik.handleChange}
+                                error={formik.touched.password && Boolean(formik.errors?.password)}
+                                helperText={formik.touched.password && formik.errors && formik.errors.password}
                             />
-                            {errors?.password && <FormHelperText error>{errors?.password}</FormHelperText>}
-                            {/*<FormControlLabel*/}
                             {/*    control={<Checkbox value="remember" color="primary"/>}*/}
                             {/*    label="Remember me"*/}
                             {/*/>*/}
