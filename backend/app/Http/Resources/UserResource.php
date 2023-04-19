@@ -22,6 +22,7 @@ class UserResource extends JsonResource
             'login' => $this->login,
             'first_name' => $this->first_name,
             'second_name' => $this->second_name,
+            'password' => $this->password,
             'status' => User::getStatusTitleAttribute($this),
             //'email' => $this->email,
             'role' => $this->getRoleNames()[0],

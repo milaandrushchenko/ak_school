@@ -51,7 +51,24 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $data = $request->validated();
+
+        $user->syncRoles($data['role']);
+
+        $user->update($data);
+        return new UserResource($user);
+    }
+
+    public function newPassword(Request $request, User $user)
+    {
+        $newPassword = $request->input('password');
+
+        if ($newPassword) {
+            $newPassword = bcrypt($newPassword);
+            $user->update(['password' => $newPassword]);
+        }
+        return response()->json(['message' => 'Пароль успішно оновлено'], 200);
+
     }
 
     /**
@@ -59,6 +76,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $user->delete();
 
+        return response('', 204);
     }
 }

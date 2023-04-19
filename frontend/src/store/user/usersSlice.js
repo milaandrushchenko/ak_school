@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axiosClient from "../../axios-client.js";
 import {loginUser} from "./currentUserSlice.js";
 import {getComparator, stableSort} from "../../utils/filtering.js";
+import {getRoles} from "../role/rolesSlice.js";
 
 const initialState = {
     users: [],
@@ -17,6 +18,24 @@ export const createUser = createAsyncThunk(
     async (payload, {rejectWithValue}) => {
         try {
             const res = await axiosClient.post('/users/create', payload);
+            return res.data;
+        } catch (error) {
+            if (!error.response) {
+                // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+
+    }
+);
+
+export const updateUser = createAsyncThunk(
+    "users/updateUser",
+    async ({id, data}, {rejectWithValue}) => {
+        try {
+            const res = await axiosClient.put(`/users/${id}`, data);
             return res.data;
         } catch (error) {
             if (!error.response) {
@@ -47,23 +66,40 @@ export const getUsers = createAsyncThunk(
 
     }
 );
-// export const getUsers = createAsyncThunk(
-//     "users/getUsers",
-//     async ({page,perPage}, {rejectWithValue}) => {
-//         try {
-//             const res = await axiosClient.get(`/users?page=${page}&per_page=${perPage}`);
-//             return res.data;
-//         } catch (error) {
-//             if (!error.response) {
-//                 // Якщо немає відповіді від сервера
-//                 return rejectWithValue("Не вдалося з'єднатися з сервером.");
-//             }
-//             const {errors} = error.response.data;
-//             return rejectWithValue(errors);
-//         }
-//
-//     }
-// );
+export const deleteUser = createAsyncThunk(
+    "deleteUser/updateUser",
+    async ({id, user}, {rejectWithValue}) => {
+        try {
+            await axiosClient.delete(`/users/${id}`, user);
+            return user;
+        } catch (error) {
+            if (!error.response) {
+                // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+
+    }
+);
+export const generateNewPassword = createAsyncThunk(
+    "generateNewPassword/updateUser",
+    async ({id, user}, {rejectWithValue}) => {
+        try {
+            const res = await axiosClient.post(`/users/new-password/${id}`, user);
+            return res.data;
+        } catch (error) {
+            if (!error.response) {
+                // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+
+    }
+);
 
 const usersSlice = createSlice({
     name: "users",
@@ -102,6 +138,30 @@ const usersSlice = createSlice({
             state.errors = action.payload;
             //state.isLoading = false;
         });
+        builder.addCase(updateUser.pending, (state) => {
+            //state.isLoading = true;
+        });
+        builder.addCase(updateUser.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.users = state.users.map(user => user.id === action.payload.data.id ? action.payload.data : user)
+            state.visibleData = state.visibleData.map(user => user.id === action.payload.data.id ? action.payload.data : user)
+        });
+        builder.addCase(updateUser.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.errors = action.payload;
+        });
+        builder.addCase(deleteUser.pending, (state) => {
+            //state.isLoading = true;
+        });
+        builder.addCase(deleteUser.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.users = state.users.filter(user => user.id !== action.payload.id);
+            state.visibleData = state.users;
+        });
+        builder.addCase(deleteUser.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.errors = action.payload;
+        });
         builder.addCase(getUsers.pending, (state) => {
             state.isLoading = true;
         });
@@ -120,6 +180,6 @@ const usersSlice = createSlice({
     },
 });
 
-export const {clearErrors, searchUsers,sortUsers} = usersSlice.actions;
+export const {clearErrors, searchUsers, sortUsers} = usersSlice.actions;
 
 export default usersSlice.reducer;

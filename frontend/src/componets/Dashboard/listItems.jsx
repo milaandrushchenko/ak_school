@@ -34,7 +34,7 @@ export const mainListItems = (
                     <ListItemIcon>
                         <LibraryBooksIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Course"/>
+                    <ListItemText primary="Предмети"/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -50,7 +50,7 @@ export const mainListItems = (
                     <ListItemIcon>
                         <CalendarMonthIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Schedule"/>
+                    <ListItemText primary="Розклад"/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -66,7 +66,7 @@ export const mainListItems = (
                     <ListItemIcon>
                         <GroupsIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Groups"/>
+                    <ListItemText primary="Класи"/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -82,7 +82,7 @@ export const mainListItems = (
                     <ListItemIcon>
                         <BarChartIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Reports"/>
+                    <ListItemText primary="Звіти"/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -106,7 +106,7 @@ export const secondaryListItems = (
                     <ListItemIcon>
                         <PeopleIcon/>
                     </ListItemIcon>
-                    <ListItemText primary='Users'/>
+                    <ListItemText primary='Користувачі'/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -122,7 +122,7 @@ export const secondaryListItems = (
                     <ListItemIcon>
                         <ContactEmergencyRoundedIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Role"/>
+                    <ListItemText primary="Ролі"/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -138,7 +138,7 @@ export const secondaryListItems = (
                     <ListItemIcon>
                         <LockPersonRoundedIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Permissions"/>
+                    <ListItemText primary="Дозволи"/>
                 </ListItemButton>
             )}
         </NavLink>

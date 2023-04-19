@@ -22,17 +22,17 @@ import {useNavigate} from "react-router-dom";
 import MuiAlert from '@mui/material/Alert';
 import {generatePassword} from '../../utils/common'
 import {useDispatch, useSelector} from "react-redux";
-import {clearErrors, createUser} from "../../store/user/usersSlice.js";
+import {clearErrors, createUser, updateUser} from "../../store/user/usersSlice.js";
 import {getRoles} from "../../store/role/rolesSlice.js";
 import {FormikProvider, useFormik, useFormikContext} from 'formik';
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
-    login: Yup.string().required('The login field is required.').max(55, 'Too long').min(2, 'Too short'),
-    password: Yup.string().min(6, 'Password must be at least 6 characters').max(55, 'Too long').required('The password field is required.'),
-    first_name: Yup.string().min(2, 'First name must be at least 6 characters').max(55, 'Too long').required('The first name field is required.'),
-    second_name: Yup.string().min(2, 'Second name must be at least 6 characters').max(55, 'Too long').required('The second name field is required.'),
-    role: Yup.string().required('Role is required.'),
+    login: Yup.string().required('Поле логіну є обов\'язковим для заповнення.').max(55, 'Логін занадто довгий').min(2, 'Логін занадто короткий').matches(/^\S*$/, 'Ви не межете використовувати пробіли'),
+    password: Yup.string().min(6, 'Пароль має містити принаймі 6 символів').max(100, 'Пароль занадто довгий').required('Поле паролю є обов\'язковим для заповнення.'),
+    first_name: Yup.string().min(2, 'Ім\'я має містити принаймі 2 символи').max(55, 'Ім\'я занадто довге').required('Поле імені є обов\'язковим для заповнення').matches(/^[A-Za-zа-яА-ЯЁёіІїЇєЄґҐ]+$/, 'Для введення дозволенні лише літери'),
+    second_name: Yup.string().min(2, 'Прізвище має містити принаймі 2 символи').max(55, 'Прізвище занадто довге').required('Поле прізвище є обов\'язковим для заповнення').matches(/^[A-Za-zа-яА-ЯЁёіІїЇєЄґҐ]+$/, 'Для введення дозволенні лише літери'),
+    role: Yup.string().required('Оберіть роль для користувача.'),
 });
 const initialValues = {
     login: '',
@@ -45,10 +45,9 @@ const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function List({open, onClose}) {
+export default function UserForm({user, open, onClose}) {
     const dispatch = useDispatch();
 
-    const [notification, setNotification] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
     const roles = useSelector((state) => state.role.roles)
@@ -62,53 +61,55 @@ export default function List({open, onClose}) {
         formik.setFieldValue('password', generatePassword(length));
     }
 
-    const close = () => {
-        onClose();
+    const close = (value) => {
+        onClose(value);
         dispatch(clearErrors());
         formik.resetForm(initialValues);
         formik.setErrors({});
     }
-
-    const handleCloseAlert = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setNotification(false);
-    };
 
     useEffect(() => {
         dispatch(getRoles());
     }, []);
 
     const formik = useFormik({
-        initialValues,
+        initialValues: user ? {...user} : {...initialValues},
         validationSchema,
-        onSubmit: async (values,{ setErrors,setSubmitting  }) => {
-            const resultAction = await dispatch(createUser(values));
-            if (createUser.fulfilled.match(resultAction)) {
-                setNotification(true);
-                close();
+        onSubmit: async (values, {setErrors, setSubmitting}) => {
+            if (!user) {
+                const resultAction = await dispatch(createUser(values));
+                if (createUser.fulfilled.match(resultAction)) {
+                    close(true);
+                }
+            } else {
+                let data = Object.assign({}, values);
+                delete data.password;
+                let id = data.id;
+                const resultAction = await dispatch(updateUser({id, data}));
+                if (updateUser.fulfilled.match(resultAction)) {
+                    console.log('user updated');
+                    close(true);
+                }
             }
         },
     });
 
     useEffect(() => {
-        formik.setErrors({ ...formik.errors, ...errorsServer });
+        formik.setErrors({...formik.errors, ...errorsServer});
     }, [errorsServer]);
 
     return (
         <>
             <Dialog
                 open={open}
-                onClose={close}
+                onClose={()=>close(false)}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
                 <FormikProvider value={formik}>
                     <form onSubmit={formik.handleSubmit}>
                         <DialogTitle id="alert-dialog-title">
-                            {"Adding a user"}
+                            {user ? "Редагування користувача" : "Створення користувача"}
                         </DialogTitle>
                         <DialogContent>
                             <TextField
@@ -116,7 +117,7 @@ export default function List({open, onClose}) {
                                 margin="dense"
                                 id="login"
                                 name="login"
-                                label="Login"
+                                label="Логін"
                                 type="text"
                                 fullWidth
                                 value={formik.values.login}
@@ -124,12 +125,13 @@ export default function List({open, onClose}) {
                                 error={formik.touched.login && Boolean(formik.errors?.login)}
                                 helperText={formik.touched.login && formik.errors && formik.errors.login}
                             />
-                            <Grid container spacing={2} alignItems="center" alignContent={"center"}>
+                            {!user && <Grid container spacing={2} alignItems="center"
+                                            alignContent={"center"}>
                                 <Grid item xs={7}>
                                     <TextField margin="dense"
                                                id="password"
                                                name="password"
-                                               label="Password"
+                                               label="Пароль"
                                                type={showPassword ? 'text' : 'password'}
                                                fullWidth
                                                InputProps={{
@@ -155,18 +157,19 @@ export default function List({open, onClose}) {
                                 <Grid item xs={5}>
                                     <Button fullWidth sx={{width: '100%'}}
                                             onClick={() => getPassword(10)}
-                                            variant="contained">Generate</Button>
+                                            variant="contained">Згенерувати</Button>
                                 </Grid>
                             </Grid>
+                            }
 
                             <FormControl fullWidth sx={{marginTop: 2}}
                                          error={formik.touched.role && Boolean(formik.errors?.role)}>
-                                <InputLabel id="role-label">Role</InputLabel>
+                                <InputLabel id="role-label">Роль</InputLabel>
                                 <Select
                                     labelId="role-label"
                                     id="role"
                                     name="role"
-                                    label="Role"
+                                    label="Роль"
                                     value={formik.values.role}
                                     onChange={formik.handleChange}
                                 >
@@ -184,7 +187,7 @@ export default function List({open, onClose}) {
                                                id="first_name"
                                                name="first_name"
                                                sx={{mr: 12}}
-                                               label="First Name"
+                                               label="Ім'я"
                                                type="text"
                                                fullWidth
                                                value={formik.values.first_name}
@@ -198,7 +201,7 @@ export default function List({open, onClose}) {
                                     <TextField margin="dense"
                                                id="second_name"
                                                name="second_name"
-                                               label="Last Name"
+                                               label="Прізвище"
                                                type="text"
                                                fullWidth
                                                value={formik.values.second_name}
@@ -212,27 +215,15 @@ export default function List({open, onClose}) {
                         </DialogContent>
                         <DialogActions>
                             <Button variant="outlined" color="error"
-                                    onClick={() => close()}>Cansel</Button>
+                                    onClick={() => close(false)}>Відмінити</Button>
                             <Button type="submit" variant="contained" color="success"
                                     autoFocus>
-                                Add
+                                {user ? 'Зберегти' : 'Додати'}
                             </Button>
                         </DialogActions>
                     </form>
                 </FormikProvider>
             </Dialog>
-            {notification && (
-                <Snackbar open={notification} autoHideDuration={3000} onClose={handleCloseAlert}>
-                    <Alert onClose={handleCloseAlert} severity="success" sx={{
-                        width: '300px',
-                        position: 'fixed',
-                        bottom: '20px',
-                        right: '20px',
-                    }}>
-                        User successfully added!
-                    </Alert>
-                </Snackbar>
-            )}
         </>
     )
 }

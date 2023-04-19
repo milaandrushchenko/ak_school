@@ -206,14 +206,14 @@ export default function DashboardContent() {
                             anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
                         >
                             <MenuItem onClick={handleClose}>
-                                <Avatar/> Profile
+                                <Avatar/> Мій профіль
                             </MenuItem>
                             <Divider/>
                             <MenuItem onClick={logout}>
                                 <ListItemIcon>
                                     <Logout fontSize="small"/>
                                 </ListItemIcon>
-                                Logout
+                                Вийти
                             </MenuItem>
                         </Menu>
                     </Toolbar>

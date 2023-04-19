@@ -17,7 +17,7 @@ import {jsx} from "@emotion/react";
 import classNames from "classnames";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {loginUser} from "../../store/user/currentUserSlice.js";
+import {clearErrors, loginUser} from "../../store/user/currentUserSlice.js";
 import {Navigate} from "react-router-dom";
 import {Alert, AlertTitle, FormHelperText} from "@mui/material";
 import {useFormik} from 'formik';
@@ -42,8 +42,8 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
-    login: Yup.string().required('The login field is required.').min(2, 'Too short'),
-    password: Yup.string().min(6, 'Password must be at least 6 characters').max(55, 'Too long').required('The password field is required.'),
+    login: Yup.string().required('Поле логіну є обов\'язковим для заповнення.').min(2, 'Логін занадто кориткий'),
+    password: Yup.string().min(6, 'Пароль має містити принаймі 6 символів').max(55, 'Пароль занадто короткий.').required('Поле паролю є обов\'язковим для заповнення.'),
 });
 export default function Login() {
     const dispatch = useDispatch();
@@ -58,13 +58,14 @@ export default function Login() {
     const formik = useFormik({
         initialValues,
         validationSchema,
-        onSubmit: async (values,{ setErrors,setSubmitting  }) => {
+        onSubmit: async (values, {setErrors, setSubmitting}) => {
             dispatch(loginUser(values));
+            dispatch(clearErrors());
         },
     });
 
     useEffect(() => {
-        formik.setErrors({ ...formik.errors, ...errorsServer });
+        formik.setErrors({...formik.errors, ...errorsServer});
     }, [errorsServer]);
 
     return (
@@ -109,12 +110,13 @@ export default function Login() {
                             <LockOutlinedIcon/>
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Welcome back
+                            З поверненням
                         </Typography>
-                        <Box component="form" noValidate onSubmit={formik.handleSubmit} sx={{mt: 1}}>
+                        <Box component="form" noValidate onSubmit={formik.handleSubmit}
+                             sx={{mt: 1}}>
                             {errorsServer?.message && (
                                 <Alert severity='error'>
-                                    <AlertTitle>Error</AlertTitle>
+                                    <AlertTitle>Помилка</AlertTitle>
                                     {errorsServer.message}
                                 </Alert>
                             )}
@@ -123,7 +125,7 @@ export default function Login() {
                                 required
                                 fullWidth
                                 id="login"
-                                label="Your login"
+                                label="Ваш логін"
                                 name="login"
                                 autoFocus
                                 value={formik.values.login}
@@ -136,7 +138,7 @@ export default function Login() {
                                 required
                                 fullWidth
                                 name="password"
-                                label="Password"
+                                label="Пароль"
                                 type="password"
                                 id="password"
                                 value={formik.values.password}
@@ -153,7 +155,7 @@ export default function Login() {
                                 variant="contained"
                                 sx={{mt: 3, mb: 2}}
                             >
-                                Sign In
+                                Увійти
                             </Button>
                             <Grid container>
                                 <Grid item xs>

@@ -24,11 +24,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
     });
     Route::get('/me', [AuthController::class, 'me']);
+    //Route::apiResource('/users', UserController::class);
 //    Route::get('/dashboard', [DashboardController::class, 'index']);
 //    Route::apiResource('survey', SurveyController::class);
 
 });
 Route::post('/users/create', [UserController::class, 'store']);
+Route::put('/users/{user}', [UserController::class, 'update']);
+Route::delete('/users/{user}', [UserController::class, 'destroy']);
+Route::post('/users/new-password/{user}', [UserController::class, 'newPassword']);
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::apiResource('/roles', RoleController::class);

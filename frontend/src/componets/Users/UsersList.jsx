@@ -5,29 +5,19 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import {useEffect, useMemo, useState} from "react";
 import Typography from "@mui/material/Typography";
 import * as locales from '@mui/material/locale';
 import {
     alpha,
-    AppBar,
     Button,
-    CircularProgress,
-    FormControl, InputBase,
-    InputLabel,
-    MenuItem,
-    Pagination,
-    Select
+    CircularProgress, InputBase,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import * as PropTypes from "prop-types";
 import styles from '../../styles/Grid.module.css';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import EditIcon from '@mui/icons-material/Edit';
-import AddUser from "./AddUser.jsx";
-import {NavLink} from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
 import LockPersonRoundedIcon from "@mui/icons-material/LockPersonRounded";
@@ -37,10 +27,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {createTheme, styled, ThemeProvider} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import TablePagination from "@mui/material/TablePagination";
-import {getComparator, stableSort} from "../../utils/filtering.js";
 import ClearIcon from '@mui/icons-material/Clear';
-import Toolbar from "@mui/material/Toolbar";
-import Divider from "@mui/material/Divider";
+import ShowUser from "./ShowUser.jsx";
+import UserForm from "./UserForm.jsx";
+import DeleteUser from "./DeleteUser.jsx";
+import Notification from "../core/Notification.jsx";
 
 const theme = createTheme({
     palette: {
@@ -94,6 +85,7 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
         },
     },
 }));
+
 export default function UsersList() {
     const dispatch = useDispatch();
 
@@ -114,6 +106,46 @@ export default function UsersList() {
         [locale, theme],
     );
 
+    const [showUser, setShowUser] = useState(null);
+    const [editUser, setEditUser] = useState(null);
+    const [deleteUser, setDeleteUser] = useState(null);
+
+    const [notification, setNotification] = useState(false);
+    const handleCloseAlert = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setNotification(false);
+    };
+    const handleDeleteUserOpen = (user) => {
+        // Логіка видалення користувача
+        setDeleteUser(user);
+    };
+
+    function handleDeleteUserClose(value, user = '') {
+        setDeleteUser(null);
+        if (value) setNotification(`Користувач ${user} успішно видалений`);
+    }
+
+    function handleShowUserOpen(user) {
+        setShowUser(user);
+    }
+
+    function handleShowUserClose() {
+        setShowUser(null);
+    }
+
+    function handleEditUserOpen(user) {
+        setEditUser(user);
+
+    }
+
+    function handleEditUserClose(value) {
+        setEditUser(null);
+        if (value) setNotification('Дані користувача оновлено');
+    }
+
     const handleSortRequest = (column) => {
         const isAsc = orderBy === column && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
@@ -124,9 +156,13 @@ export default function UsersList() {
         setOpen(true);
     };
 
-    const handleClose = () => {
+    const handleClose = (value) => {
+        console.log(value);
         setOpen(false);
+        if (value) setNotification('Користувач успішно доданий в систему');
+        // else setNotification('Форма була закрита без додавання користувача');
     };
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -163,7 +199,7 @@ export default function UsersList() {
                 <Grid item xs={6} lg={8} style={{alignItems: 'end', paddingBottom: 5}}
                       className={styles['no-padding-top']}>
                     <Typography component="h2" variant="h6" color="primary" gutterBottom>
-                        Users
+                        Користувачі
                     </Typography>
 
                 </Grid>
@@ -173,11 +209,11 @@ export default function UsersList() {
                             style={{backgroundColor: theme.palette.secondary.main, color: 'white'}}
                             onClick={handleClickOpen}>
                         <PersonAddAltOutlinedIcon style={{marginRight: 10}}/>
-                        CREATE USER
+                        СТВОРИТИ КОРИСТУВАЧА
 
                     </Button>
-                    <AddUser open={open}
-                             onClose={handleClose}/>
+                    <UserForm open={open}
+                              onClose={handleClose}/>
                 </Grid>
                 <Grid item xs={7} lg={2} style={{alignItems: 'end', paddingBottom: 5}}
                       className={styles['no-padding-top']}>
@@ -186,7 +222,7 @@ export default function UsersList() {
                             <SearchIcon/>
                         </SearchIconWrapper>
                         <StyledInputBase
-                            placeholder="Search for users …"
+                            placeholder="Пошук..."
                             inputProps={{'aria-label': 'search'}}
                             onChange={handleSearch}
                             value={searchValue}
@@ -199,7 +235,7 @@ export default function UsersList() {
                             style={{backgroundColor: '#676FC9', color: 'white'}}
                             onClick={onClickReset}>
                         <ClearIcon style={{marginRight: 10}}/>
-                        RESET
+                        СКИНУТИ
                     </Button>
                 </Grid>
             </Grid>
@@ -221,7 +257,7 @@ export default function UsersList() {
                                             direction={orderBy === 'login' ? order : 'asc'}
                                             onClick={() => handleSortRequest('login')}
                                         >
-                                            LOGIN
+                                            ЛОГІН
                                         </TableSortLabel>
                                     </TableCell>
                                     <TableCell align="right">
@@ -230,7 +266,7 @@ export default function UsersList() {
                                             direction={orderBy === 'first_name' ? order : 'asc'}
                                             onClick={() => handleSortRequest('first_name')}
                                         >
-                                            FIRST NAME
+                                            ІМ'Я
                                         </TableSortLabel>
                                     </TableCell>
                                     <TableCell align="right">
@@ -239,21 +275,21 @@ export default function UsersList() {
                                             direction={orderBy === 'second_name' ? order : 'asc'}
                                             onClick={() => handleSortRequest('second_name')}
                                         >
-                                            SECOND NAME
+                                            ПРІЗВИЩЕ
                                         </TableSortLabel>
                                     </TableCell>
-                                    <TableCell align="right">ROLE</TableCell>
-                                    <TableCell align="right">STATUS</TableCell>
+                                    <TableCell align="right">РОЛЬ</TableCell>
+                                    <TableCell align="right">СТАТУС</TableCell>
                                     <TableCell align="right">
                                         <TableSortLabel
                                             active={orderBy === 'created_at'}
                                             direction={orderBy === 'created_at' ? order : 'asc'}
                                             onClick={() => handleSortRequest('created_at')}
                                         >
-                                            ADDED
+                                            ДОДАНО
                                         </TableSortLabel>
                                     </TableCell>
-                                    <TableCell align="right">ACTIONS</TableCell>
+                                    <TableCell align="right">ДІЇ</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -287,21 +323,19 @@ export default function UsersList() {
                                             </TableCell>
                                             <TableCell align="right">{user.created_at}</TableCell>
                                             <TableCell align="right">
-                                                <NavLink to={`/`} style={{textDecoration: 'none'}}>
-                                                    <IconButton size="small" color="primary">
-                                                        <EditIcon/>
-                                                    </IconButton>
-                                                </NavLink>
-                                                <NavLink to={`/`} style={{textDecoration: 'none'}}>
-                                                    <IconButton size="small" color="primary">
-                                                        <DeleteIcon/>
-                                                    </IconButton>
-                                                </NavLink><NavLink to={`/`}
-                                                                   style={{textDecoration: 'none'}}>
-                                                <IconButton size="small" color="primary">
-                                                    <LockPersonRoundedIcon/>
+                                                <IconButton size="small" color="primary"
+                                                            onClick={() => handleEditUserOpen(user)}>
+                                                    <EditIcon/>
                                                 </IconButton>
-                                            </NavLink>
+                                                <IconButton size="small" color="primary"
+                                                            onClick={() => handleDeleteUserOpen(user)}>
+                                                    <DeleteIcon/>
+                                                </IconButton>
+                                                <IconButton size="small" color="primary"
+                                                            onClick={() => handleShowUserOpen(user)}>
+                                                    <LockPersonRoundedIcon/>
+
+                                                </IconButton>
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -317,6 +351,20 @@ export default function UsersList() {
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
+                    {showUser !== null && (
+                        <ShowUser open={true} onClose={handleShowUserClose} user={showUser}/>
+                    )}
+                    {editUser !== null && (
+                        <UserForm open={!!editUser} onClose={handleEditUserClose} user={editUser}/>
+                    )}
+                    {deleteUser && (
+                        <DeleteUser open={true} onClose={handleDeleteUserClose} user={deleteUser}/>
+                    )}
+                    {notification && (
+                        <Notification notification={!!notification}
+                                      handleCloseAlert={handleCloseAlert} hideDuration={3000}
+                                      text={notification}/>
+                    )}
                 </>
             }
         </ThemeProvider>
