@@ -27,7 +27,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {logoutUser} from "../../store/user/currentUserSlice.js";
-import {createUser} from "../../store/user/usersSlice.js";
+import {createUser, reset} from "../../store/user/usersSlice.js";
 
 function Copyright(props) {
     return (
@@ -122,8 +122,9 @@ export default function DashboardContent() {
     const logout = async (e) => {
         e.preventDefault();
 
-        dispatch(logoutUser());
-    }
+        await dispatch(logoutUser());
+        dispatch(reset());
+    };
 
     return (
         <ThemeProvider theme={mdTheme}>

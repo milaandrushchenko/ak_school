@@ -32,6 +32,8 @@ import ShowUser from "./ShowUser.jsx";
 import UserForm from "./UserForm.jsx";
 import DeleteUser from "./DeleteUser.jsx";
 import Notification from "../core/Notification.jsx";
+import {useNavigate} from "react-router-dom";
+import {SearchIconWrapper, StyledInputBase, Search} from "../../styles/searchStyles.js";
 
 const theme = createTheme({
     palette: {
@@ -44,52 +46,22 @@ const theme = createTheme({
     },
 });
 
-const Search = styled('div')(({theme}) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-    '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-        // marginLeft: theme.spacing(1),
-        width: 'auto',
-    },
-}));
-
-const SearchIconWrapper = styled('div')(({theme}) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({theme}) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            width: '15ch',
-            '&:focus': {
-                width: '20ch',
-            },
-        },
-    },
-}));
-
 export default function UsersList() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const {users, visibleData, meta, isLoading} = useSelector((state) => state.users)
+    const {user} = useSelector((state) => state.currentUser)
+
+    // useEffect(() => {
+    //     if (Object.entries(user).length !== 0) {
+    //         const hasPermission = user.permissions?.includes('show users');
+    //         if (!hasPermission) {
+    //             console.log('tut');
+    //             navigate("/");
+    //         }
+    //     }
+    // }, [user]);
 
     const [orderBy, setOrderBy] = useState('');
     const [order, setOrder] = useState('asc');
@@ -179,9 +151,6 @@ export default function UsersList() {
         setSearchValue('');
     };
 
-    useEffect(() => {
-        dispatch(getUsers());
-    }, [])
 
     useEffect(() => {
         dispatch(searchUsers(searchValue));

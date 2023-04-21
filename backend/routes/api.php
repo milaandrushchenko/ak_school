@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ClassesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,15 +25,28 @@ Route::middleware('auth:sanctum')->group(function () {
 
     });
     Route::get('/me', [AuthController::class, 'me']);
-    //Route::apiResource('/users', UserController::class);
+
+    Route::group(['middleware' => ['permission:show users']], function () {
+        Route::get('/users', [UserController::class, 'index']);
+    });
+
+    Route::group(['middleware' => ['permission:create users']], function () {
+        Route::post('/users/create', [UserController::class, 'store']);
+    });
+
+
+    Route::middleware(['permission:delete users'])->group(function () {
+        Route::delete('/users/{user}', [UserController::class, 'destroy']);
+    });
+
+    Route::apiResource('/classes', ClassesController::class);
 //    Route::get('/dashboard', [DashboardController::class, 'index']);
 //    Route::apiResource('survey', SurveyController::class);
 
 });
-Route::post('/users/create', [UserController::class, 'store']);
+
 Route::put('/users/{user}', [UserController::class, 'update']);
-Route::delete('/users/{user}', [UserController::class, 'destroy']);
 Route::post('/users/new-password/{user}', [UserController::class, 'newPassword']);
-Route::get('/users', [UserController::class, 'index']);
+//Route::get('/users', [UserController::class, 'index']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::apiResource('/roles', RoleController::class);

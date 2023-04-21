@@ -41,10 +41,6 @@ const initialValues = {
     first_name: '',
     second_name: '',
 };
-const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
 export default function UserForm({user, open, onClose}) {
     const dispatch = useDispatch();
 

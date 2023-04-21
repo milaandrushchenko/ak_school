@@ -5,24 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="369ea667-65c6-4f76-97c2-3e996c2a7e9c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Users/DeleteUser.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Users/ShowUser.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Users/UserForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/core/Notification.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/styles/Modal.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/app/Http/Resources/ClassResource.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Classes/AddClass.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Classes/ClassesList.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/store/class/classesSlice.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/styles/searchStyles.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/AuthController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/StoreUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/StoreUserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateUserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Resources/UserResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Resources/UserResource.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/User.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/componets/Dashboard/DashboardContent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Dashboard/DashboardContent.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/componets/Dashboard/listItems.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Dashboard/listItems.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/AddUser.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Users/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/DefaultLayout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/DefaultLayout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/UserForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Users/UserForm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/UsersList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Users/UsersList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/user/currentUserSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/user/currentUserSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/router.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/store.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/store/user/usersSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/user/usersSlice.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -169,7 +168,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/OSPanel/domains/diploma",
+    "last_opened_file_path": "C:/OSPanel/domains/react-laravel",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -182,11 +181,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\OSPanel\domains\diploma\frontend\src\store" />
+      <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Classes" />
       <recent name="C:\OSPanel\domains\diploma\frontend\src\styles" />
       <recent name="C:\OSPanel\domains\diploma\frontend\src\store\user" />
       <recent name="C:\OSPanel\domains\diploma\backend\app\Http\Requests" />
-      <recent name="C:\OSPanel\domains\diploma\frontend\public" />
-      <recent name="C:\OSPanel\domains\diploma\frontend\src\assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\OSPanel\domains\diploma\frontend\public" />
@@ -226,7 +225,9 @@
       <workItem from="1681288262048" duration="14959000" />
       <workItem from="1681383220010" duration="6216000" />
       <workItem from="1681849447187" duration="5834000" />
-      <workItem from="1681892774876" duration="20469000" />
+      <workItem from="1681892774876" duration="26195000" />
+      <workItem from="1681979404390" duration="26894000" />
+      <workItem from="1682062419995" duration="11334000" />
     </task>
     <servers />
   </component>

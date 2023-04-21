@@ -31,9 +31,10 @@ class UserController extends Controller
         $data['password'] = bcrypt($data['password']);
         $data['status'] = 0;
         $role = $data['role'];
+
         $user = User::create($data);
 
-        $role = Role::findByName($role); // знайти роль за іменем
+        $role = Role::findByName($role, 'web'); // знайти роль за іменем
         $user->assignRole($role); // додати роль до користувача
         return response(new UserResource($user), 201);
     }

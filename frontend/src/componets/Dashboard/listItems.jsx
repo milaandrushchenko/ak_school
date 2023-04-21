@@ -54,14 +54,14 @@ export const mainListItems = (
                 </ListItemButton>
             )}
         </NavLink>
-        <NavLink to='' className={
+        <NavLink to='/classes' className={
             classNames(
                 styles['nav-link'],
             )
         }>
             {({isActive, isExact}) => (
                 <ListItemButton
-                    // className={isActive ? classNames(styles.active) : ''}
+                    className={isActive ? classNames(styles.active) : ''}
                 >
                     <ListItemIcon>
                         <GroupsIcon/>

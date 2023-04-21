@@ -3,6 +3,7 @@ import DefaultLayout from "./componets/DefaultLayout.jsx";
 import GuestLayout from "./componets/GuestLayout.jsx";
 import UsersList from "./componets/Users/UsersList.jsx";
 import Login from "./componets/Users/Login.jsx";
+import ClassesList from "./componets/Classes/ClassesList.jsx";
 
 const router = createBrowserRouter([
     {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
             {
                 path: "/permissions",
                 element: <UsersList/>
+            },
+            {
+                path: "/classes",
+                element: <ClassesList/>
             },
         ]
     },

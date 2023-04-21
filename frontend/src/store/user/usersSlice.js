@@ -108,6 +108,11 @@ const usersSlice = createSlice({
         clearErrors: (state) => {
             state.errors = null;
         },
+        reset: (state) => {
+            state.users = [];
+            state.visibleData = state.users;
+            state.errors = null;
+        },
         searchUsers: (state, {payload}) => {
             state.visibleData = state.users.filter(
                 (item) =>
@@ -180,6 +185,6 @@ const usersSlice = createSlice({
     },
 });
 
-export const {clearErrors, searchUsers, sortUsers} = usersSlice.actions;
+export const {clearErrors, searchUsers, sortUsers,reset} = usersSlice.actions;
 
 export default usersSlice.reducer;
