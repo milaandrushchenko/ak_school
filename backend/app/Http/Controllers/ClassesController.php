@@ -34,7 +34,7 @@ class ClassesController extends Controller
 
         $class->students()->attach($students);
 
-        return response($class->students, 201);
+        return response(new ClassResource($class), 201);
     }
 
     /**

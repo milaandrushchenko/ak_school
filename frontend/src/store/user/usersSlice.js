@@ -9,7 +9,7 @@ const initialState = {
     visibleData: [],
     meta: [],
     errors: null,
-    isLoading: false,
+    isLoading: true,
     status: 'idle',
 }
 

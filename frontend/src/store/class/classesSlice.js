@@ -5,7 +5,7 @@ import {createUser, getUsers} from "../user/usersSlice.js";
 const initialState = {
     classes: [],
     errors: null,
-    isLoading: false,
+    isLoading: true,
     status: 'idle',
 }
 
@@ -65,11 +65,11 @@ const classesSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(createClass.pending, (state) => {
-            //state.isLoading = true;
+            // state.isLoading = true;
         });
         builder.addCase(createClass.fulfilled, (state, action) => {
             state.status = 'succeeded';
-            state.classes.push(action.payload);
+            state.classes.unshift(action.payload);
             // state.visibleData.push(action.payload);
             //state.isLoading = false;
         });
