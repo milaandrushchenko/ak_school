@@ -11,7 +11,7 @@ class UpdateClassesRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class UpdateClassesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'monitor_id' => 'nullable|exists:users,id',
+            'teacher_id' => 'nullable|exists:users,id',
+            'student_ids' => 'nullable|array',
+            'student_ids.*' => 'exists:users,id',
         ];
     }
 }

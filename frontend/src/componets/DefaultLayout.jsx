@@ -15,7 +15,6 @@ export default function DefaultLayout() {
     if (!userToken) {
         navigate("/login");
     }
-    console.log(userToken);
 
     useEffect(() => {
         dispatch(me());

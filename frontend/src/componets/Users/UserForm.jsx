@@ -78,6 +78,7 @@ export default function UserForm({user, open, onClose}) {
                     close(true);
                 }
             } else {
+                console.log(values)
                 let data = Object.assign({}, values);
                 delete data.password;
                 let id = data.id;

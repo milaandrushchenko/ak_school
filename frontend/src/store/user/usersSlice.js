@@ -67,7 +67,7 @@ export const getUsers = createAsyncThunk(
     }
 );
 export const deleteUser = createAsyncThunk(
-    "deleteUser/updateUser",
+    "users/deleteUser",
     async ({id, user}, {rejectWithValue}) => {
         try {
             await axiosClient.delete(`/users/${id}`, user);
@@ -84,7 +84,7 @@ export const deleteUser = createAsyncThunk(
     }
 );
 export const generateNewPassword = createAsyncThunk(
-    "generateNewPassword/updateUser",
+    "users/generateNewPassword",
     async ({id, user}, {rejectWithValue}) => {
         try {
             const res = await axiosClient.post(`/users/new-password/${id}`, user);

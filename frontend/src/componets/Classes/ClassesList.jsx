@@ -7,12 +7,13 @@ import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined.j
 import SearchIcon from "@mui/icons-material/Search.js";
 import ClearIcon from "@mui/icons-material/Clear.js";
 import TablePagination from "@mui/material/TablePagination";
-import {useEffect, useMemo, useState} from "react";
-import AddClass from "./AddClass.jsx";
+import React, {useEffect, useMemo, useState} from "react";
 import {SearchIconWrapper, StyledInputBase, Search} from "../../styles/searchStyles.js";
 import {useDispatch, useSelector} from "react-redux";
 import ClassCard from "./ClassCard.jsx";
 import Box from "@mui/material/Box";
+import Notification from "../core/Notification.jsx";
+import FormClass from "./FormClass.jsx";
 
 
 const theme = createTheme({
@@ -31,10 +32,20 @@ export default function ClassesList() {
 
     const {classes, isLoading} = useSelector((state) => state.classes)
 
+    const [notification, setNotification] = useState(false);
+
     const [open, setOpen] = useState(false);
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(6);
+
+    const handleCloseAlert = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setNotification(false);
+    };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -50,12 +61,11 @@ export default function ClassesList() {
         setOpen(true);
     };
 
-    const handleClose = () => {
-        // console.log(value);
+    const handleClose = (value) => {
         setOpen(false);
-        // if (value) setNotification('Користувач успішно доданий в систему');
-        // else setNotification('Форма була закрита без додавання користувача');
+        if (value) setNotification('Клас успішно доданий в систему');
     };
+
     const displayedClasses = classes.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
     return (
@@ -83,7 +93,7 @@ export default function ClassesList() {
                         СТВОРИТИ КЛАС
 
                     </Button>
-                    <AddClass open={open}
+                    <FormClass open={open}
                               onClose={handleClose}
                     />
                 </Grid>
@@ -136,6 +146,11 @@ export default function ClassesList() {
                         onRowsPerPageChange={handleChangeRowsPerPage}
                         labelRowsPerPage="Кількість на сторінці:"
                     />
+                    {notification && (
+                        <Notification notification={!!notification}
+                                      handleCloseAlert={handleCloseAlert} hideDuration={3000}
+                                      text={notification}/>
+                    )}
                 </>
             }
         </ThemeProvider>

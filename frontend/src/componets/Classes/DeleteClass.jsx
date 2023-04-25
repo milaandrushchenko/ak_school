@@ -1,18 +1,20 @@
 import React, {useState} from 'react';
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar} from '@mui/material';
-import {deleteUser, updateUser} from "../../store/user/usersSlice.js";
+import {deleteUser, getUsers, updateUser} from "../../store/user/usersSlice.js";
 import {useDispatch} from "react-redux";
+import MuiAlert from "@mui/material/Alert";
+import {deleteClass, getClasses} from "../../store/class/classesSlice.js";
 
-export default function DeleteUser({user, open, onClose}) {
+export default function DeleteClass({classItem, open, onClose}) {
     const dispatch = useDispatch();
 
     const onDelete = async () => {
-        const {id} = user;
+        const {id} = classItem;
 
-        const resultAction = await dispatch(deleteUser({id, user}));
-        if (deleteUser.fulfilled.match(resultAction)) {
-            console.log(resultAction.payload.login);
-            onClose(true,resultAction.payload.login);
+        const resultAction = await dispatch(deleteClass({id, classItem}));
+        if (deleteClass.fulfilled.match(resultAction)) {
+            console.log(resultAction.payload);
+            onClose(true);
         }
 
     }
@@ -21,9 +23,9 @@ export default function DeleteUser({user, open, onClose}) {
             <div>
 
                 <Dialog open={open} onClose={() => onClose(false)}>
-                    <DialogTitle>Видалення користувача</DialogTitle>
+                    <DialogTitle>Видалення класу</DialogTitle>
                     <DialogContent>
-                        <p>Ви дійсно хочете видалити даного користувача?</p>
+                        <p>Ви дійсно хочете видалити даний клас?</p>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => onClose(false)}>Скасувати</Button>

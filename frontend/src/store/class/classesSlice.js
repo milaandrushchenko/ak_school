@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axiosClient from "../../axios-client.js";
-import {createUser, getUsers} from "../user/usersSlice.js";
+import {createUser, deleteUser, getUsers, updateUser} from "../user/usersSlice.js";
 
 const initialState = {
     classes: [],
@@ -43,18 +43,42 @@ export const getClasses = createAsyncThunk(
 
     }
 );
-// axiosClient.post('/users', user)
-//     .then(({data}) => {
-//         setNotification("User was successfully created");
-//         navigate('/users');
-//     })
-//     .catch(err => {
-//         const response = err.response;
-//         if (response && response.status === 422) {
-//             setErrors(response.data.errors);
-//         }
-//     })
+export const deleteClass = createAsyncThunk(
+    "classes/deleteClass",
+    async ({id, classItem}, {rejectWithValue}) => {
+        try {
+            const res = await axiosClient.delete(`/classes/${id}`);
+            console.log(res);
+            return classItem;
+        } catch (error) {
+            if (!error.response) {
+                // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
 
+    }
+);
+
+export const updateClass= createAsyncThunk(
+    "classes/updateClass",
+    async ({id, values}, {rejectWithValue}) => {
+        try {
+            const res = await axiosClient.put(`/classes/${id}`, values);
+            return res.data;
+        } catch (error) {
+            if (!error.response) {
+                // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+
+    }
+);
 const classesSlice = createSlice({
     name: "classes",
     initialState,
@@ -92,6 +116,28 @@ const classesSlice = createSlice({
             state.status = 'rejected';
             state.errors = action.payload;
             state.isLoading = false;
+        });
+        builder.addCase(deleteClass.pending, (state) => {
+            //state.isLoading = true;
+        });
+        builder.addCase(deleteClass.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.classes = state.classes.filter(classItem => classItem.id !== action.payload.id);
+        });
+        builder.addCase(deleteClass.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.errors = action.payload;
+        });
+        builder.addCase(updateClass.pending, (state) => {
+            //state.isLoading = true;
+        });
+        builder.addCase(updateClass.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.classes = state.classes.map(classItem => classItem.id === action.payload.id ? action.payload : classItem)
+        });
+        builder.addCase(updateClass.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.errors = action.payload;
         });
     },
 });

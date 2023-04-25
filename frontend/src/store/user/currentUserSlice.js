@@ -33,7 +33,6 @@ export const me = createAsyncThunk(
     async (_, {rejectWithValue}) => {
         try {
             const res = await axiosClient.get(`/me`);
-            console.log(res.data);
             return res.data;
         } catch (error) {
             console.log(error);

@@ -7,17 +7,63 @@ import {
     ListItem, Menu, MenuItem
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import {ExpandMore} from "@mui/icons-material";
+import {Edit, ExpandMore} from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import {Link, NavLink} from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import {useState} from "react";
+import React, {useState} from "react";
+import DeleteClass from "./DeleteClass.jsx";
+import FormClass from "./FormClass.jsx";
+import Notification from "../core/Notification.jsx";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ClassCard({classItem}) {
     const [anchorEl, setAnchorEl] = useState(null);
+    const [openDialogEdit, setOpenDialogEdit] = useState(false);
+    const [openDialogDelete, setOpenDialogDelete] = useState(false);
+    const [notification, setNotification] = useState(false);
 
+    const handleCloseAlert = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
 
+        setNotification(false);
+    };
+
+    const handleClickOpenDialogEdit = () => {
+        setOpenDialogEdit(true);
+    };
+
+    const handleCloseDialogEdit = (value) => {
+        setOpenDialogEdit(false);
+        console.log(value)
+        if (value) setNotification('Успішно оновлені дані класу!');
+    };
+    const handleClickOpenDialogDelete = () => {
+        setOpenDialogDelete(true);
+    };
+    const handleCloseDialogDelete = (value) => {
+
+        if (value) {
+            console.log('yes');
+            setNotification('Клас був успішно видалений');
+            toast.success('Клас був успішно видалений');
+        }
+        setOpenDialogDelete(false);
+        console.log(value);
+    };
+
+    const outputClassItem = {
+        id: classItem.id,
+        name: classItem.name,
+        monitor_id: classItem.monitor.id,
+        teacher_id: classItem.teacher.id,
+        student_ids: classItem.students.map(student => student.id)
+    };
+    console.log(notification);
     return (
         <>
             <Card sx={{height: '100%'}}>
@@ -31,7 +77,7 @@ export default function ClassCard({classItem}) {
                                 aria-haspopup="true"
                                 onClick={(e) => setAnchorEl(e.currentTarget)}
                             >
-                                <MoreVertIcon />
+                                <MoreVertIcon/>
                             </IconButton>
                             <Menu
                                 id={`menu-for-${classItem.id}`}
@@ -39,8 +85,14 @@ export default function ClassCard({classItem}) {
                                 open={Boolean(anchorEl)}
                                 onClose={() => setAnchorEl(null)}
                             >
-                                <MenuItem>Edit</MenuItem>
-                                <MenuItem>Delete</MenuItem>
+                                <MenuItem onClick={handleClickOpenDialogEdit}>Редагувати</MenuItem>
+                                <FormClass open={openDialogEdit}
+                                           onClose={handleCloseDialogEdit}
+                                           classItem={outputClassItem}/>
+                                <MenuItem onClick={handleClickOpenDialogDelete}>Видалити</MenuItem>
+                                <DeleteClass open={openDialogDelete}
+                                             onClose={handleCloseDialogDelete} classItem={classItem}
+                                />
                             </Menu>
                         </>
                     }
@@ -76,6 +128,12 @@ export default function ClassCard({classItem}) {
                     </Accordion>
                 </CardContent>
             </Card>
+            <ToastContainer autoClose={3000} />
+            {notification && (
+                <Notification notification={!!notification}
+                              handleCloseAlert={handleCloseAlert} hideDuration={3000}
+                              text={notification}/>
+            )}
         </>
     )
 }

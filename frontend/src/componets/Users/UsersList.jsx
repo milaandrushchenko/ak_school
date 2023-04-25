@@ -130,7 +130,6 @@ export default function UsersList() {
     };
 
     const handleClose = (value) => {
-        console.log(value);
         setOpen(false);
         if (value) setNotification('Користувач успішно доданий в систему');
         // else setNotification('Форма була закрита без додавання користувача');

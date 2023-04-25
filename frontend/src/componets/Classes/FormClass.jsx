@@ -14,17 +14,10 @@ import {
     Snackbar,
     TextField
 } from "@mui/material";
-import Grid from "@mui/material/Grid";
-import {Visibility, VisibilityOff} from '@mui/icons-material';
-import IconButton from "@mui/material/IconButton";
 import React, {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import MuiAlert from '@mui/material/Alert';
-import {generatePassword} from '../../utils/common'
 import {useDispatch, useSelector} from "react-redux";
-import {clearErrors, createClass} from "../../store/class/classesSlice.js";
+import {clearErrors, createClass, updateClass} from "../../store/class/classesSlice.js";
 import {FormikProvider, useFormik, useFormikContext} from 'formik';
-import CloseIcon from '@mui/icons-material/Close';
 import * as Yup from 'yup';
 
 const ITEM_HEIGHT = 40;
@@ -51,44 +44,45 @@ const initialValues = {
     student_ids: [],
 };
 
-export default function AddClass({open, onClose}) {
+export default function FormClass({open, onClose, classItem}) {
     const dispatch = useDispatch();
-
-    const [openSelect, setOpenSelect] = useState(false);
-    const handleOpen = () => {
-        setOpenSelect(true);
-    };
-
-    const handleClose = () => {
-        setOpenSelect(false);
-    };
 
     const {users, visibleData, meta, isLoading} = useSelector((state) => state.users)
     const students = users.filter(user => user.role === 'student');
     const teachers = users.filter(user => user.role === 'teacher');
 
     let errorsServer = useSelector((state) => state.classes.errors)
-    const close = () => {
-        onClose();
+    const close = (value) => {
+        onClose(value);
         dispatch(clearErrors());
         formik.resetForm(initialValues);
         formik.setErrors({});
     }
 
-
     const formik = useFormik({
-        initialValues: initialValues,
+        initialValues: classItem ? {...classItem} : {...initialValues},
         validationSchema,
         onSubmit: async (values, {setErrors, setSubmitting}) => {
-            console.log(values);
 
-            const resultAction = await dispatch(createClass(values));
-            if (createClass.fulfilled.match(resultAction)) {
-                console.log('classes added');
-                close();
+            if (!classItem) {
+                const resultAction = await dispatch(createClass(values));
+                if (createClass.fulfilled.match(resultAction)) {
+                    console.log('classes added');
+                    close(true);
+                }
+            } else {
+                let id = classItem.id;
+                console.log(id);
+                const resultAction = await dispatch(updateClass({id, values}));
+                if (updateClass.fulfilled.match(resultAction)) {
+                    console.log('class updated');
+                    close(true);
+                }
             }
         }
     });
+
+    console.log(classItem);
 
     useEffect(() => {
         formik.setErrors({...formik.errors, ...errorsServer});
@@ -98,7 +92,7 @@ export default function AddClass({open, onClose}) {
         <>
             <Dialog
                 open={open}
-                onClose={close}
+                onClose={() => close(false)}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
@@ -119,7 +113,7 @@ export default function AddClass({open, onClose}) {
                                 label="Назва"
                                 type="text"
                                 fullWidth
-                                value={formik.values.login}
+                                value={formik.values.name}
                                 onChange={formik.handleChange}
                                 error={formik.touched.name && Boolean(formik.errors?.name)}
                                 helperText={formik.touched.name && formik.errors && formik.errors.name}
@@ -231,7 +225,7 @@ export default function AddClass({open, onClose}) {
                         </DialogContent>
                         <DialogActions>
                             <Button variant="outlined" color="error"
-                                    onClick={close}>Відмінити</Button>
+                                    onClick={() => close(false)}>Відмінити</Button>
                             <Button type="submit" variant="contained" color="success"
                                     autoFocus>
                                 {'Додати'}

@@ -48,16 +48,25 @@ class ClassesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateClassesRequest $request, Classes $classes)
+    public function update(UpdateClassesRequest $request, Classes $class)
     {
-        //
+        $data = $request->validated();
+        $students = $data['student_ids'];
+        unset($data['student_ids']);
+
+        $class->update($data);
+
+        $class->students()->sync($students);
+        return response(new ClassResource($class), 201);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Classes $classes)
+    public function destroy(Classes $class)
     {
-        //
+        $class->delete();
+        return response()->json(['message' => `Class  deleted successfully`], 200);
     }
+
 }
