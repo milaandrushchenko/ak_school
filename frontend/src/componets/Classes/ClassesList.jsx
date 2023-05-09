@@ -14,6 +14,9 @@ import ClassCard from "./ClassCard.jsx";
 import Box from "@mui/material/Box";
 import Notification from "../core/Notification.jsx";
 import FormClass from "./FormClass.jsx";
+import {fetchStudentsWithoutClass, searchUsers} from "../../store/user/usersSlice.js";
+import {searchClass} from "../../store/class/classesSlice.js";
+import {useNavigate} from "react-router-dom";
 
 
 const theme = createTheme({
@@ -28,13 +31,26 @@ const theme = createTheme({
 });
 
 export default function ClassesList() {
+    const navigate = useNavigate();
+    const {user, userToken} = useSelector((state) => state.currentUser)
+
+    const hasPermission = user.permissions?.includes("view classes") || user.permissions?.includes("view assigned classes");
+
+    useEffect(() => {
+        if (!userToken || !hasPermission) {
+            navigate("/");
+        }
+    }, [userToken, hasPermission, navigate]);
+
     const dispatch = useDispatch();
 
-    const {classes, isLoading} = useSelector((state) => state.classes)
+    const {classes, isLoading, visibleData} = useSelector((state) => state.classes)
 
     const [notification, setNotification] = useState(false);
 
     const [open, setOpen] = useState(false);
+
+    const [searchValue, setSearchValue] = useState('');
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(6);
@@ -47,6 +63,14 @@ export default function ClassesList() {
         setNotification(false);
     };
 
+    const handleSearch = (event) => {
+        setSearchValue(event.target.value);
+    };
+    const onClickReset = () => {
+        setSearchValue('');
+    };
+
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -55,6 +79,10 @@ export default function ClassesList() {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
+
+    const handleDelete = () => {
+        setNotification('Клас був успішно видалений');
+    }
 
 
     const handleClickOpen = () => {
@@ -66,7 +94,15 @@ export default function ClassesList() {
         if (value) setNotification('Клас успішно доданий в систему');
     };
 
-    const displayedClasses = classes.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+    const displayedClasses = visibleData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
+    useEffect(() => {
+        dispatch(searchClass(searchValue));
+    }, [searchValue])
+
+    useEffect(() => {
+        dispatch(fetchStudentsWithoutClass());
+    }, [classes])
 
     return (
         <ThemeProvider theme={theme}>
@@ -80,23 +116,25 @@ export default function ClassesList() {
                     </Typography>
 
                 </Grid>
+
                 <Grid item xs={6} lg={3} style={{textAlign: 'right', paddingBottom: 5}}
                       className={styles['no-padding-top']}>
-                    <Button color="secondary"
-                            style={{
-                                backgroundColor: theme.palette.secondary.main,
-                                color: 'white'
-                            }}
-                            onClick={handleClickOpen}
+                    {user.permissions?.includes("create classes") && <Button color="secondary"
+                                                                             style={{
+                                                                                 backgroundColor: theme.palette.secondary.main,
+                                                                                 color: 'white'
+                                                                             }}
+                                                                             onClick={handleClickOpen}
                     >
                         <PersonAddAltOutlinedIcon style={{marginRight: 10}}/>
                         СТВОРИТИ КЛАС
 
-                    </Button>
+                    </Button>}
                     <FormClass open={open}
-                              onClose={handleClose}
+                               onClose={handleClose}
                     />
                 </Grid>
+
                 <Grid item xs={7} lg={2} style={{alignItems: 'end', paddingBottom: 5}}
                       className={styles['no-padding-top']}>
                     <Search>
@@ -106,8 +144,8 @@ export default function ClassesList() {
                         <StyledInputBase
                             placeholder="Пошук..."
                             inputProps={{'aria-label': 'search'}}
-                            // onChange={handleSearch}
-                            // value={searchValue}
+                            onChange={handleSearch}
+                            value={searchValue}
                         />
                     </Search>
                 </Grid>
@@ -115,7 +153,7 @@ export default function ClassesList() {
                       className={styles['no-padding-top']}>
                     <Button color="secondary"
                             style={{backgroundColor: '#676FC9', color: 'white'}}
-                        // onClick={onClickReset}
+                            onClick={onClickReset}
                     >
                         <ClearIcon style={{marginRight: 10}}/>
                         СКИНУТИ
@@ -132,7 +170,7 @@ export default function ClassesList() {
                     <Grid container spacing={2}>
                         {displayedClasses.map((classItem) => (
                             <Grid key={classItem.id} item xs={12} sm={6} md={4}>
-                                <ClassCard classItem={classItem}/>
+                                <ClassCard classItem={classItem} onDelete={handleDelete}/>
                             </Grid>
                         ))}
                     </Grid>

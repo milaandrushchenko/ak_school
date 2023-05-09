@@ -80,6 +80,17 @@ class User extends Authenticatable
 
     public function classes()
     {
-        return $this->belongsToMany(Classes::class);
+        return $this->belongsToMany(Classes::class, 'class_user', 'user_id', 'class_id');
+
     }
+//    public function classes()
+//    {
+//        return $this->belongsTo(Classes::class,'class_user', 'user_id', 'class_id');
+//    }
+
+    public function teacherClasses()
+    {
+        return $this->hasMany(Classes::class, 'teacher_id');
+    }
+
 }

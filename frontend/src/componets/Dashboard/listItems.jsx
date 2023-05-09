@@ -19,8 +19,8 @@ import classNames from 'classnames';
 
 import styles from '../../styles/Navlink.module.css';
 
-
-export const mainListItems = (
+///////////ADMIN//////////
+export const AdminMainListItems = (
     <React.Fragment>
         <NavLink to='' className={
             classNames(
@@ -89,7 +89,7 @@ export const mainListItems = (
     </React.Fragment>
 );
 
-export const secondaryListItems = (
+export const AdminSecondaryListItems = (
     <React.Fragment>
         {/*<ListSubheader component="div" inset>*/}
         {/*  Saved reports*/}
@@ -139,6 +139,170 @@ export const secondaryListItems = (
                         <LockPersonRoundedIcon/>
                     </ListItemIcon>
                     <ListItemText primary="Дозволи"/>
+                </ListItemButton>
+            )}
+        </NavLink>
+    </React.Fragment>
+);
+
+
+///////////TEACHER//////////
+export const TeacherMainListItems = (
+    <React.Fragment>
+        <NavLink to='' className={
+            classNames(
+                styles['nav-link'],
+            )
+        }>
+            {({isActive, isExact}) => (
+                <ListItemButton
+                    // className={isActive ? classNames(styles.active) : ''}
+                >
+                    <ListItemIcon>
+                        <LibraryBooksIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="Предмети"/>
+                </ListItemButton>
+            )}
+        </NavLink>
+        <NavLink to='' className={
+            classNames(
+                styles['nav-link'],
+            )
+        }>
+            {({isActive, isExact}) => (
+                <ListItemButton
+                    // className={isActive ? classNames(styles.active) : ''}
+                >
+                    <ListItemIcon>
+                        <CalendarMonthIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="Розклад"/>
+                </ListItemButton>
+            )}
+        </NavLink>
+        <NavLink to='/classes' className={
+            classNames(
+                styles['nav-link'],
+            )
+        }>
+            {({isActive, isExact}) => (
+                <ListItemButton
+                    className={isActive ? classNames(styles.active) : ''}
+                >
+                    <ListItemIcon>
+                        <GroupsIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="Класи"/>
+                </ListItemButton>
+            )}
+        </NavLink>
+        <NavLink to='' className={
+            classNames(
+                styles['nav-link'],
+            )
+        }>
+            {({isActive, isExact}) => (
+                <ListItemButton
+                    // className={isActive ? classNames(styles.active) : ''}
+                >
+                    <ListItemIcon>
+                        <BarChartIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="Рейтинги"/>
+                </ListItemButton>
+            )}
+        </NavLink>
+    </React.Fragment>
+);
+
+export const TeacherSecondaryListItems = (
+    <React.Fragment>
+        {/*<ListSubheader component="div" inset>*/}
+        {/*  Saved reports*/}
+        {/*</ListSubheader>*/}
+        <NavLink to='/users' className={
+            classNames(
+                styles['nav-link'],
+            )
+        }>
+            {({isActive, isExact}) => (
+                <ListItemButton
+                    className={isActive ? classNames(styles.active) : ''}
+                >
+                    <ListItemIcon>
+                        <PeopleIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary='Користувачі'/>
+                </ListItemButton>
+            )}
+        </NavLink>
+         </React.Fragment>
+);
+
+///////////STUDENT//////////
+export const StudentMainListItems = (
+    <React.Fragment>
+        <NavLink to='' className={
+            classNames(
+                styles['nav-link'],
+            )
+        }>
+            {({isActive, isExact}) => (
+                <ListItemButton
+                    // className={isActive ? classNames(styles.active) : ''}
+                >
+                    <ListItemIcon>
+                        <LibraryBooksIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="Мої предмети"/>
+                </ListItemButton>
+            )}
+        </NavLink>
+        <NavLink to='' className={
+            classNames(
+                styles['nav-link'],
+            )
+        }>
+            {({isActive, isExact}) => (
+                <ListItemButton
+                    // className={isActive ? classNames(styles.active) : ''}
+                >
+                    <ListItemIcon>
+                        <CalendarMonthIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="Мій розклад"/>
+                </ListItemButton>
+            )}
+        </NavLink>
+            </React.Fragment>
+);
+
+export const StudentSecondaryListItems = (
+    <React.Fragment>
+        <NavLink to='/users' className={
+            classNames(
+                styles['nav-link'],
+            )
+        }>
+            {({isActive, isExact}) => (
+                <ListItemButton
+                    className={isActive ? classNames(styles.active) : ''}
+                >
+                    <ListItemIcon>
+                        <PeopleIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary='Користувачі'/>
+                </ListItemButton>
+            )}
+        </NavLink>
+        <NavLink to='' className={classNames(styles['nav-link'])}>
+            {({ isActive, isExact }) => (
+                <ListItemButton className={isActive ? classNames(styles.active) : ''}>
+                    <ListItemIcon>
+                        <BarChartIcon />
+                    </ListItemIcon>
+                    <ListItemText primary='Мої оцінки' />
                 </ListItemButton>
             )}
         </NavLink>

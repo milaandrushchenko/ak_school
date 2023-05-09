@@ -16,10 +16,10 @@ import React, {useState} from "react";
 import DeleteClass from "./DeleteClass.jsx";
 import FormClass from "./FormClass.jsx";
 import Notification from "../core/Notification.jsx";
-import { ToastContainer, toast } from 'react-toastify';
+import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function ClassCard({classItem}) {
+export default function ClassCard({classItem, onDelete}) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialogEdit, setOpenDialogEdit] = useState(false);
     const [openDialogDelete, setOpenDialogDelete] = useState(false);
@@ -47,11 +47,7 @@ export default function ClassCard({classItem}) {
     };
     const handleCloseDialogDelete = (value) => {
 
-        if (value) {
-            console.log('yes');
-            setNotification('Клас був успішно видалений');
-            toast.success('Клас був успішно видалений');
-        }
+        onDelete();
         setOpenDialogDelete(false);
         console.log(value);
     };
@@ -63,7 +59,8 @@ export default function ClassCard({classItem}) {
         teacher_id: classItem.teacher.id,
         student_ids: classItem.students.map(student => student.id)
     };
-    console.log(notification);
+
+
     return (
         <>
             <Card sx={{height: '100%'}}>
@@ -128,7 +125,6 @@ export default function ClassCard({classItem}) {
                     </Accordion>
                 </CardContent>
             </Card>
-            <ToastContainer autoClose={3000} />
             {notification && (
                 <Notification notification={!!notification}
                               handleCloseAlert={handleCloseAlert} hideDuration={3000}

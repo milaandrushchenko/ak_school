@@ -14,9 +14,22 @@ class ClassesController extends Controller
      */
     public function index()
     {
-        return ClassResource::collection(
-            Classes::query()->orderBy('id', 'desc')->get()
-        );
+
+        $user = auth()->user();
+
+        // Перевірка ролі користувача
+        if ($user->hasRole('admin')) {
+            // Якщо користувач є адміном, показуємо всі класи
+            $classes = Classes::query()->orderBy('id', 'desc')->get();
+        } else if ($user->hasRole('teacher')) {
+            // Якщо користувач є вчителем, показуємо тільки ті класи, в яких він є класним керівником
+            $classes = $user->teacherClasses()->orderBy('id', 'desc')->get();
+        } else {
+            // Якщо роль користувача не відповідає жодній з вище перерахованих, показуємо порожній список класів
+            $classes = [];
+        }
+
+        return ClassResource::collection($classes);
     }
 
     /**

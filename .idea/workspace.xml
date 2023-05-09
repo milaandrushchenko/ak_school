@@ -5,19 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="369ea667-65c6-4f76-97c2-3e996c2a7e9c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Classes/DeleteClass.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/ClassesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/ClassesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateClassesRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateClassesRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/StoreClassesRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/StoreClassesRequest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Resources/UserResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Resources/UserResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Classes/AddClass.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Classes/FormClass.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2023_04_20_121554_create_class_user_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2023_04_20_121554_create_class_user_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/seeders/PermissionsSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/PermissionsSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/componets/Classes/ClassCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Classes/ClassCard.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/componets/Classes/ClassesList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Classes/ClassesList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Classes/DeleteClass.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Classes/DeleteClass.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Classes/FormClass.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Classes/FormClass.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Dashboard/DashboardContent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Dashboard/DashboardContent.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Dashboard/listItems.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Dashboard/listItems.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/componets/DefaultLayout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/DefaultLayout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/DeleteUser.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Users/DeleteUser.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/UserForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Users/UserForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/ShowUser.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Users/ShowUser.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/UsersList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Users/UsersList.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/store/class/classesSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/class/classesSlice.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/store/user/currentUserSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/user/currentUserSlice.js" afterDir="false" />
@@ -162,22 +166,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/OSPanel/domains/example",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PhpStorm 2020.3.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/OSPanel/domains/example&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\PhpStorm 2020.3.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Classes" />
@@ -228,11 +232,28 @@
       <workItem from="1681979404390" duration="26894000" />
       <workItem from="1682062419995" duration="11711000" />
       <workItem from="1682328825781" duration="21016000" />
-      <workItem from="1682404665825" duration="23788000" />
+      <workItem from="1682404665825" duration="37620000" />
+      <workItem from="1682483729099" duration="11215000" />
+      <workItem from="1682545522327" duration="3602000" />
+      <workItem from="1682583969606" duration="652000" />
+      <workItem from="1682932342737" duration="5542000" />
+      <workItem from="1683039555322" duration="13336000" />
+      <workItem from="1683618922231" duration="2815000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

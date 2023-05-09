@@ -3,8 +3,9 @@ import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 import {me} from "../store/user/currentUserSlice.js";
 import DashboardContent from "./Dashboard/DashboardContent.jsx";
-import {getUsers} from "../store/user/usersSlice.js";
+import {fetchStudentsWithoutClass, getUsers} from "../store/user/usersSlice.js";
 import {getClasses} from "../store/class/classesSlice.js";
+
 
 export default function DefaultLayout() {
     const dispatch = useDispatch();
@@ -18,13 +19,14 @@ export default function DefaultLayout() {
 
     useEffect(() => {
         dispatch(me());
+        dispatch(getUsers());
+        dispatch(getClasses());
 
     }, [])
 
     useEffect(() => {
         if (user.role === 'admin') {
-            dispatch(getUsers());
-            dispatch(getClasses());
+
         }
     }, [user]);
 

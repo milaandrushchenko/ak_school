@@ -14,21 +14,48 @@ class PermissionsSeeder extends Seeder
      */
     public function run(): void
     {
-//        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
-//        // create permissions
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        // create permissions
 //        $arrayOfPermissionNames = [
 //            //ADMIN
 //            'show users',
 //            'create users',
-//            'delete users'
+//            'delete users',
+//
+//            'view classes',
+//            'create classes',
+//            'delete classes',
+//            'update classes',
 //        ];
 //
 //        $permissions = collect($arrayOfPermissionNames)->map(function ($permission) {
 //            return ['name' => $permission, 'guard_name' => 'web'];
 //        });
 //        Permission::insert($permissions->toArray());
-        $role = Role::findByName('admin');
-        $role->givePermissionTo(Permission::all());
+//        $role = Role::findByName('admin');
+//        $role->givePermissionTo(Permission::all());
+//        $viewClasses = Permission::create(['name' => 'view classes']);
+//        $createClasses = Permission::create(['name' => 'create classes']);
+//        $deleteClasses = Permission::create(['name' => 'delete classes']);
+//        $updateClasses = Permission::create(['name' => 'update classes']);
+//
+//        $admin = Role::findByName('admin');
+//        $admin->givePermissionTo($viewClasses);
+//        $admin->givePermissionTo($createClasses);
+//        $admin->givePermissionTo($deleteClasses);
+//        $admin->givePermissionTo($updateClasses);
+//
+//
+//        $viewAssignedClasses = Permission::create(['name' => 'view assigned classes']);
+//
+//        $teacherRole = Role::findByName('teacher');
+//        $teacherRole->givePermissionTo($viewAssignedClasses);
+        $updateUsers = Permission::create(['name' => 'update users']);
+        $newPassword = Permission::create(['name' => 'generate new password']);
+
+        $admin = Role::findByName('admin');
+        $admin->givePermissionTo($updateUsers);
+        $admin->givePermissionTo($newPassword);
 
     }
 }

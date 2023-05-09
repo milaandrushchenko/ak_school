@@ -6,6 +6,7 @@ import {getRoles} from "../role/rolesSlice.js";
 
 const initialState = {
     users: [],
+    studentsWithoutClass: [],
     visibleData: [],
     meta: [],
     errors: null,
@@ -54,6 +55,23 @@ export const getUsers = createAsyncThunk(
     async (_, {rejectWithValue}) => {
         try {
             const res = await axiosClient.get(`/users`);
+            return res.data;
+        } catch (error) {
+            if (!error.response) {
+                // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+
+    }
+);
+export const fetchStudentsWithoutClass = createAsyncThunk(
+    'users/fetchStudentsWithoutClass',
+    async (classId , {rejectWithValue}) => {
+        try {
+            const res = await axiosClient.get(`/students-without-class/${classId}`);
             return res.data;
         } catch (error) {
             if (!error.response) {
@@ -134,8 +152,8 @@ const usersSlice = createSlice({
         });
         builder.addCase(createUser.fulfilled, (state, action) => {
             state.status = 'succeeded';
-            state.users.push(action.payload);
-            state.visibleData.push(action.payload);
+            state.users.unshift(action.payload);
+            state.visibleData.unshift(action.payload);
             //state.isLoading = false;
         });
         builder.addCase(createUser.rejected, (state, action) => {
@@ -182,9 +200,24 @@ const usersSlice = createSlice({
             state.errors = action.payload;
             state.isLoading = false;
         });
+        // builder.addCase(fetchStudentsWithoutClass.pending, (state) => {
+        //     state.isLoading = true;
+        // });
+        builder.addCase(fetchStudentsWithoutClass.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.studentsWithoutClass = action.payload.data;
+            // state.visibleData = action.payload.data;
+            // state.meta = action.payload.meta;
+            // state.isLoading = false;
+        });
+        // builder.addCase(getUsers.rejected, (state, action) => {
+        //     state.status = 'rejected';
+        //     state.errors = action.payload;
+        //     state.isLoading = false;
+        // });
     },
 });
 
-export const {clearErrors, searchUsers, sortUsers,reset} = usersSlice.actions;
+export const {clearErrors, searchUsers, sortUsers, reset} = usersSlice.actions;
 
 export default usersSlice.reducer;

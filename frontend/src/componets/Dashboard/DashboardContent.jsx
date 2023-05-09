@@ -18,14 +18,21 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
-import {mainListItems, secondaryListItems} from "./listItems";
+import {
+    AdminMainListItems,
+    AdminSecondaryListItems,
+    StudentMainListItems,
+    StudentSecondaryListItems,
+    TeacherMainListItems,
+    TeacherSecondaryListItems
+} from "./listItems";
 import Chart from "./Chart";
 import {Outlet} from "react-router-dom";
 import {Avatar, Menu, MenuItem} from "@mui/material";
 import {Logout, PersonAdd, Settings} from "@mui/icons-material";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import {useEffect} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {logoutUser} from "../../store/user/currentUserSlice.js";
 import {createUser, reset} from "../../store/user/usersSlice.js";
 
@@ -112,6 +119,30 @@ export default function DashboardContent() {
     };
     const [anchorEl, setAnchorEl] = React.useState(null);
     const openEl = Boolean(anchorEl);
+
+    const {user, userToken} = useSelector((state) => state.currentUser)
+
+    let mainListItems;
+    let secondaryListItems;
+
+    switch (user.role) {
+        case 'admin':
+            mainListItems = AdminMainListItems;
+            secondaryListItems = AdminSecondaryListItems;
+            break;
+        case 'student':
+            mainListItems = StudentMainListItems;
+            secondaryListItems = StudentSecondaryListItems;
+            break;
+        case 'teacher':
+            mainListItems = TeacherMainListItems;
+            secondaryListItems = TeacherSecondaryListItems;
+            break;
+        default:
+            mainListItems = null;
+            secondaryListItems = null;
+    }
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };

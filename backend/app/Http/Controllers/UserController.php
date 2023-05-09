@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
+use App\Models\Classes;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
@@ -79,6 +80,44 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return response('', 204);
+        return response('user was deleted', 204);
     }
+
+
+//    public function studentsWithoutClass()
+//    {
+////        $studentsWithoutClass = User::whereDoesntHave('classes')->get();
+//        $studentsWithoutClass = User::whereDoesntHave('classes')
+//            ->whereHas('roles', function ($query) {
+//                $query->where('name', 'student');
+//            })
+//            ->get();
+//        return UserResource::collection($studentsWithoutClass);
+//    }
+
+    public function getStudentsForClass($classId = null)
+    {
+        $studentsWithoutClass = User::whereDoesntHave('classes')
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'student');
+            })
+            ->get();
+        if ($classId) {
+
+            $classStudents = User::whereHas('classes', function ($query) use ($classId) {
+                $query->where('class_id', $classId);
+            })
+                ->whereHas('roles', function ($query) {
+                    $query->where('name', 'student');
+                })
+                ->get();
+
+            $students = $studentsWithoutClass->merge($classStudents);
+        } else {
+            $students = $studentsWithoutClass;
+        }
+
+        return UserResource::collection($students);
+    }
+
 }

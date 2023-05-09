@@ -26,27 +26,28 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::get('/me', [AuthController::class, 'me']);
 
-    Route::group(['middleware' => ['permission:show users']], function () {
-        Route::get('/users', [UserController::class, 'index']);
-    });
-
+//    Route::group(['middleware' => ['permission:show users']], function () {
+    Route::get('/users', [UserController::class, 'index']);
+    Route::get('/students-without-class/{classId?}', [UserController::class, 'getStudentsForClass']);
+//    });
     Route::group(['middleware' => ['permission:create users']], function () {
         Route::post('/users/create', [UserController::class, 'store']);
     });
-
-
-    Route::middleware(['permission:delete users'])->group(function () {
+    Route::group(['middleware' => ['permission:delete users']], function () {
         Route::delete('/users/{user}', [UserController::class, 'destroy']);
+    });
+    Route::group(['middleware' => ['permission:update users']], function () {
+        Route::put('/users/{user}', [UserController::class, 'update']);
+    });
+    Route::group(['middleware' => ['permission:generate new password']], function () {
+        Route::post('/users/new-password/{user}', [UserController::class, 'newPassword']);
     });
 
     Route::apiResource('/classes', ClassesController::class);
-//    Route::get('/dashboard', [DashboardController::class, 'index']);
-//    Route::apiResource('survey', SurveyController::class);
+    Route::apiResource('/roles', RoleController::class);
 
 });
 
-Route::put('/users/{user}', [UserController::class, 'update']);
-Route::post('/users/new-password/{user}', [UserController::class, 'newPassword']);
-//Route::get('/users', [UserController::class, 'index']);
+
 Route::post('/login', [AuthController::class, 'login']);
-Route::apiResource('/roles', RoleController::class);
+

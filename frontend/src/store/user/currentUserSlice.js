@@ -85,6 +85,7 @@ const currentUserSlice = createSlice({
                 console.log(action.payload);
                 state.userToken = action.payload.token;
                 localStorage.setItem('ACCESS_TOKEN', action.payload.token);
+                localStorage.setItem('user', action.payload.user);
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.status = 'failed';
@@ -108,6 +109,7 @@ const currentUserSlice = createSlice({
                 state.status = 'succeeded';
                 state.user = [];
                 localStorage.removeItem('ACCESS_TOKEN');
+                localStorage.removeItem('user');
                 state.userToken = action.payload;
 
             })

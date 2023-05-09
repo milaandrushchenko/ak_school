@@ -25,7 +25,7 @@ class StoreClassesRequest extends FormRequest
             'name' => 'required|string|max:255',
             'monitor_id' => 'nullable|exists:users,id',
             'teacher_id' => 'nullable|exists:users,id',
-            'student_ids' => 'nullable|array',
+            'student_ids' => 'required|array',
             'student_ids.*' => 'exists:users,id',
         ];
     }

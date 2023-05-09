@@ -14,11 +14,21 @@ import {
     Snackbar,
     TextField
 } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import {Visibility, VisibilityOff} from '@mui/icons-material';
+import IconButton from "@mui/material/IconButton";
 import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import MuiAlert from '@mui/material/Alert';
+import {generatePassword} from '../../utils/common'
 import {useDispatch, useSelector} from "react-redux";
-import {clearErrors, createClass, updateClass} from "../../store/class/classesSlice.js";
+import {clearErrors, createClass, getClasses, updateClass} from "../../store/class/classesSlice.js";
 import {FormikProvider, useFormik, useFormikContext} from 'formik';
+import CloseIcon from '@mui/icons-material/Close';
 import * as Yup from 'yup';
+import Notification from "../core/Notification.jsx";
+import {fetchStudentsWithoutClass, getUsers, updateUser} from "../../store/user/usersSlice.js";
+import {me} from "../../store/user/currentUserSlice.js";
 
 const ITEM_HEIGHT = 40;
 const ITEM_PADDING_TOP = 8;
@@ -47,8 +57,16 @@ const initialValues = {
 export default function FormClass({open, onClose, classItem}) {
     const dispatch = useDispatch();
 
-    const {users, visibleData, meta, isLoading} = useSelector((state) => state.users)
-    const students = users.filter(user => user.role === 'student');
+    const {user, userToken} = useSelector((state) => state.currentUser)
+    const {
+        users,
+        studentsWithoutClass,
+        visibleData,
+        meta,
+        isLoading
+    } = useSelector((state) => state.users)
+    // const students = users.filter(user => user.role === 'student');
+    const students = studentsWithoutClass;
     const teachers = users.filter(user => user.role === 'teacher');
 
     let errorsServer = useSelector((state) => state.classes.errors)
@@ -82,11 +100,16 @@ export default function FormClass({open, onClose, classItem}) {
         }
     });
 
-    console.log(classItem);
 
     useEffect(() => {
         formik.setErrors({...formik.errors, ...errorsServer});
     }, [errorsServer]);
+
+    useEffect(() => {
+        let classId = classItem?.id;
+        dispatch(fetchStudentsWithoutClass(classId));
+
+    }, [open])
 
     return (
         <>
@@ -99,7 +122,7 @@ export default function FormClass({open, onClose, classItem}) {
                 <FormikProvider value={formik}>
                     <form onSubmit={formik.handleSubmit}>
                         <DialogTitle id="alert-dialog-title">
-                            {"Створення групи"}
+                            {classItem ? "Редагування класу" : "Створення класу"}
                         </DialogTitle>
                         <DialogContent sx={{
                             maxWidth: '500px',
@@ -201,34 +224,36 @@ export default function FormClass({open, onClose, classItem}) {
                                 {formik.touched.monitor_id && formik.errors.monitor_id &&
                                     <FormHelperText>{formik.touched.monitor_id && formik.errors && formik.errors.monitor_id}</FormHelperText>}
                             </FormControl>
-                            <FormControl fullWidth sx={{marginTop: 2}}
-                                         error={formik.touched.teacher_id && Boolean(formik.errors.teacher_id)}>
-                                <InputLabel id="teacher_id-label">Класний керівник</InputLabel>
-                                <Select
-                                    labelId="teacher_id-label"
-                                    id="teacher_id"
-                                    name="teacher_id"
-                                    label="Класний керівник"
-                                    value={formik.values.teacher_id}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    MenuProps={MenuProps}
-                                >
-                                    {teachers.map(teacher => (
-                                        <MenuItem key={teacher.id}
-                                                  value={teacher.id}>{teacher.first_name + ' ' + teacher.second_name}</MenuItem>
-                                    ))}
-                                </Select>
-                                {formik.touched.teacher_id && formik.errors.teacher_id &&
-                                    <FormHelperText>{formik.touched.teacher_id && formik.errors && formik.errors.teacher_id}</FormHelperText>}
-                            </FormControl>
+                            {user.role === 'admin' &&
+                                <FormControl fullWidth sx={{marginTop: 2}}
+                                             error={formik.touched.teacher_id && Boolean(formik.errors.teacher_id)}>
+                                    <InputLabel id="teacher_id-label">Класний керівник</InputLabel>
+                                    <Select
+                                        labelId="teacher_id-label"
+                                        id="teacher_id"
+                                        name="teacher_id"
+                                        label="Класний керівник"
+                                        value={formik.values.teacher_id}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        MenuProps={MenuProps}
+                                    >
+                                        {teachers.map(teacher => (
+                                            <MenuItem key={teacher.id}
+                                                      value={teacher.id}>{teacher.first_name + ' ' + teacher.second_name}</MenuItem>
+                                        ))}
+                                    </Select>
+                                    {formik.touched.teacher_id && formik.errors.teacher_id &&
+                                        <FormHelperText>{formik.touched.teacher_id && formik.errors && formik.errors.teacher_id}</FormHelperText>}
+                                </FormControl>
+                            }
                         </DialogContent>
                         <DialogActions>
                             <Button variant="outlined" color="error"
                                     onClick={() => close(false)}>Відмінити</Button>
                             <Button type="submit" variant="contained" color="success"
                                     autoFocus>
-                                {'Додати'}
+                                {classItem ? 'Зберегти' : 'Додати'}
                             </Button>
                         </DialogActions>
                     </form>

@@ -55,19 +55,6 @@ export default function ShowUser({user, open, onClose}) {
                 <DialogContent>
                     <TableContainer>
                         <Table stickyHeader aria-label="sticky table">
-                            {/*<TableHead>*/}
-                            {/*    <TableRow>*/}
-                            {/*        {columns.map((column) => (*/}
-                            {/*            <TableCell*/}
-                            {/*                key={column.id}*/}
-                            {/*                align={column.align}*/}
-                            {/*                style={{ minWidth: column.minWidth }}*/}
-                            {/*            >*/}
-                            {/*                {column.label}*/}
-                            {/*            </TableCell>*/}
-                            {/*        ))}*/}
-                            {/*    </TableRow>*/}
-                            {/*</TableHead>*/}
                             <TableBody>
                                 <TableRow hover tabIndex={-1}>
                                     <TableCell>
@@ -111,10 +98,11 @@ export default function ShowUser({user, open, onClose}) {
                                 </TableRow>
                                 <TableRow hover tabIndex={-1}>
                                     <TableCell>
-                                        Групи
+                                        Клас
                                     </TableCell>
                                     <TableCell>
-                                        -
+                                        {Array.isArray(user.class) ? user.class.length > 0 ? user.class.map(cls => cls.name).join(' ') : '-' : user.class?.name ?? '-'}
+
                                     </TableCell>
                                 </TableRow>
                                 <TableRow hover tabIndex={-1}>

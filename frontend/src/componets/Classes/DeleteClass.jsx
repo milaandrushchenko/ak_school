@@ -4,6 +4,9 @@ import {deleteUser, getUsers, updateUser} from "../../store/user/usersSlice.js";
 import {useDispatch} from "react-redux";
 import MuiAlert from "@mui/material/Alert";
 import {deleteClass, getClasses} from "../../store/class/classesSlice.js";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function DeleteClass({classItem, open, onClose}) {
     const dispatch = useDispatch();
@@ -15,6 +18,7 @@ export default function DeleteClass({classItem, open, onClose}) {
         if (deleteClass.fulfilled.match(resultAction)) {
             console.log(resultAction.payload);
             onClose(true);
+
         }
 
     }
@@ -32,6 +36,7 @@ export default function DeleteClass({classItem, open, onClose}) {
                         <Button onClick={onDelete} color="secondary">Видалити</Button>
                     </DialogActions>
                 </Dialog>
+
             </div>
         </>
     )

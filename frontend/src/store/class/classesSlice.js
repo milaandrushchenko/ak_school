@@ -4,6 +4,7 @@ import {createUser, deleteUser, getUsers, updateUser} from "../user/usersSlice.j
 
 const initialState = {
     classes: [],
+    visibleData: [],
     errors: null,
     isLoading: true,
     status: 'idle',
@@ -13,6 +14,7 @@ export const createClass = createAsyncThunk(
     "classes/createClass",
     async (payload, {rejectWithValue}) => {
         try {
+            console.log(payload);
             const res = await axiosClient.post('/classes', payload);
             return res.data;
         } catch (error) {
@@ -62,7 +64,7 @@ export const deleteClass = createAsyncThunk(
     }
 );
 
-export const updateClass= createAsyncThunk(
+export const updateClass = createAsyncThunk(
     "classes/updateClass",
     async ({id, values}, {rejectWithValue}) => {
         try {
@@ -86,6 +88,17 @@ const classesSlice = createSlice({
         clearErrors: (state) => {
             state.errors = null;
         },
+        reset: (state) => {
+            state.classes = [];
+            state.visibleData = state.classes;
+            state.errors = null;
+        },
+        searchClass: (state, {payload}) => {
+            state.visibleData = state.classes.filter(
+                (item) =>
+                    item.name.toLowerCase().includes(payload.toLowerCase())
+            );
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(createClass.pending, (state) => {
@@ -94,6 +107,7 @@ const classesSlice = createSlice({
         builder.addCase(createClass.fulfilled, (state, action) => {
             state.status = 'succeeded';
             state.classes.unshift(action.payload);
+            state.visibleData.unshift(action.payload);
             // state.visibleData.push(action.payload);
             //state.isLoading = false;
         });
@@ -108,6 +122,7 @@ const classesSlice = createSlice({
         builder.addCase(getClasses.fulfilled, (state, action) => {
             state.status = 'succeeded';
             state.classes = action.payload.data;
+            state.visibleData = state.classes;
             // state.visibleData = action.payload.data;
             // state.meta = action.payload.meta;
             state.isLoading = false;
@@ -123,6 +138,7 @@ const classesSlice = createSlice({
         builder.addCase(deleteClass.fulfilled, (state, action) => {
             state.status = 'succeeded';
             state.classes = state.classes.filter(classItem => classItem.id !== action.payload.id);
+            state.visibleData = state.classes;
         });
         builder.addCase(deleteClass.rejected, (state, action) => {
             state.status = 'rejected';
@@ -134,6 +150,7 @@ const classesSlice = createSlice({
         builder.addCase(updateClass.fulfilled, (state, action) => {
             state.status = 'succeeded';
             state.classes = state.classes.map(classItem => classItem.id === action.payload.id ? action.payload : classItem)
+            state.visibleData = state.classes;
         });
         builder.addCase(updateClass.rejected, (state, action) => {
             state.status = 'rejected';
@@ -142,6 +159,6 @@ const classesSlice = createSlice({
     },
 });
 
-export const {clearErrors} = classesSlice.actions;
+export const {clearErrors, reset, searchClass} = classesSlice.actions;
 
 export default classesSlice.reducer;

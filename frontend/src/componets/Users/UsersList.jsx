@@ -51,18 +51,15 @@ export default function UsersList() {
     const navigate = useNavigate();
 
     const {users, visibleData, meta, isLoading} = useSelector((state) => state.users)
-    const {user} = useSelector((state) => state.currentUser)
+    const {user, userToken} = useSelector((state) => state.currentUser)
 
-    // useEffect(() => {
-    //     if (Object.entries(user).length !== 0) {
-    //         const hasPermission = user.permissions?.includes('show users');
-    //         if (!hasPermission) {
-    //             console.log('tut');
-    //             navigate("/");
-    //         }
-    //     }
-    // }, [user]);
-    console.log(isLoading);
+    const hasPermission = user.permissions?.includes("show users");
+
+    useEffect(() => {
+        if (!userToken || !hasPermission) {
+            navigate("/");
+        }
+    }, [userToken, hasPermission, navigate]);
 
     const [orderBy, setOrderBy] = useState('');
     const [order, setOrder] = useState('asc');
