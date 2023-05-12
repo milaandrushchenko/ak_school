@@ -46,18 +46,21 @@ class User extends Authenticatable
         }
     }
 
+    protected $guarded = [];
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
+     *
      */
-    protected $fillable = [
-        'login',
-        'first_name',
-        'second_name',
-        'password',
-        'status',
-    ];
+//    protected $fillable = [
+//        'login',
+//        'first_name',
+//        'second_name',
+//        'password',
+//        'status',
+//        'class_id'
+//    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -80,17 +83,14 @@ class User extends Authenticatable
 
     public function classes()
     {
-        return $this->belongsToMany(Classes::class, 'class_user', 'user_id', 'class_id');
-
+        return $this->belongsTo(Classes::class,'class_id');
     }
-//    public function classes()
-//    {
-//        return $this->belongsTo(Classes::class,'class_user', 'user_id', 'class_id');
-//    }
 
     public function teacherClasses()
     {
         return $this->hasMany(Classes::class, 'teacher_id');
     }
+
+
 
 }

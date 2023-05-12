@@ -83,36 +83,21 @@ class UserController extends Controller
         return response('user was deleted', 204);
     }
 
-
-//    public function studentsWithoutClass()
-//    {
-////        $studentsWithoutClass = User::whereDoesntHave('classes')->get();
-//        $studentsWithoutClass = User::whereDoesntHave('classes')
-//            ->whereHas('roles', function ($query) {
-//                $query->where('name', 'student');
-//            })
-//            ->get();
-//        return UserResource::collection($studentsWithoutClass);
-//    }
-
     public function getStudentsForClass($classId = null)
     {
-        $studentsWithoutClass = User::whereDoesntHave('classes')
+        $studentsWithoutClass = User::where('class_id', null)
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'student');
             })
-            ->get();
+            ->get();;
+
         if ($classId) {
-
-            $classStudents = User::whereHas('classes', function ($query) use ($classId) {
-                $query->where('class_id', $classId);
-            })
-                ->whereHas('roles', function ($query) {
-                    $query->where('name', 'student');
-                })
-                ->get();
-
-            $students = $studentsWithoutClass->merge($classStudents);
+            $class = Classes::with('students')->find($classId);
+            if ($class) {
+                $students = $class->students->merge($studentsWithoutClass);
+            } else {
+                $students = $studentsWithoutClass;
+            }
         } else {
             $students = $studentsWithoutClass;
         }

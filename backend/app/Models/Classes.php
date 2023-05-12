@@ -26,8 +26,7 @@ class Classes extends Model
 
     public function students()
     {
-        return $this->belongsToMany(User::class, 'class_user', 'class_id', 'user_id');
+        return $this->hasMany(User::class, 'class_id');
     }
 
-//return $this->belongsToMany(Tag::class,'post_tags','post_id','tag_id');
 }

@@ -6,6 +6,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use function Symfony\Component\Translation\t;
 
 class UserResource extends JsonResource
 {
@@ -26,7 +27,7 @@ class UserResource extends JsonResource
             'status' => User::getStatusTitleAttribute($this),
             //'email' => $this->email,
             'role' => isset($this->getRoleNames()[0]) ? $this->getRoleNames()[0] : null,
-            'class' => isset($this->classes[0]) ? $this->classes[0] : $this->teacherClasses,
+            'class' => $this->classes,
 
             'permissions' => $this->getPermissionsViaRoles()->pluck('name'),
             'created_at' => Carbon::parse($this->created_at)->isoFormat('DD MMMM, YYYY HH:mm'),

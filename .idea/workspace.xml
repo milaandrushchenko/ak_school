@@ -9,23 +9,12 @@
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/ClassesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/ClassesController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/UserController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/StoreClassesRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/StoreClassesRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateClassesRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateClassesRequest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Resources/UserResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Resources/UserResource.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/Classes.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Classes.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/User.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/database/migrations/2023_04_20_121554_create_class_user_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2023_04_20_121554_create_class_user_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/seeders/PermissionsSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/PermissionsSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Classes/ClassCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Classes/ClassCard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Classes/ClassesList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Classes/ClassesList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Classes/DeleteClass.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Classes/DeleteClass.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/componets/Classes/FormClass.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Classes/FormClass.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Dashboard/DashboardContent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Dashboard/DashboardContent.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Dashboard/listItems.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Dashboard/listItems.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/DefaultLayout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/DefaultLayout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/ShowUser.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Users/ShowUser.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/UsersList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Users/UsersList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/class/classesSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/class/classesSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/user/currentUserSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/user/currentUserSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/user/usersSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/user/usersSlice.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -238,7 +227,9 @@
       <workItem from="1682583969606" duration="652000" />
       <workItem from="1682932342737" duration="5542000" />
       <workItem from="1683039555322" duration="13336000" />
-      <workItem from="1683618922231" duration="2815000" />
+      <workItem from="1683618922231" duration="10222000" />
+      <workItem from="1683802389133" duration="17658000" />
+      <workItem from="1683877608503" duration="8049000" />
     </task>
     <servers />
   </component>

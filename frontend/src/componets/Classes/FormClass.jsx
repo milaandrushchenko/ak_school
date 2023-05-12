@@ -43,7 +43,11 @@ const MenuProps = {
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('Обов\'язкове поле'),
-    monitor_id: Yup.number().required('Обов\'язкове поле'),
+    monitor_id: Yup.number().required('Обов\'язкове поле')
+        .test('included-in-student-ids', 'Староста повинен бути обраний серед учнів.', function (value) {
+            const studentIds = this.parent.student_ids || [];
+            return !value || studentIds.includes(value);
+        }),
     teacher_id: Yup.number().required('Обов\'язкове поле'),
     student_ids: Yup.array().of(Yup.number()).min(1, 'Оберіть хоча б одного учня'),
 });
@@ -94,6 +98,7 @@ export default function FormClass({open, onClose, classItem}) {
                 const resultAction = await dispatch(updateClass({id, values}));
                 if (updateClass.fulfilled.match(resultAction)) {
                     console.log('class updated');
+                    console.log(values);
                     close(true);
                 }
             }
@@ -102,7 +107,21 @@ export default function FormClass({open, onClose, classItem}) {
 
 
     useEffect(() => {
-        formik.setErrors({...formik.errors, ...errorsServer});
+
+        if (errorsServer) {
+            let errors = {...errorsServer};
+            Object.keys(errors).forEach((key) => {
+                const match = key.match(/student_ids\.\d+/);
+                if (match) {
+                    const fieldName = match[0].replace(/\.\d+/, '');
+                    errors[fieldName] = errors[key];
+                    delete errors[key];
+                }
+            });
+
+            formik.setErrors({...formik.errors, ...errors});
+        }
+
     }, [errorsServer]);
 
     useEffect(() => {
@@ -190,6 +209,9 @@ export default function FormClass({open, onClose, classItem}) {
                                     }}
                                     MenuProps={MenuProps}
                                 >
+                                    {students.length === 0 && (
+                                        <MenuItem disabled>Немає учнів для вибору</MenuItem>
+                                    )}
                                     {students.map(student => (
                                         <MenuItem key={student.id}
                                                   value={student.id}>{student.first_name + ' ' + student.second_name}</MenuItem>
@@ -212,6 +234,9 @@ export default function FormClass({open, onClose, classItem}) {
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                 >
+                                    {(students.length === 0 || formik.values.student_ids.length == 0) && (
+                                        <MenuItem disabled>Немає учнів для вибору</MenuItem>
+                                    )}
                                     {students
                                         .filter((student) => formik.values.student_ids.includes(student.id))
                                         .map((student) => (

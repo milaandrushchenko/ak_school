@@ -6,6 +6,7 @@ use App\Http\Resources\ClassResource;
 use App\Models\Classes;
 use App\Http\Requests\StoreClassesRequest;
 use App\Http\Requests\UpdateClassesRequest;
+use App\Models\User;
 
 class ClassesController extends Controller
 {
@@ -38,14 +39,16 @@ class ClassesController extends Controller
     public function store(StoreClassesRequest $request)
     {
         $data = $request->validated();
-
-
         $students = $data['student_ids'];
         unset($data['student_ids']);
 
         $class = Classes::create($data);
 
-        $class->students()->attach($students);
+        $students = collect($students)->map(function ($studentId) {
+            return User::findOrFail($studentId);
+        });
+
+        $class->students()->saveMany($students);
 
         return response(new ClassResource($class), 201);
     }
@@ -69,7 +72,12 @@ class ClassesController extends Controller
 
         $class->update($data);
 
-        $class->students()->sync($students);
+        $students = User::whereIn('id', $students)->get();
+
+        $class->students()->whereNotIn('id', $students->pluck('id'))->update(['class_id' => null]);
+
+        $class->students()->saveMany($students);
+
         return response(new ClassResource($class), 201);
     }
 
