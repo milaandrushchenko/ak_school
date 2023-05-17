@@ -5,16 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="369ea667-65c6-4f76-97c2-3e996c2a7e9c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/DeleteTest.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/FormTest.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestCard.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsList.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/store/test/testsSlice.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/ClassesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/ClassesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/StoreClassesRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/StoreClassesRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateClassesRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateClassesRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Resources/UserResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Resources/UserResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Classes.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Classes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2023_04_20_121554_create_class_user_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2023_04_20_121554_create_class_user_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Classes/FormClass.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Classes/FormClass.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/seeders/PermissionsSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/PermissionsSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Dashboard/listItems.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Dashboard/listItems.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/router.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/store.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,29 +158,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/OSPanel/domains/example&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\PhpStorm 2020.3.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/OSPanel/domains/diploma/frontend/src/store",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PhpStorm 2020.3.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Classes" />
       <recent name="C:\OSPanel\domains\diploma\frontend\src\store" />
+      <recent name="C:\OSPanel\domains\diploma\frontend\src\componets" />
+      <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Classes" />
       <recent name="C:\OSPanel\domains\diploma\frontend\src\styles" />
       <recent name="C:\OSPanel\domains\diploma\frontend\src\store\user" />
-      <recent name="C:\OSPanel\domains\diploma\backend\app\Http\Requests" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\OSPanel\domains\diploma\frontend\public" />
@@ -229,7 +232,12 @@
       <workItem from="1683039555322" duration="13336000" />
       <workItem from="1683618922231" duration="10222000" />
       <workItem from="1683802389133" duration="17658000" />
-      <workItem from="1683877608503" duration="8049000" />
+      <workItem from="1683877608503" duration="9018000" />
+      <workItem from="1683991048900" duration="877000" />
+      <workItem from="1684143129165" duration="7225000" />
+      <workItem from="1684170739590" duration="6220000" />
+      <workItem from="1684217142157" duration="21399000" />
+      <workItem from="1684303442281" duration="15419000" />
     </task>
     <servers />
   </component>

@@ -50,12 +50,40 @@ class PermissionsSeeder extends Seeder
 //
 //        $teacherRole = Role::findByName('teacher');
 //        $teacherRole->givePermissionTo($viewAssignedClasses);
-        $updateUsers = Permission::create(['name' => 'update users']);
-        $newPassword = Permission::create(['name' => 'generate new password']);
+//        $updateUsers = Permission::create(['name' => 'update users']);
+//        $newPassword = Permission::create(['name' => 'generate new password']);
+//
+//        $admin = Role::findByName('admin');
+//        $admin->givePermissionTo($updateUsers);
+//        $admin->givePermissionTo($newPassword);
 
-        $admin = Role::findByName('admin');
-        $admin->givePermissionTo($updateUsers);
-        $admin->givePermissionTo($newPassword);
+        /////////TESTS//////
+
+        $permissionsTestsForTeacher = [
+            'view tests',
+            'create tests',
+            'delete tests',
+            'update tests',
+            'view test results',
+        ];
+
+        $teacher = Role::findByName('teacher');
+
+        foreach ($permissionsTestsForTeacher as $permission) {
+            $permission = Permission::create(['name' => $permission]);
+            $teacher->givePermissionTo($permission);
+        }
+
+        $permissionsTestsForStudent = [
+            'pass tests',
+        ];
+
+        $student = Role::findByName('student');
+
+        foreach ($permissionsTestsForStudent as $permission) {
+            $permission = Permission::create(['name' => $permission]);
+            $student->givePermissionTo($permission);
+        }
 
     }
 }

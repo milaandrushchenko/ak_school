@@ -14,6 +14,7 @@ import LockPersonRoundedIcon from '@mui/icons-material/LockPersonRounded';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import GroupsIcon from '@mui/icons-material/Groups';
+import FactCheckIcon from '@mui/icons-material/FactCheck';
 import {Link, NavLink} from "react-router-dom";
 import classNames from 'classnames';
 
@@ -194,6 +195,22 @@ export const TeacherMainListItems = (
                         <GroupsIcon/>
                     </ListItemIcon>
                     <ListItemText primary="Класи"/>
+                </ListItemButton>
+            )}
+        </NavLink>
+        <NavLink to='/tests' className={
+            classNames(
+                styles['nav-link'],
+            )
+        }>
+            {({isActive, isExact}) => (
+                <ListItemButton
+                    className={isActive ? classNames(styles.active) : ''}
+                >
+                    <ListItemIcon>
+                        <FactCheckIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="Мої тести"/>
                 </ListItemButton>
             )}
         </NavLink>

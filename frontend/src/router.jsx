@@ -4,6 +4,7 @@ import GuestLayout from "./componets/GuestLayout.jsx";
 import UsersList from "./componets/Users/UsersList.jsx";
 import Login from "./componets/Users/Login.jsx";
 import ClassesList from "./componets/Classes/ClassesList.jsx";
+import TestsList from "./componets/Tests/TestsList.jsx";
 
 const router = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
             {
                 path: "/classes",
                 element: <ClassesList/>
+            },
+            {
+                path: "/tests",
+                element: <TestsList/>
             },
         ]
     },

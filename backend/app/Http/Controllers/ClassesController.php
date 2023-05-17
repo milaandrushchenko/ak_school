@@ -21,10 +21,10 @@ class ClassesController extends Controller
         // Перевірка ролі користувача
         if ($user->hasRole('admin')) {
             // Якщо користувач є адміном, показуємо всі класи
-            $classes = Classes::query()->orderBy('id', 'desc')->get();
+            $classes = Classes::query()->orderBy('name', 'desc')->get();
         } else if ($user->hasRole('teacher')) {
             // Якщо користувач є вчителем, показуємо тільки ті класи, в яких він є класним керівником
-            $classes = $user->teacherClasses()->orderBy('id', 'desc')->get();
+            $classes = $user->teacherClasses()->orderBy('name', 'desc')->get();
         } else {
             // Якщо роль користувача не відповідає жодній з вище перерахованих, показуємо порожній список класів
             $classes = [];
