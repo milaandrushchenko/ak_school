@@ -17,18 +17,8 @@ import FormClass from "./FormClass.jsx";
 import {fetchStudentsWithoutClass, searchUsers} from "../../store/user/usersSlice.js";
 import {searchClass} from "../../store/class/classesSlice.js";
 import {useNavigate} from "react-router-dom";
+import {theme} from "../../utils/theme.js";
 
-
-const theme = createTheme({
-    palette: {
-        primary: {
-            main: '#1a237e',
-        },
-        secondary: {
-            main: '#2A38C9',
-        },
-    },
-});
 
 export default function ClassesList() {
     const navigate = useNavigate();
@@ -105,7 +95,7 @@ export default function ClassesList() {
     }, [classes])
 
     return (
-        <ThemeProvider theme={theme}>
+        <>
             <Grid container justifyContent="space-between"
                   style={{flexWrap: 'wrap', paddingBottom: 5}}
                   className={styles['no-padding-top']}>
@@ -191,6 +181,6 @@ export default function ClassesList() {
                     )}
                 </>
             }
-        </ThemeProvider>
+        </>
     );
 }

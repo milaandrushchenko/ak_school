@@ -99,18 +99,6 @@ const Drawer = styled(MuiDrawer, {
         }),
     },
 }));
-
-const mdTheme = createTheme({
-    palette: {
-        primary: {
-            main: '#1a237e',
-        },
-        secondary: {
-            main: '#2A38C9',
-        },
-    },
-});
-
 export default function DashboardContent() {
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(true);
@@ -158,7 +146,6 @@ export default function DashboardContent() {
     };
 
     return (
-        <ThemeProvider theme={mdTheme}>
             <Box sx={{display: "flex"}}>
                 <CssBaseline/>
                 <AppBar position="absolute" open={open}>
@@ -313,6 +300,5 @@ export default function DashboardContent() {
                     </Container>
                 </Box>
             </Box>
-        </ThemeProvider>
     );
 }

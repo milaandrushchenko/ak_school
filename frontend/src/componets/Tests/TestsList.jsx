@@ -15,27 +15,18 @@ import Box from "@mui/material/Box";
 import Notification from "../core/Notification.jsx";
 import FormTest from "./FormTest.jsx";
 import {fetchStudentsWithoutClass, searchUsers} from "../../store/user/usersSlice.js";
-import {searchClass} from "../../store/class/classesSlice.js";
+import {searchTest} from "../../store/test/testsSlice.js";
 import {useNavigate} from "react-router-dom";
+import {getTests} from "../../store/test/testsSlice.js";
+import {theme} from "../../utils/theme.js";
 
-
-const theme = createTheme({
-    palette: {
-        primary: {
-            main: '#1a237e',
-        },
-        secondary: {
-            main: '#2A38C9',
-        },
-    },
-});
 
 export default function TestsList() {
     const navigate = useNavigate();
     const {user, userToken} = useSelector((state) => state.currentUser)
     const dispatch = useDispatch();
 
-    const {classes, isLoading, visibleData} = useSelector((state) => state.classes)
+    const {tests, isLoading, visibleData} = useSelector((state) => state.tests)
 
     const [notification, setNotification] = useState(false);
 
@@ -85,21 +76,21 @@ export default function TestsList() {
         if (value) setNotification('Клас успішно доданий в систему');
     };
 
-    const displayedClasses = visibleData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+    const displayedTests = visibleData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
     useEffect(() => {
-        dispatch(searchClass(searchValue));
+        dispatch(searchTest(searchValue));
     }, [searchValue])
 
-    // useEffect(() => {
-    //     dispatch();
-    // }, [])
+    useEffect(() => {
+        dispatch(getTests());
+    }, [])
 
 
     let text = localStorage.getItem('text');
 
     return (
-        <ThemeProvider theme={theme}>
+        <>
             <Grid container justifyContent="space-between"
                   style={{flexWrap: 'wrap', paddingBottom: 5}}
                   className={styles['no-padding-top']}>
@@ -162,18 +153,18 @@ export default function TestsList() {
             }
             {!isLoading &&
                 <>
-                    <div style={{maxWidth:'100px'}} dangerouslySetInnerHTML={{ __html: text}} />
+                    <div style={{maxWidth: '100px'}} dangerouslySetInnerHTML={{__html: text}}/>
                     <Grid container spacing={2}>
-                        {displayedClasses.map((classItem) => (
-                            <Grid key={classItem.id} item xs={12} sm={6} md={4}>
-                                <TestCard classItem={classItem} onDelete={handleDelete}/>
+                        {displayedTests.map((test) => (
+                            <Grid key={test.id} item xs={12} sm={6} md={6}>
+                                <TestCard test={test} onDelete={handleDelete}/>
                             </Grid>
                         ))}
                     </Grid>
                     <TablePagination
                         rowsPerPageOptions={[6, 12, 24, 68]}
                         component="div"
-                        count={classes.length}
+                        count={tests.length}
                         page={page}
                         onPageChange={handleChangePage}
                         rowsPerPage={rowsPerPage}
@@ -187,6 +178,6 @@ export default function TestsList() {
                     )}
                 </>
             }
-        </ThemeProvider>
+        </>
     );
 }

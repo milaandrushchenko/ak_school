@@ -5,6 +5,7 @@ import UsersList from "./componets/Users/UsersList.jsx";
 import Login from "./componets/Users/Login.jsx";
 import ClassesList from "./componets/Classes/ClassesList.jsx";
 import TestsList from "./componets/Tests/TestsList.jsx";
+import TestsEditor from "./componets/Tests/TestsEditor.jsx";
 
 const router = createBrowserRouter([
     {
@@ -34,8 +35,12 @@ const router = createBrowserRouter([
             },
             {
                 path: "/tests",
-                element: <TestsList/>
+                element: <TestsList />
             },
+            {
+                path: '/tests/:id',
+                element: <TestsEditor />,
+            }
         ]
     },
     {

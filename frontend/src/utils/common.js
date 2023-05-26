@@ -1,4 +1,6 @@
-export  const generatePassword = (length) => {
+import dayjs from 'dayjs';
+
+export const generatePassword = (length) => {
     const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
     const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const numericChars = '0123456789';
@@ -16,4 +18,12 @@ export  const generatePassword = (length) => {
 
     return password;
 
+}
+
+
+export const formattedDate = (dateTime) => {
+    if (dateTime) {
+        return dayjs(dateTime).locale('uk').format('DD MMMM YYYY року , HH:mm');
+    }
+    return '';
 }

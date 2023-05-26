@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ClassesController;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::apiResource('/classes', ClassesController::class);
+    Route::apiResource('/tests', TestController::class);
     Route::apiResource('/roles', RoleController::class);
 
 });

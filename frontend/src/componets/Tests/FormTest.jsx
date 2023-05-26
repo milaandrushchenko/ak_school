@@ -57,32 +57,34 @@ const MenuProps = {
 const currentDate = dayjs();
 
 const validationSchema = Yup.object().shape({
-    name: Yup.string().required('Обов\'язкове поле'),
-    startDate: Yup.date()
+    title: Yup.string().required('Обов\'язкове поле'),
+    start_time: Yup.date()
         .nullable()
-        .test('less-than-finishDate', 'Дата початку повинна бути меншою за дату завершення.', function (value) {
-            const finishDate = this.parent.finishDate;
-            return value === null || finishDate === null || value < finishDate;
+        .test('less-than-end_time', 'Дата початку повинна бути меншою за дату завершення.', function (value) {
+            const end_time = this.parent.end_time;
+            return value === null || end_time === null || value < end_time;
         }).min(currentDate, 'Дата початку має бути обрана починаючи від поточної.'),
-    finishDate: Yup.date()
+    end_time: Yup.date()
         .nullable()
-        .test('more-than-startDate', 'Дата завершення повинна бути більшою за дату початку.', function (value) {
-            const startDate = this.parent.startDate;
-            return value === null || startDate === null || value > startDate;
+        .test('more-than-start_time', 'Дата завершення повинна бути більшою за дату початку.', function (value) {
+            const start_time = this.parent.start_time;
+            return value === null || start_time === null || value > start_time;
         }).min(currentDate, 'Дата завершення має бути обрана починаючи від поточної.'),
     attempts: Yup.number().nullable().max(10, 'Максимальна кількість спроб становить 10'),
-    duration: Yup.number()
+    time_limit: Yup.number()
         .nullable()
         .min(5, 'Мінімальна тривалість тесту 5 хвилин')
         .max(180, 'Максимальна тривалість тесту 180 хвилин'),
 });
 
 const initialValues = {
-    name: '',
-    startDate: null,
-    finishDate: null,
+    title: '',
+    start_time: null,
+    end_time: null,
     attempts: '',
-    duration: '',
+    access_type: 'public',
+    is_active: 0,
+    time_limit: '',
 };
 
 export default function FormTest({open, onClose, test}) {
@@ -99,17 +101,18 @@ export default function FormTest({open, onClose, test}) {
         initialValues: test ? {...test} : {...initialValues},
         validationSchema,
         onSubmit: async (values, {setErrors, setSubmitting}) => {
-            const {startDate, finishDate, ...otherValues} = values;
+            const {start_time, end_time, ...otherValues} = values;
 
             const formData = {
                 ...otherValues,
-                startDate: startDate ? startDate.toISOString() : null,
-                finishDate: finishDate ? finishDate.toISOString() : null
+                start_time: start_time ? start_time.format('YYYY-MM-DD HH:mm:ss') : null,
+                end_time: end_time ? end_time.format('YYYY-MM-DD HH:mm:ss') : null
             };
+
             console.log(formData);
             close(true);
             if (!test) {
-                const resultAction = await dispatch(createTest(values));
+                const resultAction = await dispatch(createTest(formData));
                 if (createClass.fulfilled.match(resultAction)) {
                     console.log('test added');
                     close(true);
@@ -155,16 +158,16 @@ export default function FormTest({open, onClose, test}) {
                             <TextField
                                 autoFocus
                                 margin="dense"
-                                id="name"
-                                name="name"
+                                id="title"
+                                name="title"
                                 label="Назва"
                                 type="text"
                                 fullWidth
                                 sx={{mb: 2}}
-                                value={formik.values.name}
+                                value={formik.values.title}
                                 onChange={formik.handleChange}
-                                error={formik.touched.name && Boolean(formik.errors?.name)}
-                                helperText={formik.touched.name && formik.errors && formik.errors.name}
+                                error={formik.touched.title && Boolean(formik.errors?.title)}
+                                helperText={formik.touched.title && formik.errors && formik.errors.title}
                             />
                             <Accordion>
                                 <AccordionSummary
@@ -191,29 +194,29 @@ export default function FormTest({open, onClose, test}) {
                                                         position: 'relative',
                                                     }}
                                                     label="Дата початку"
-                                                    name="startDate"
+                                                    name="start_time"
                                                     ampm={false}
-                                                    value={formik.values.startDate}
+                                                    value={formik.values.start_time}
                                                     onChange={(newValue) => {
-                                                        formik.setFieldValue('startDate', newValue);
+                                                        formik.setFieldValue('start_time', newValue);
                                                     }}
                                                     onError={(error) => {
-                                                        formik.setFieldError('startDate', error);
+                                                        formik.setFieldError('start_time', error);
                                                     }}
                                                     slotProps={{
                                                         textField: {
                                                             variant: 'outlined',
-                                                            error: !!formik.errors?.startDate,
-                                                            helperText: formik.errors?.startDate,
+                                                            error: !!formik.errors?.start_time,
+                                                            helperText: formik.errors?.start_time,
                                                         },
                                                     }}
                                                     minDate={currentDate}
                                                 />
 
-                                                {formik.values.startDate !== null && (
+                                                {formik.values.start_time !== null && (
                                                     <IconButton
                                                         onClick={() => {
-                                                            formik.setFieldValue('startDate', null);
+                                                            formik.setFieldValue('start_time', null);
                                                         }}
                                                     >
                                                         <ClearIcon/>
@@ -233,18 +236,18 @@ export default function FormTest({open, onClose, test}) {
                                                         position: 'relative',
                                                     }}
                                                     label="Дата завершення"
-                                                    name="finishDate"
+                                                    name="end_time"
                                                     ampm={false}
-                                                    value={formik.values.finishDate}
+                                                    value={formik.values.end_time}
                                                     onChange={(newValue) => {
-                                                        formik.setFieldValue('finishDate', newValue);
+                                                        formik.setFieldValue('end_time', newValue);
                                                     }}
                                                     minDate={currentDate}
                                                 />
-                                                {formik.values.finishDate !== null && (
+                                                {formik.values.end_time !== null && (
                                                     <IconButton
                                                         onClick={() => {
-                                                            formik.setFieldValue('finishDate', null);
+                                                            formik.setFieldValue('end_time', null);
                                                         }}
                                                     >
                                                         <ClearIcon/>
@@ -273,8 +276,8 @@ export default function FormTest({open, onClose, test}) {
                                     />
                                     <TextField
                                         margin="dense"
-                                        id="duration"
-                                        name="duration"
+                                        id="time_limit"
+                                        name="time_limit"
                                         label="Тривалість тесту (хвилини)"
                                         type="number"
                                         fullWidth
@@ -283,10 +286,10 @@ export default function FormTest({open, onClose, test}) {
                                             min: 5,
                                             max: 180,
                                         }}
-                                        value={formik.values.duration || ''}
+                                        value={formik.values.time_limit || ''}
                                         onChange={formik.handleChange}
-                                        error={formik.touched.duration && Boolean(formik.errors?.duration)}
-                                        helperText={formik.touched.duration && formik.errors && formik.errors.duration}
+                                        error={formik.touched.time_limit && Boolean(formik.errors?.time_limit)}
+                                        helperText={formik.touched.time_limit && formik.errors && formik.errors.time_limit}
                                     />
                                 </AccordionDetails>
                             </Accordion>

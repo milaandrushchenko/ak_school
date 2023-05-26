@@ -34,17 +34,7 @@ import DeleteUser from "./DeleteUser.jsx";
 import Notification from "../core/Notification.jsx";
 import {useNavigate} from "react-router-dom";
 import {SearchIconWrapper, StyledInputBase, Search} from "../../styles/searchStyles.js";
-
-const theme = createTheme({
-    palette: {
-        primary: {
-            main: '#1a237e',
-        },
-        secondary: {
-            main: '#2A38C9',
-        },
-    },
-});
+import {theme} from "../../utils/theme.js";
 
 export default function UsersList() {
     const dispatch = useDispatch();
@@ -70,11 +60,6 @@ export default function UsersList() {
     const [perPage, setPerPage] = useState(10);
     const [page, setPage] = useState(0);
 
-    const [locale, setLocale] = useState('ukUA');
-    const themeWithLocale = useMemo(
-        () => createTheme(theme, locales[locale]),
-        [locale, theme],
-    );
 
     const [showUser, setShowUser] = useState(null);
     const [editUser, setEditUser] = useState(null);
@@ -158,7 +143,7 @@ export default function UsersList() {
     }, [order, orderBy])
 
     return (
-        <ThemeProvider theme={themeWithLocale}>
+        <>
             <Grid container justifyContent="space-between"
                   style={{flexWrap: 'wrap', paddingBottom: 5}}
                   className={styles['no-padding-top']}>
@@ -333,6 +318,6 @@ export default function UsersList() {
                     )}
                 </>
             }
-        </ThemeProvider>
+        </>
     );
 }

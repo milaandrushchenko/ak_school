@@ -32,6 +32,7 @@ class UserController extends Controller
         $data['password'] = bcrypt($data['password']);
         $data['status'] = 0;
         $role = $data['role'];
+        unset($data['role']);
 
         $user = User::create($data);
 

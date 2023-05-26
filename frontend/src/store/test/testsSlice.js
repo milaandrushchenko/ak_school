@@ -3,6 +3,7 @@ import axiosClient from "../../axios-client.js";
 import {createUser, deleteUser, getUsers, updateUser} from "../user/usersSlice.js";
 
 const initialState = {
+    test: {},
     tests: [],
     visibleData: [],
     errors: null,
@@ -16,6 +17,7 @@ export const createTest = createAsyncThunk(
         try {
             console.log(payload);
             const res = await axiosClient.post('/tests', payload);
+            console.log(res.data);
             return res.data;
         } catch (error) {
             if (!error.response) {
@@ -47,6 +49,7 @@ export const getTests = createAsyncThunk(
     }
 );
 
+
 const testsSlice = createSlice({
     name: "tests",
     initialState,
@@ -62,8 +65,13 @@ const testsSlice = createSlice({
         searchTest: (state, {payload}) => {
             state.visibleData = state.tests.filter(
                 (item) =>
-                    item.name.toLowerCase().includes(payload.toLowerCase())
+                    item.title.toLowerCase().includes(payload.toLowerCase())
             );
+        },
+        getTestById: (state, {payload}) => {
+            console.log(payload);
+            console.log(state.visibleData);
+            state.test = state.visibleData.find(test => test.id === parseInt(payload))
         },
     },
     extraReducers: (builder) => {
@@ -96,6 +104,7 @@ const testsSlice = createSlice({
     },
 });
 
-export const {clearErrors, reset, searchTest} = testsSlice.actions;
+export const {clearErrors, reset, searchTest, getTestById} = testsSlice.actions;
+
 
 export default testsSlice.reducer;

@@ -91,6 +91,11 @@ class User extends Authenticatable
         return $this->hasMany(Classes::class, 'teacher_id');
     }
 
+    public function teacherTests()
+    {
+        return $this->hasMany(Test::class, 'created_by');
+    }
+
 
 
 }

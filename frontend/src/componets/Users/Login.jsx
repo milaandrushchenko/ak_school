@@ -25,17 +25,6 @@ import * as Yup from 'yup';
 import {createUser} from "../../store/user/usersSlice.js";
 
 
-const theme = createTheme({
-    palette: {
-        primary: {
-            main: '#1a237e',
-        },
-        secondary: {
-            main: '#2A38C9',
-        },
-    },
-});
-
 const initialValues = {
     login: '',
     password: '',
@@ -69,7 +58,6 @@ export default function Login() {
     }, [errorsServer]);
 
     return (
-        <ThemeProvider theme={theme}>
             <Grid container maxWidth="md" sx={{
                 height: '100vh',
                 margin: '0 auto',
@@ -157,22 +145,9 @@ export default function Login() {
                             >
                                 Увійти
                             </Button>
-                            <Grid container>
-                                <Grid item xs>
-                                    {/*<Link href="#" variant="body2">*/}
-                                    {/*    Forgot password?*/}
-                                    {/*</Link>*/}
-                                </Grid>
-                                <Grid item>
-                                    {/*<Link href="#" variant="body2">*/}
-                                    {/*    {"Don't have an account? Sign Up"}*/}
-                                    {/*</Link>*/}
-                                </Grid>
-                            </Grid>
                         </Box>
                     </Box>
                 </Grid>
             </Grid>
-        </ThemeProvider>
     );
 }
