@@ -24,21 +24,21 @@ export default function ShortAnswerQuestionForm({formik}) {
     } = formik;
 
     const handleAddAnswer = () => {
-        setFieldValue("answers", [
-            ...values.answers,
+        setFieldValue("options", [
+            ...values.options,
             '',
         ]);
     };
 
     const handleRemoveAnswer = (index) => {
-        const updatedOptions = [...values.answers];
+        const updatedOptions = [...values.options];
         updatedOptions.splice(index, 1);
-        setFieldValue('answers', updatedOptions);
+        setFieldValue('options', updatedOptions);
     };
 
     return (
         <>
-            {values.answers && values.answers.map((answer, index) => (
+            {values.options && values.options.map((answer, index) => (
                 <Box key={index} display="flex" alignItems="center">
                     <TextField
                         key={index}
@@ -46,10 +46,10 @@ export default function ShortAnswerQuestionForm({formik}) {
                         fullWidth
                         margin="normal"
                         value={answer}
-                        name={`answers[${index}]`}
+                        name={`options[${index}]`}
                         onChange={(event) => handleChange(event, index)}
-                        error={touched.answers && !!errors.answers?.[index]}
-                        helperText={touched.answers && errors.answers?.[index]}
+                        error={touched.options && !!errors.options?.[index]}
+                        helperText={touched.options && errors.options?.[index]}
                     />
                     {index >= 1 && (
                         <IconButton

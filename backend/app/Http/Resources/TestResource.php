@@ -29,6 +29,7 @@ class TestResource extends JsonResource
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
             'created_at' => Carbon::parse($this->created_at)->isoFormat('DD MMMM, YYYY HH:mm'),
+            'questions' => $this->questions,
 
         ];
     }

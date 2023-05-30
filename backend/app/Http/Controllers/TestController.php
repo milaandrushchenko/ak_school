@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreQuestionsRequest;
 use App\Http\Requests\StoreTestRequest;
 use App\Http\Resources\TestResource;
+use App\Models\Questions;
 use App\Models\Test;
 use Illuminate\Http\Request;
 
@@ -67,5 +69,16 @@ class TestController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function addQuestions(StoreQuestionsRequest $request, string $id)
+    {
+        $data = $request->validated();
+        if (is_array($data['options'])) {
+            $data['options'] = json_encode($data['options']);
+        }
+//        var_dump($data);
+        $question = Questions::create($data);
+        return response($question, 201);
     }
 }

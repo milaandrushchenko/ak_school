@@ -5,37 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="369ea667-65c6-4f76-97c2-3e996c2a7e9c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/app/Http/Resources/TestResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/QuestionForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsEditor.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/questionTypes/MatchingQuestionForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/questionTypes/MultiChoiceQuestionForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/questionTypes/ShortAnswerQuestionForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/questionTypes/SingleChoiceQuestionForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/core/TextEditor.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/utils/theme.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/utils/validate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/app/Models/Questions.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/MatchingQuestion.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/MultiChoiceQuestion.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/ShortAnswerQuestion.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/SingleChoiceQuestion.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/utils/constans.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/backend/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Resources/TestResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Resources/TestResource.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/Test.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Test.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Classes/ClassesList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Classes/ClassesList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Dashboard/DashboardContent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Dashboard/DashboardContent.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/FormTest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/FormTest.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/QuestionForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/manage/QuestionForm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/TestCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsEditor.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsEditor.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Users/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/UsersList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Users/UsersList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/questionTypes/MatchingQuestionForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/manage/questionTypes/MatchingQuestionForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/questionTypes/MultiChoiceQuestionForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/manage/questionTypes/MultiChoiceQuestionForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/questionTypes/ShortAnswerQuestionForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/manage/questionTypes/ShortAnswerQuestionForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/questionTypes/SingleChoiceQuestionForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/manage/questionTypes/SingleChoiceQuestionForm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/router.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/store/test/testsSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/test/testsSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/common.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/utils/validate.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/validate.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,13 +187,15 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\Question\display" />
       <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\questionTypes" />
       <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests" />
       <recent name="C:\OSPanel\domains\diploma\frontend\src\store" />
       <recent name="C:\OSPanel\domains\diploma\frontend\src\componets" />
-      <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Classes" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\Question\manage" />
+      <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\Question" />
       <recent name="C:\OSPanel\domains\diploma\frontend\public" />
       <recent name="C:\OSPanel\domains\diploma\frontend" />
     </key>
@@ -265,7 +259,11 @@
       <workItem from="1684917003388" duration="7118000" />
       <workItem from="1685003305289" duration="8785000" />
       <workItem from="1685044368862" duration="7658000" />
-      <workItem from="1685093195933" duration="14340000" />
+      <workItem from="1685093195933" duration="15214000" />
+      <workItem from="1685209834178" duration="9096000" />
+      <workItem from="1685302304758" duration="7504000" />
+      <workItem from="1685341375162" duration="21199000" />
+      <workItem from="1685439315698" duration="13197000" />
     </task>
     <servers />
   </component>

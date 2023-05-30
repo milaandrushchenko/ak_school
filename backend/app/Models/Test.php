@@ -28,4 +28,9 @@ class Test extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function questions()
+    {
+        return $this->hasMany(Questions::class, 'test_id');
+    }
 }

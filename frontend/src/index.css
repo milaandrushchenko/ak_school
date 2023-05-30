@@ -6,3 +6,7 @@ div.ql-tooltip.ql-editing {
 .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
     max-width: 1200px !important;
 }
+
+.question-content img {
+    max-width: 100%; /* Зменшуємо розмір зображення, щоб воно вміщалося в контейнер */
+}

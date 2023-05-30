@@ -27,15 +27,6 @@ export default function TestCard({test, onDelete}) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialogEdit, setOpenDialogEdit] = useState(false);
     const [openDialogDelete, setOpenDialogDelete] = useState(false);
-    const [notification, setNotification] = useState(false);
-
-    const handleCloseAlert = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setNotification(false);
-    };
 
     const handleClickOpenDialogEdit = () => {
         setOpenDialogEdit(true);
@@ -55,14 +46,15 @@ export default function TestCard({test, onDelete}) {
         setOpenDialogDelete(false);
         console.log(value);
     };
+    const handleMenuOpen = (event) => {
+        event.preventDefault();
+        setAnchorEl(event.currentTarget);
+    };
 
-    // const outputClassItem = {
-    //     id: test.id,
-    //     name: test.name,
-    //     monitor_id: test.monitor.id,
-    //     teacher_id: test.teacher.id,
-    //     student_ids: test.students.map(student => student.id)
-    // };
+   const handleMenuClose = (event) => {
+        event.preventDefault();
+        setAnchorEl(null);
+    };
 
 
     return (
@@ -77,7 +69,7 @@ export default function TestCard({test, onDelete}) {
                                     aria-label="more"
                                     aria-controls={`menu-for-${test.id}`}
                                     aria-haspopup="true"
-                                    onClick={(e) => setAnchorEl(e.currentTarget)}
+                                    onClick={handleMenuOpen}
                                 >
                                     <MoreVertIcon/>
                                 </IconButton>
@@ -85,7 +77,7 @@ export default function TestCard({test, onDelete}) {
                                     id={`menu-for-${test.id}`}
                                     anchorEl={anchorEl}
                                     open={Boolean(anchorEl)}
-                                    onClose={() => setAnchorEl(null)}
+                                    onClose={handleMenuClose}
                                 >
                                     <MenuItem
                                         onClick={handleClickOpenDialogEdit}>Редагувати</MenuItem>
@@ -128,29 +120,8 @@ export default function TestCard({test, onDelete}) {
                             <Typography> {test.time_limit ? test.time_limit + ' хвилин' : 'Необмежений у часі'}
                             </Typography>
                         </Box>
-                        {/*<Accordion>*/}
-                        {/*    <AccordionSummary expandIcon={<ExpandMore/>}>*/}
-                        {/*        <Typography>Учні:</Typography>*/}
-                        {/*    </AccordionSummary>*/}
-                        {/*    <AccordionDetails>*/}
-                        {/*        <ul style={{listStyleType: "none", padding: 0}}>*/}
-                        {/*            {test.students.map((student) => (*/}
-                        {/*                <li key={student.id}>*/}
-                        {/*                    <Button component={NavLink} to={`/students/${student.id}`}>*/}
-                        {/*                        {`${student.first_name} ${student.second_name}`}*/}
-                        {/*                    </Button>*/}
-                        {/*                </li>*/}
-                        {/*            ))}*/}
-                        {/*        </ul>*/}
-                        {/*    </AccordionDetails>*/}
-                        {/*</Accordion>*/}
                     </CardContent>
                 </Card>
-                {notification && (
-                    <Notification notification={!!notification}
-                                  handleCloseAlert={handleCloseAlert} hideDuration={3000}
-                                  text={notification}/>
-                )}
             </Link>
         </>
     )

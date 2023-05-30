@@ -16,7 +16,7 @@ export const createTest = createAsyncThunk(
     async (payload, {rejectWithValue}) => {
         try {
             console.log(payload);
-            const res = await axiosClient.post('/tests', payload);
+            const res = await axiosClient.post('/tests/create', payload);
             console.log(res.data);
             return res.data;
         } catch (error) {
@@ -36,6 +36,26 @@ export const getTests = createAsyncThunk(
     async (_, {rejectWithValue}) => {
         try {
             const res = await axiosClient.get('/tests');
+            return res.data;
+        } catch (error) {
+            if (!error.response) {
+                // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+
+    }
+);
+
+export const addQuestion = createAsyncThunk(
+    "tests/addQuestion",
+    async ({test_id, values}, {rejectWithValue}) => {
+        try {
+            console.log(values);
+            const res = await axiosClient.post(`/tests/add-questions/${test_id}`, values);
+            console.log(res.data);
             return res.data;
         } catch (error) {
             if (!error.response) {
@@ -69,8 +89,6 @@ const testsSlice = createSlice({
             );
         },
         getTestById: (state, {payload}) => {
-            console.log(payload);
-            console.log(state.visibleData);
             state.test = state.visibleData.find(test => test.id === parseInt(payload))
         },
     },
@@ -84,6 +102,19 @@ const testsSlice = createSlice({
             state.visibleData.unshift(action.payload);
         });
         builder.addCase(createTest.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.errors = action.payload;
+        });
+        builder.addCase(addQuestion.pending, (state) => {
+            // state.isLoading = true;
+        });
+        builder.addCase(addQuestion.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            console.log(action.payload);
+            state.test.questions.push(action.payload);
+            // state.visibleData.unshift(action.payload);
+        });
+        builder.addCase(addQuestion.rejected, (state, action) => {
             state.status = 'rejected';
             state.errors = action.payload;
         });

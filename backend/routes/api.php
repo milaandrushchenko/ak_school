@@ -44,6 +44,16 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/users/new-password/{user}', [UserController::class, 'newPassword']);
     });
 
+
+    Route::group(['middleware' => ['permission:create tests']], function () {
+        Route::post('/tests/create', [TestController::class, 'store']);
+
+    });
+
+    Route::group(['middleware' => ['permission:update tests' , ]], function () {
+        Route::post('/tests/add-questions/{test_id}', [TestController::class, 'addQuestions']);
+    });
+
     Route::apiResource('/classes', ClassesController::class);
     Route::apiResource('/tests', TestController::class);
     Route::apiResource('/roles', RoleController::class);

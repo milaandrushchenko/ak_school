@@ -6,7 +6,7 @@ import {
     alpha,
     Button,
     Card,
-    CardContent,
+    CardContent, Chip,
     CircularProgress,
     InputBase, Menu,
     MenuItem
@@ -32,7 +32,17 @@ import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import ShortTextIcon from '@mui/icons-material/ShortText';
-import QuestionForm from "./QuestionForm.jsx";
+import QuestionForm from "./Question/manage/QuestionForm.jsx";
+import {QUESTION} from "../../utils/constans.js";
+import ShortAnswerQuestionForm from "./Question/manage/questionTypes/ShortAnswerQuestionForm.jsx";
+import MultiChoiceQuestionForm from "./Question/manage/questionTypes/MultiChoiceQuestionForm.jsx";
+import SingleChoiceQuestionForm from "./Question/manage/questionTypes/SingleChoiceQuestionForm.jsx";
+import MatchingQuestionForm from "./Question/manage/questionTypes/MatchingQuestionForm.jsx";
+import ShortAnswerQuestion from "./Question/display/questionTypes/ShortAnswerQuestion.jsx";
+import MultiChoiceQuestion from "./Question/display/questionTypes/MultiChoiceQuestion.jsx";
+import SingleChoiceQuestion from "./Question/display/questionTypes/SingleChoiceQuestion.jsx";
+import MatchingQuestion from "./Question/display/questionTypes/MatchingQuestion.jsx";
+import Notification from "../core/Notification.jsx";
 
 export default function TestsEditor() {
     const navigate = useNavigate();
@@ -53,8 +63,13 @@ export default function TestsEditor() {
 
     const [selectedTaskType, setSelectedTaskType] = useState('');
 
-    const [anchorEl, setAnchorEl] =useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     const openMenu = Boolean(anchorEl);
+
+    const sumOfScores = test?.questions?.reduce((accumulator, question) => {
+        const score = parseFloat(question.score); // Перетворення рядка на число
+        return accumulator + score;
+    }, 0);
 
     const handleClickOpenQuestionForm = (value) => {
         setSelectedTaskType(value);
@@ -62,8 +77,10 @@ export default function TestsEditor() {
         handleCloseMenu();
     };
 
-    const handleClickCloseQuestionForm = () => {
+    const handleClickCloseQuestionForm = (value) => {
+        console.log(value);
         setOpenQuestionForm(false);
+        if (value) setNotification(`Запитання успішно додано!`);
     };
     const handleClickMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -97,6 +114,7 @@ export default function TestsEditor() {
         setPage(0);
     };
 
+    console.log(test);
     const handleDelete = () => {
         setNotification('Клас був успішно видалений');
     }
@@ -111,150 +129,190 @@ export default function TestsEditor() {
     }, [])
 
     return (
-        <Grid container justifyContent="space-between"
-              style={{flexWrap: 'wrap', paddingBottom: 5}}
-              className={styles['no-padding-top']} spacing={2}>
-            <Grid item xs={12} lg={9}>
-                <Paper sx={{padding: '20px'}}>
-                    <Typography component="h2" variant="h6" sx={{paddingBottom: '5px'}}> <span
-                        style={{color: 'gray'}}>Тест:</span> {test?.title}
-                    </Typography>
-                    <Box display="flex" alignItems="center">
-                        <QueryBuilderIcon style={{marginRight: 10}}/>
-                        <Typography
-                            sx={{color: 'gray', fontStyle: 'italic', paddingRight: '5px'}}>
-                            {'Дата вікриття :'} </Typography>
-                        <Typography> {formattedDate(test?.start_time)}
-                        </Typography>
-                    </Box>
-                    <Box style={{paddingTop: 5}} display="flex" alignItems="center">
-                        <QueryBuilderIcon style={{marginRight: 10}}/>
-                        <Typography
-                            sx={{color: 'gray', fontStyle: 'italic', paddingRight: '5px'}}>
-                            Дата закриття:</Typography>
-                        <Typography>
-                            {formattedDate(test?.end_time)}
-                        </Typography>
-                    </Box>
-                    <Box style={{paddingTop: 5}} display="flex" alignItems="center">
-                        <TimerIcon style={{marginRight: 10}}/>
-                        <Typography
-                            sx={{color: 'gray', fontStyle: 'italic', paddingRight: '5px'}}>
-                            Тривалість:</Typography>
-                        <Typography> {test?.time_limit ? test?.time_limit + ' хвилин' : 'Необмежений у часі'}
-                        </Typography>
-                    </Box>
-                </Paper>
-            </Grid>
-            <Grid item xs={12} lg={3}>
-                <Box display="flex" flexWrap="wrap">
-                    <Button
-                        color="secondary"
-                        style={{
-                            backgroundColor: theme.palette.secondary.main,
-                            color: 'white',
-                            width: '100%'
-                        }}
-                        // onClick={handleClickOpen}
-                        startIcon={<QuestionMarkIcon/>}
-                        endIcon={<KeyboardArrowDownIcon/>}
-                        variant="contained"
-                        disableElevation
-                        onClick={handleClickMenu}
-                    >
-                        Додати нове запитання
-                    </Button>
-                    <Menu
-                        id="fade-menu"
-                        MenuListProps={{
-                            'aria-labelledby': 'fade-button',
-                        }}
-                        anchorEl={anchorEl}
-                        open={openMenu}
-                        onClose={handleCloseMenu}
-                        PaperProps={{
-                            style: {// Встановлює ширину на 100%
-                            },
-                        }}
-                    >
-                        <MenuItem   onClick={()=>handleClickOpenQuestionForm('single-answer')} disableRipple>
-                            <RadioButtonCheckedIcon sx={{ marginRight: '8px' }}/>
-                            З однією правильною відовіддю
-                        </MenuItem>
-                        <MenuItem onClick={()=>handleClickOpenQuestionForm('multiple-answers')} disableRipple>
-                            <FormatListBulletedIcon sx={{ marginRight: '8px' }}/>
-                            З кількома правильними відповідями
-                        </MenuItem>
-                        <MenuItem onClick={()=>handleClickOpenQuestionForm('matching')} disableRipple>
-                            <SyncAltIcon sx={{ marginRight: '8px' }}/>
-                            На встановлення відповідності
-                        </MenuItem>
-                        <MenuItem onClick={()=>handleClickOpenQuestionForm('short-answer')} disableRipple>
-                            <ShortTextIcon sx={{ marginRight: '8px' }}/>
-                            Коротка відповідь
-                        </MenuItem>
-                    </Menu>
-                    <QuestionForm open={openQuestionForm}
-                              onClose={handleClickCloseQuestionForm} type={selectedTaskType}/>
-                    <Button
-                        color="primary"
-                        style={{
-                            backgroundColor: theme.palette.secondary.main,
-                            color: 'white',
-                            marginTop: 10,
-                            width: '100%'
-
-                        }}
-                        startIcon={<LockPersonIcon/>}
-                        // onClick={handleClickOpen}
-                    >
-                        Керувати доступом
-                    </Button>
-                    <Button
-                        variant="contained"
-                        style={{
-                            marginTop: 10,
-                            width: '100%',
-                            backgroundColor: test?.is_active === 0 ? 'green' : 'red'
-                        }}
-                        startIcon={test?.is_active === 0 ? <KeyIcon/> : <KeyOffIcon/>}
-                    >
-                        Активувати тест
-                    </Button>
+        <>
+            {isLoading &&
+                <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                    <CircularProgress/>
                 </Box>
-            </Grid>
-        </Grid>
-        // {isLoading &&
-        //     <Box sx={{display: 'flex', justifyContent: 'center'}}>
-        //         <CircularProgress/>
-        //     </Box>
-        // }
-        // {!isLoading &&
-        //     <>
-        //         <div style={{maxWidth: '100px'}} dangerouslySetInnerHTML={{__html: text}}/>
-        //         <Grid container spacing={2}>
-        //             {displayedTests.map((test) => (
-        //                 <Grid key={test.id} item xs={12} sm={6} md={6}>
-        //                     <TestCard test={test} onDelete={handleDelete}/>
-        //                 </Grid>
-        //             ))}
-        //         </Grid>
-        //         <TablePagination
-        //             rowsPerPageOptions={[6, 12, 24, 68]}
-        //             component="div"
-        //             count={tests.length}
-        //             page={page}
-        //             onPageChange={handleChangePage}
-        //             rowsPerPage={rowsPerPage}
-        //             onRowsPerPageChange={handleChangeRowsPerPage}
-        //             labelRowsPerPage="Кількість на сторінці:"
-        //         />
-        //         {notification && (
-        //             <Notification notification={!!notification}
-        //                           handleCloseAlert={handleCloseAlert} hideDuration={3000}
-        //                           text={notification}/>
-        //         )}
-        //     </>
-        // }
+            }
+            {
+                !isLoading && test &&
+                <>
+                    <Grid container justifyContent="space-between"
+                          style={{flexWrap: 'wrap', paddingBottom: 5}}
+                          className={styles['no-padding-top']} spacing={2}>
+                        <Grid item xs={12} lg={9}>
+                            <Paper sx={{padding: '20px'}}>
+                                <Typography component="h2" variant="h6" sx={{paddingBottom: '5px'}}> <span
+                                    style={{color: 'gray'}}>Тест:</span> {test?.title}
+                                </Typography>
+                                <Box display="flex" alignItems="center">
+                                    <QueryBuilderIcon style={{marginRight: 10}}/>
+                                    <Typography
+                                        sx={{
+                                            color: 'gray',
+                                            fontStyle: 'italic',
+                                            paddingRight: '5px'
+                                        }}>
+                                        {'Дата вікриття :'} </Typography>
+                                    <Typography> {formattedDate(test?.start_time)}
+                                    </Typography>
+                                </Box>
+                                <Box style={{paddingTop: 5}} display="flex" alignItems="center">
+                                    <QueryBuilderIcon style={{marginRight: 10}}/>
+                                    <Typography
+                                        sx={{
+                                            color: 'gray',
+                                            fontStyle: 'italic',
+                                            paddingRight: '5px'
+                                        }}>
+                                        Дата закриття:</Typography>
+                                    <Typography>
+                                        {formattedDate(test?.end_time)}
+                                    </Typography>
+                                </Box>
+                                <Box style={{paddingTop: 5}} display="flex" alignItems="center">
+                                    <TimerIcon style={{marginRight: 10}}/>
+                                    <Typography
+                                        sx={{
+                                            color: 'gray',
+                                            fontStyle: 'italic',
+                                            paddingRight: '5px'
+                                        }}>
+                                        Тривалість:</Typography>
+                                    <Typography> {test?.time_limit ? test?.time_limit + ' хвилин' : 'Необмежений у часі'}
+                                    </Typography>
+                                </Box>
+                            </Paper>
+                            {test.questions?.map((question, index) => (
+                                <Paper key={index} sx={{padding: '20px', marginTop: '10px'}}>
+                                    <Chip
+                                        label={`Запитання ${index + 1}/${test.questions.length}`}/>
+                                    <span style={{
+                                        color: 'gray',
+                                        marginLeft: '5px'
+                                    }}>Балів: {question.score}/{sumOfScores}</span>
+                                    <Typography component="div" variant="body1"
+                                                sx={{paddingBottom: '5px'}}>
+                                        <div
+                                            style={{maxWidth: '90%', overflow: 'hidden'}}
+                                            dangerouslySetInnerHTML={{__html: question.question}}
+                                            className="question-content"
+                                        />
+                                    </Typography>
+                                    {question.type === QUESTION.SHORT_ANSWER &&
+                                        <ShortAnswerQuestion
+                                            options={JSON.parse(question.options)}/>}
+                                    {question.type === QUESTION.MULTIPLE_CHOICE && (
+                                        <MultiChoiceQuestion
+                                            options={JSON.parse(question.options)}/>
+                                    )}
+                                    {question.type === QUESTION.SINGLE_CHOICE &&
+                                        <SingleChoiceQuestion
+                                            options={JSON.parse(question.options)}/>}
+                                    {question.type === QUESTION.MATCHING && (
+                                        <MatchingQuestion options={JSON.parse(question.options)}/>
+                                    )}
+                                </Paper>
+                            ))}
+
+                        </Grid>
+                        <Grid item xs={12} lg={3}>
+                            <Box display="flex" flexWrap="wrap">
+                                <Button
+                                    color="secondary"
+                                    style={{
+                                        backgroundColor: theme.palette.secondary.main,
+                                        color: 'white',
+                                        width: '100%'
+                                    }}
+                                    // onClick={handleClickOpen}
+                                    startIcon={<QuestionMarkIcon/>}
+                                    endIcon={<KeyboardArrowDownIcon/>}
+                                    variant="contained"
+                                    disableElevation
+                                    onClick={handleClickMenu}
+                                >
+                                    Додати нове запитання
+                                </Button>
+                                <Menu
+                                    id="fade-menu"
+                                    MenuListProps={{
+                                        'aria-labelledby': 'fade-button',
+                                    }}
+                                    anchorEl={anchorEl}
+                                    open={openMenu}
+                                    onClose={handleCloseMenu}
+                                    PaperProps={{
+                                        style: {// Встановлює ширину на 100%
+                                        },
+                                    }}
+                                >
+                                    <MenuItem
+                                        onClick={() => handleClickOpenQuestionForm(QUESTION.SINGLE_CHOICE)}
+                                        disableRipple>
+                                        <RadioButtonCheckedIcon sx={{marginRight: '8px'}}/>
+                                        З однією правильною відовіддю
+                                    </MenuItem>
+                                    <MenuItem
+                                        onClick={() => handleClickOpenQuestionForm(QUESTION.MULTIPLE_CHOICE)}
+                                        disableRipple>
+                                        <FormatListBulletedIcon sx={{marginRight: '8px'}}/>
+                                        З кількома правильними відповідями
+                                    </MenuItem>
+                                    <MenuItem
+                                        onClick={() => handleClickOpenQuestionForm(QUESTION.MATCHING)}
+                                        disableRipple>
+                                        <SyncAltIcon sx={{marginRight: '8px'}}/>
+                                        На встановлення відповідності
+                                    </MenuItem>
+                                    <MenuItem
+                                        onClick={() => handleClickOpenQuestionForm(QUESTION.SHORT_ANSWER)}
+                                        disableRipple>
+                                        <ShortTextIcon sx={{marginRight: '8px'}}/>
+                                        Коротка відповідь
+                                    </MenuItem>
+                                </Menu>
+                                <QuestionForm open={openQuestionForm}
+                                              onClose={handleClickCloseQuestionForm}
+                                              type={selectedTaskType}/>
+                                <Button
+                                    color="primary"
+                                    style={{
+                                        backgroundColor: theme.palette.secondary.main,
+                                        color: 'white',
+                                        marginTop: 10,
+                                        width: '100%'
+
+                                    }}
+                                    startIcon={<LockPersonIcon/>}
+                                    // onClick={handleClickOpen}
+                                >
+                                    Керувати доступом
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    style={{
+                                        marginTop: 10,
+                                        width: '100%',
+                                        backgroundColor: test?.is_active === 0 ? 'green' : 'red'
+                                    }}
+                                    startIcon={test?.is_active === 0 ? <KeyIcon/> : <KeyOffIcon/>}
+                                >
+                                    Активувати тест
+                                </Button>
+                            </Box>
+                        </Grid>
+                    </Grid>
+                    {
+                        notification && (
+                            <Notification notification={!!notification}
+                                          handleCloseAlert={handleCloseAlert} hideDuration={3000}
+                                          text={notification}/>
+                        )
+                    }
+                </>
+            }
+        </>
     );
 }

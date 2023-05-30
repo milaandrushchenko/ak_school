@@ -6,7 +6,7 @@ import {
     TextField,
     Typography, Alert
 } from "@mui/material";
-import TextEditor from "../../core/TextEditor.jsx";
+import TextEditor from "../../../../core/TextEditor.jsx";
 import {FormikProvider, useFormik} from "formik";
 import * as Yup from "yup";
 import {AddCircle} from "@mui/icons-material";

@@ -3,11 +3,11 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle,
+    DialogTitle, TextField,
 } from "@mui/material";
 import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {clearErrors, createClass, getClasses, updateClass} from "../../store/class/classesSlice.js";
+import {clearErrors, createClass, getClasses, updateClass} from "../../../../store/class/classesSlice.js";
 import {FormikProvider, useFormik, useFormikContext} from 'formik';
 import 'react-quill/dist/quill.snow.css';
 import * as Yup from 'yup';
@@ -16,22 +16,28 @@ import SingleChoiceQuestionForm from "./questionTypes/SingleChoiceQuestionForm.j
 import MultiChoiceQuestionForm from "./questionTypes/MultiChoiceQuestionForm.jsx";
 import MatchingQuestionForm from "./questionTypes/MatchingQuestionForm.jsx";
 import ShortAnswerQuestionForm from "./questionTypes/ShortAnswerQuestionForm.jsx";
-import TextEditor from "../core/TextEditor.jsx";
+import TextEditor from "../../../core/TextEditor.jsx";
 import {
     initialValuesMatching,
     initialValuesMultipleAnswers, initialValuesShortAnswer,
     initialValuesSingleChoice, validationSchemaMatching,
     validationSchemaMultipleAnswers, validationSchemaShortAnswer,
     validationSchemaSingleChoice
-} from "../../utils/validate.js";
+} from "../../../../utils/validate.js";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import {createUser, updateUser} from "../../../../store/user/usersSlice.js";
+import {addQuestion} from "../../../../store/test/testsSlice.js";
+import {QUESTION} from "../../../../utils/constans.js";
 
 export default function QuestionForm({open, onClose, type, question}) {
     const dispatch = useDispatch();
-    let errorsServer = useSelector((state) => state.tests.errors)
+    let test = useSelector((state) => state.tests.test)
     const close = (value) => {
+        console.log('close');
         onClose(value);
         dispatch(clearErrors());
-        formik.resetForm(initialValues);
+        // formik.resetForm(initialValues);
         formik.setErrors({});
     }
 
@@ -39,19 +45,19 @@ export default function QuestionForm({open, onClose, type, question}) {
     let initialValues;
 
     switch (type) {
-        case 'single-answer':
+        case QUESTION.SINGLE_CHOICE:
             validationSchema = validationSchemaSingleChoice;
             initialValues = initialValuesSingleChoice;
             break;
-        case 'multiple-answers':
+        case QUESTION.MULTIPLE_CHOICE:
             validationSchema = validationSchemaMultipleAnswers;
             initialValues = initialValuesMultipleAnswers;
             break;
-        case 'matching':
+        case QUESTION.MATCHING:
             validationSchema = validationSchemaMatching;
             initialValues = initialValuesMatching;
             break;
-        case 'short-answer':
+        case QUESTION.SHORT_ANSWER:
             validationSchema = validationSchemaShortAnswer;
             initialValues = initialValuesShortAnswer;
             break;
@@ -66,7 +72,23 @@ export default function QuestionForm({open, onClose, type, question}) {
         validationSchema: validationSchema,
         enableReinitialize: true, // Увімкнути оновлення значень initialValues
         onSubmit: async (values, {setErrors, setSubmitting}) => {
-            console.log(values);
+            if (!question) {
+                const test_id = test.id;
+                const resultAction = await dispatch(addQuestion({test_id, values}));
+                if (addQuestion.fulfilled.match(resultAction)) {
+                    close(true);
+                }
+            } else {
+                // console.log(values)
+                // let data = Object.assign({}, values);
+                // delete data.password;
+                // let id = data.id;
+                // const resultAction = await dispatch(updateUser({id, data}));
+                // if (updateUser.fulfilled.match(resultAction)) {
+                //     console.log('user updated');
+                //     close(true);
+                // }
+            }
         }
     });
 
@@ -108,12 +130,45 @@ export default function QuestionForm({open, onClose, type, question}) {
                                 error={touched.question && !!errors.question}
                                 helperText={touched.question && errors.question}
                             />
-                            {type === 'short-answer' && <ShortAnswerQuestionForm formik={formik}/>}
-                            {type === 'multiple-answers' && (
+                            <Grid container spacing={2} alignItems="center">
+                                <Grid item xs={6}>
+                                    <Typography variant="subtitle1" component="label"
+                                                sx={{
+                                                    fontWeight: 'bold',
+                                                    color: 'grey.500',
+                                                    display: 'block',
+                                                    textAlign: 'right'
+                                                }}>Кількість балів:</Typography>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        type="number"
+                                        fullWidth
+                                        style={{width: '100px'}}
+                                        margin="normal"
+                                        value={values.score !== undefined ? values.score : ''}
+                                        id="score"
+                                        name="score"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        error={touched.score && !!errors.score}
+                                        helperText={touched.score && errors.score}
+                                        inputProps={{
+                                            min: 0,
+                                            max: 100,
+                                        }}
+                                    />
+                                </Grid>
+                            </Grid>
+
+                            {type === QUESTION.SHORT_ANSWER &&
+                                <ShortAnswerQuestionForm formik={formik}/>}
+                            {type === QUESTION.MULTIPLE_CHOICE && (
                                 <MultiChoiceQuestionForm formik={formik}/>
                             )}
-                            {type === 'single-answer' && <SingleChoiceQuestionForm formik={formik}/>}
-                            {type === 'matching' && (
+                            {type === QUESTION.SINGLE_CHOICE &&
+                                <SingleChoiceQuestionForm formik={formik}/>}
+                            {type === QUESTION.MATCHING && (
                                 <MatchingQuestionForm formik={formik}/>
                             )}
                         </DialogContent>
