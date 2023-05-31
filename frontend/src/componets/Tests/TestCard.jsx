@@ -29,6 +29,7 @@ export default function TestCard({test, onDelete}) {
     const [openDialogDelete, setOpenDialogDelete] = useState(false);
 
     const handleClickOpenDialogEdit = () => {
+        event.stopPropagation();
         setOpenDialogEdit(true);
     };
 
@@ -48,6 +49,7 @@ export default function TestCard({test, onDelete}) {
     };
     const handleMenuOpen = (event) => {
         event.preventDefault();
+        event.stopPropagation();
         setAnchorEl(event.currentTarget);
     };
 

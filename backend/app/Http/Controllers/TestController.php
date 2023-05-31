@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreQuestionsRequest;
 use App\Http\Requests\StoreTestRequest;
+use App\Http\Requests\UpdateTestRequest;
 use App\Http\Resources\TestResource;
 use App\Models\Questions;
 use App\Models\Test;
@@ -58,17 +59,23 @@ class TestController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateTestRequest $request, Test $test)
     {
-        //
+        $data = $request->validated();
+
+        $test->update($data);
+
+        return response(new TestResource($test), 201);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Test $test)
     {
-        //
+        $test->delete();
+
+        return response('test was deleted', 204);
     }
 
     public function addQuestions(StoreQuestionsRequest $request, string $id)

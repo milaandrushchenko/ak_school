@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axiosClient from "../../axios-client.js";
 import {createUser, deleteUser, getUsers, updateUser} from "../user/usersSlice.js";
+import {deleteClass} from "../class/classesSlice.js";
 
 const initialState = {
     test: {},
@@ -19,6 +20,44 @@ export const createTest = createAsyncThunk(
             const res = await axiosClient.post('/tests/create', payload);
             console.log(res.data);
             return res.data;
+        } catch (error) {
+            if (!error.response) {
+                // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+
+    }
+);
+
+export const updateTest = createAsyncThunk(
+    "tests/updateTest",
+    async ({id, formData}, {rejectWithValue}) => {
+        try {
+            const res = await axiosClient.put(`/tests/${id}`, formData);
+            console.log(res.data);
+            return res.data;
+        } catch (error) {
+            if (!error.response) {
+                // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+
+    }
+);
+
+export const deleteTest = createAsyncThunk(
+    "tests/deleteTest",
+    async ({id, test}, {rejectWithValue}) => {
+        try {
+            const res = await axiosClient.delete(`/tests/${id}`);
+            console.log(res);
+            return test;
         } catch (error) {
             if (!error.response) {
                 // Якщо немає відповіді від сервера
@@ -89,7 +128,7 @@ const testsSlice = createSlice({
             );
         },
         getTestById: (state, {payload}) => {
-            state.test = state.visibleData.find(test => test.id === parseInt(payload))
+            state.test = state.visibleData.find(test => test.id === parseInt(payload));
         },
     },
     extraReducers: (builder) => {
@@ -102,6 +141,30 @@ const testsSlice = createSlice({
             state.visibleData.unshift(action.payload);
         });
         builder.addCase(createTest.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.errors = action.payload;
+        });
+        builder.addCase(updateTest.pending, (state) => {
+            // state.isLoading = true;
+        });
+        builder.addCase(updateTest.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.tests = state.tests.map(test => test.id === action.payload.id ? action.payload : test)
+            state.test = action.payload;
+        });
+        builder.addCase(updateTest.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.errors = action.payload;
+        });
+        builder.addCase(deleteTest.pending, (state) => {
+            //state.isLoading = true;
+        });
+        builder.addCase(deleteTest.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.tests = state.tests.filter(test => test.id !== action.payload.id);
+            state.visibleData = state.tests;
+        });
+        builder.addCase(deleteTest.rejected, (state, action) => {
             state.status = 'rejected';
             state.errors = action.payload;
         });

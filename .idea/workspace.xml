@@ -5,29 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="369ea667-65c6-4f76-97c2-3e996c2a7e9c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/app/Models/Questions.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/MatchingQuestion.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/MultiChoiceQuestion.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/ShortAnswerQuestion.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/SingleChoiceQuestion.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/utils/constans.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Resources/TestResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Resources/TestResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Test.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Test.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateTestRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateTestRequest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/QuestionForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/manage/QuestionForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/DefaultLayout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/DefaultLayout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/DeleteTest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/DeleteTest.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/FormTest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/FormTest.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/TestCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestCard.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsEditor.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsEditor.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/questionTypes/MatchingQuestionForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/manage/questionTypes/MatchingQuestionForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/questionTypes/MultiChoiceQuestionForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/manage/questionTypes/MultiChoiceQuestionForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/questionTypes/ShortAnswerQuestionForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/manage/questionTypes/ShortAnswerQuestionForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/questionTypes/SingleChoiceQuestionForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/manage/questionTypes/SingleChoiceQuestionForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/store/test/testsSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/test/testsSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/validate.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/validate.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,22 +157,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/OSPanel/domains/diploma",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PhpStorm 2020.3.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/OSPanel/domains/diploma&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\PhpStorm 2020.3.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\Question\display" />
@@ -263,7 +251,8 @@
       <workItem from="1685209834178" duration="9096000" />
       <workItem from="1685302304758" duration="7504000" />
       <workItem from="1685341375162" duration="21199000" />
-      <workItem from="1685439315698" duration="13197000" />
+      <workItem from="1685439315698" duration="21039000" />
+      <workItem from="1685516184977" duration="23054000" />
     </task>
     <servers />
   </component>

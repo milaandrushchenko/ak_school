@@ -11,7 +11,7 @@ class UpdateTestRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class UpdateTestRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:1000',
+            'time_limit' => 'nullable|integer|max:180',
+            'created_by' => 'exists:users,id',
+            'access_type' => 'in:public,private',
+            'max_attempts' => 'nullable|integer',
+            'is_active' => 'nullable|boolean',
+            'start_time' => 'nullable|date',
+            'end_time' => 'nullable|date',
         ];
     }
 }

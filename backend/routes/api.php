@@ -52,6 +52,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::group(['middleware' => ['permission:update tests' , ]], function () {
         Route::post('/tests/add-questions/{test_id}', [TestController::class, 'addQuestions']);
+        Route::put('/tests/{test}', [TestController::class, 'update']);
+    });
+    Route::group(['middleware' => ['permission:delete tests' , ]], function () {
+        Route::delete('/tests/{test}', [TestController::class, 'destroy']);
     });
 
     Route::apiResource('/classes', ClassesController::class);

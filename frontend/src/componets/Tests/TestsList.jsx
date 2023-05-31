@@ -73,7 +73,7 @@ export default function TestsList() {
 
     const handleClose = (value) => {
         setOpen(false);
-        if (value) setNotification('Клас успішно доданий в систему');
+        if (value) setNotification('Тест успішно доданий в систему');
     };
 
     const displayedTests = visibleData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
@@ -85,9 +85,6 @@ export default function TestsList() {
     useEffect(() => {
         dispatch(getTests());
     }, [])
-
-
-    let text = localStorage.getItem('text');
 
     return (
         <>
@@ -153,7 +150,6 @@ export default function TestsList() {
             }
             {!isLoading &&
                 <>
-                    <div style={{maxWidth: '100px'}} dangerouslySetInnerHTML={{__html: text}}/>
                     <Grid container spacing={2}>
                         {displayedTests.map((test) => (
                             <Grid key={test.id} item xs={12} sm={6} md={6}>

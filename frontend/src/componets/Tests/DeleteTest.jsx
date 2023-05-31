@@ -6,16 +6,17 @@ import MuiAlert from "@mui/material/Alert";
 import {deleteClass, getClasses} from "../../store/class/classesSlice.js";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {deleteTest} from "../../store/test/testsSlice.js";
 
 
-export default function DeleteTest({classItem, open, onClose}) {
+export default function DeleteTest({test, open, onClose}) {
     const dispatch = useDispatch();
 
     const onDelete = async () => {
-        const {id} = classItem;
+        const {id} = test;
 
-        const resultAction = await dispatch(deleteClass({id, classItem}));
-        if (deleteClass.fulfilled.match(resultAction)) {
+        const resultAction = await dispatch(deleteTest({id, test}));
+        if (deleteTest.fulfilled.match(resultAction)) {
             console.log(resultAction.payload);
             onClose(true);
 
@@ -27,9 +28,9 @@ export default function DeleteTest({classItem, open, onClose}) {
             <div>
 
                 <Dialog open={open} onClose={() => onClose(false)}>
-                    <DialogTitle>Видалення класу</DialogTitle>
+                    <DialogTitle>Видалення тесту</DialogTitle>
                     <DialogContent>
-                        <p>Ви дійсно хочете видалити даний клас?</p>
+                        <p>Ви дійсно хочете видалити даний тест?</p>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => onClose(false)}>Скасувати</Button>

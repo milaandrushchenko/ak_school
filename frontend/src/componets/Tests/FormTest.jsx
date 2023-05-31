@@ -2,86 +2,66 @@ import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
-    Button, Chip,
+    Button,
     Dialog,
     DialogActions,
     DialogContent,
-    DialogContentText,
     DialogTitle,
-    FormControl,
-    FormHelperText,
-    InputAdornment,
-    InputLabel,
-    MenuItem, OutlinedInput,
-    Select,
-    Snackbar,
     TextField
 } from "@mui/material";
-import Grid from "@mui/material/Grid";
-import {ExpandMore, Visibility, VisibilityOff} from '@mui/icons-material';
+import {ExpandMore} from '@mui/icons-material';
 import IconButton from "@mui/material/IconButton";
-import React, {useEffect, useRef, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import MuiAlert from '@mui/material/Alert';
-import {generatePassword} from '../../utils/common'
 import {useDispatch, useSelector} from "react-redux";
-import {clearErrors, createClass, getClasses, updateClass} from "../../store/class/classesSlice.js";
 import {FormikProvider, useFormik, useFormikContext} from 'formik';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import * as Yup from 'yup';
-import Notification from "../core/Notification.jsx";
-import {fetchStudentsWithoutClass, getUsers, updateUser} from "../../store/user/usersSlice.js";
 import {DateTimePicker} from '@mui/x-date-pickers/DateTimePicker';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import ClearIcon from '@mui/icons-material/Clear';
-
 import 'dayjs/locale/uk';
-import {me} from "../../store/user/currentUserSlice.js";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import {createTest} from "../../store/test/testsSlice.js";
+import {clearErrors, createTest, updateTest} from "../../store/test/testsSlice.js";
 
-const ITEM_HEIGHT = 40;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250,
-        },
-    },
-};
 const currentDate = dayjs();
 
-const validationSchema = Yup.object().shape({
-    title: Yup.string().required('Обов\'язкове поле'),
-    start_time: Yup.date()
-        .nullable()
-        .test('less-than-end_time', 'Дата початку повинна бути меншою за дату завершення.', function (value) {
-            const end_time = this.parent.end_time;
-            return value === null || end_time === null || value < end_time;
-        }).min(currentDate, 'Дата початку має бути обрана починаючи від поточної.'),
-    end_time: Yup.date()
-        .nullable()
-        .test('more-than-start_time', 'Дата завершення повинна бути більшою за дату початку.', function (value) {
-            const start_time = this.parent.start_time;
-            return value === null || start_time === null || value > start_time;
-        }).min(currentDate, 'Дата завершення має бути обрана починаючи від поточної.'),
-    attempts: Yup.number().nullable().max(10, 'Максимальна кількість спроб становить 10'),
-    time_limit: Yup.number()
-        .nullable()
-        .min(5, 'Мінімальна тривалість тесту 5 хвилин')
-        .max(180, 'Максимальна тривалість тесту 180 хвилин'),
-});
+const createValidationSchema = (minStartTime, minEndTime) => {
+    let minStartDate = minStartTime ? minStartTime : currentDate;
+    let minEndDate = minEndTime ? minEndTime : currentDate;
+    return Yup.lazy(values => {
+        return Yup.object().shape({
+            title: Yup.string().required('Обов\'язкове поле'),
+            start_time: Yup.date()
+                .nullable()
+                .test('less-than-end_time', 'Дата початку повинна бути меншою за дату завершення.', function (value) {
+                    const end_time = values.end_time;
+                    return value === null || end_time === null || value < end_time;
+                })
+                .min(minStartDate, 'Дата початку має бути обрана починаючи від поточної.'),
+            end_time: Yup.date()
+                .nullable()
+                .test('more-than-start_time', 'Дата завершення повинна бути більшою за дату початку.', function (value) {
+                    const start_time = values.start_time;
+                    return value === null || start_time === null || value > start_time;
+                })
+                .min(minEndDate, 'Дата завершення має бути обрана починаючи від поточної.'),
+            max_attempts: Yup.number().nullable().max(10, 'Максимальна кількість спроб становить 10'),
+            time_limit: Yup.number()
+                .nullable()
+                .min(5, 'Мінімальна тривалість тесту 5 хвилин')
+                .max(180, 'Максимальна тривалість тесту 180 хвилин'),
+        });
+    });
+};
+
 
 const initialValues = {
     title: '',
     start_time: null,
     end_time: null,
-    attempts: '',
+    max_attempts: 0,
     access_type: 'public',
     is_active: 0,
     time_limit: '',
@@ -99,44 +79,30 @@ export default function FormTest({open, onClose, test}) {
 
     const formik = useFormik({
         initialValues: test ? {...test} : {...initialValues},
-        validationSchema,
+        validationSchema: createValidationSchema(test ? test.start_time : currentDate, test ? test.end_time : currentDate),
+        enableReinitialize: true, // Увімкнути оновлення значень initialValues
         onSubmit: async (values, {setErrors, setSubmitting}) => {
             const {start_time, end_time, ...otherValues} = values;
-
             const formData = {
                 ...otherValues,
                 start_time: start_time ? start_time.format('YYYY-MM-DD HH:mm:ss') : null,
                 end_time: end_time ? end_time.format('YYYY-MM-DD HH:mm:ss') : null
             };
 
-            console.log(formData);
-            close(true);
             if (!test) {
                 const resultAction = await dispatch(createTest(formData));
-                if (createClass.fulfilled.match(resultAction)) {
-                    console.log('test added');
+                if (createTest.fulfilled.match(resultAction)) {
+                    close(true);
+                }
+            } else {
+                let id = test.id;
+                const resultAction = await dispatch(updateTest({id, formData}));
+                if (updateTest.fulfilled.match(resultAction)) {
                     close(true);
                 }
             }
-            // else {
-            //     let id = test.id;
-            //     console.log(id);
-            //     const resultAction = await dispatch(updateClass({id, values}));
-            //     if (updateClass.fulfilled.match(resultAction)) {
-            //         console.log('class updated');
-            //         console.log(values);
-            //         close(true);
-            //     }
-            // }
         }
     });
-
-
-    const [text, setText] = useState('');
-
-    const handleEditorChange = (value) => {
-        setText(value);
-    };
 
     return (
         <>
@@ -210,7 +176,7 @@ export default function FormTest({open, onClose, test}) {
                                                             helperText: formik.errors?.start_time,
                                                         },
                                                     }}
-                                                    minDate={currentDate}
+                                                    minDate={test ? test.start_time : currentDate}
                                                 />
 
                                                 {formik.values.start_time !== null && (
@@ -242,7 +208,7 @@ export default function FormTest({open, onClose, test}) {
                                                     onChange={(newValue) => {
                                                         formik.setFieldValue('end_time', newValue);
                                                     }}
-                                                    minDate={currentDate}
+                                                    minDate={test ? test.end_time : currentDate}
                                                 />
                                                 {formik.values.end_time !== null && (
                                                     <IconButton
@@ -259,8 +225,8 @@ export default function FormTest({open, onClose, test}) {
                                     </LocalizationProvider>
                                     <TextField
                                         margin="dense"
-                                        id="attempts"
-                                        name="attempts"
+                                        id="max_attempts"
+                                        name="max_attempts"
                                         label="Кількість дозволених спроб"
                                         type="number"
                                         fullWidth
@@ -269,10 +235,10 @@ export default function FormTest({open, onClose, test}) {
                                             min: 1,
                                             max: 10,
                                         }}
-                                        value={formik.values.attempts || ''}
+                                        value={formik.values.max_attempts || ''}
                                         onChange={formik.handleChange}
-                                        error={formik.touched.attempts && Boolean(formik.errors?.attempts)}
-                                        helperText={formik.touched.attempts && formik.errors && formik.errors.attempts}
+                                        error={formik.touched.max_attempts && Boolean(formik.errors?.max_attempts)}
+                                        helperText={formik.touched.max_attempts && formik.errors && formik.errors.max_attempts}
                                     />
                                     <TextField
                                         margin="dense"

@@ -16,7 +16,7 @@ import {useDispatch, useSelector} from "react-redux";
 import TestCard from "./TestCard.jsx";
 import Box from "@mui/material/Box";
 import {getTestById, searchTest} from "../../store/test/testsSlice.js";
-import {useNavigate, useParams} from "react-router-dom";
+import {Navigate, useNavigate, useParams} from "react-router-dom";
 import {getTests} from "../../store/test/testsSlice.js";
 import {theme} from "../../utils/theme.js";
 import Paper from "@mui/material/Paper";
@@ -43,27 +43,29 @@ import MultiChoiceQuestion from "./Question/display/questionTypes/MultiChoiceQue
 import SingleChoiceQuestion from "./Question/display/questionTypes/SingleChoiceQuestion.jsx";
 import MatchingQuestion from "./Question/display/questionTypes/MatchingQuestion.jsx";
 import Notification from "../core/Notification.jsx";
+import UserForm from "../Users/UserForm.jsx";
+import DeleteUser from "../Users/DeleteUser.jsx";
+import FormTest from "./FormTest.jsx";
+import dayjs from "dayjs";
+import DeleteTest from "./DeleteTest.jsx";
 
 export default function TestsEditor() {
-    const navigate = useNavigate();
-    const {user, userToken} = useSelector((state) => state.currentUser)
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const {id} = useParams();
 
     const {tests, isLoading, visibleData, test} = useSelector((state) => state.tests)
     const [notification, setNotification] = useState(false);
 
-    const [searchValue, setSearchValue] = useState('');
-
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(6);
-
     const [openQuestionForm, setOpenQuestionForm] = useState(false);
+    const [openDialogEdit, setOpenDialogEdit] = useState(false);
+    const [openDialogDelete, setOpenDialogDelete] = useState(false);
 
     const [selectedTaskType, setSelectedTaskType] = useState('');
 
     const [anchorEl, setAnchorEl] = useState(null);
+
     const openMenu = Boolean(anchorEl);
 
     const sumOfScores = test?.questions?.reduce((accumulator, question) => {
@@ -89,6 +91,17 @@ export default function TestsEditor() {
         setAnchorEl(null);
     };
 
+    const handleClickOpenDialogEdit = () => {
+        event.stopPropagation();
+        setOpenDialogEdit(true);
+    };
+
+    const handleCloseDialogEdit = (value) => {
+        setOpenDialogEdit(false);
+        console.log(value)
+        if (value) setNotification('Успішно оновлені дані тесту!');
+    };
+
     const handleCloseAlert = (event, reason) => {
         if (reason === 'clickaway') {
             return;
@@ -96,37 +109,43 @@ export default function TestsEditor() {
 
         setNotification(false);
     };
-
-    const handleSearch = (event) => {
-        setSearchValue(event.target.value);
+    const handleClickOpenDialogDelete = () => {
+        setOpenDialogDelete(true);
     };
-    const onClickReset = () => {
-        setSearchValue('');
-    };
+    const handleCloseDialogDelete = (value) => {
 
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
+        setOpenDialogDelete(false);
+        console.log(value);
+        if (value) {
+            setNotification('Тест був успішно видалений!');
+            setTimeout(() => {
+                navigate('/tests'); // Перенаправлення на сторінку /tests
+            }, 1000);
+        }
     };
 
-    console.log(test);
-    const handleDelete = () => {
-        setNotification('Клас був успішно видалений');
-    }
 
     useEffect(() => {
+        console.log(id);
         const fetchData = async () => {
-            await dispatch(getTests());
-            dispatch(getTestById(id));
+        await dispatch(getTests());
+        dispatch(getTestById(id));
         };
 
         fetchData();
     }, [])
+
+
+    const outputTest = test ? {
+        id: test.id,
+        title: test.title,
+        start_time: test.start_time ? dayjs(test.start_time) : null,
+        end_time: test.end_time ? dayjs(test.end_time) : null,
+        max_attempts: test.max_attempts,
+        access_type: test.access_type,
+        is_active: test.is_active,
+        time_limit: test.time_limit,
+    } : null;
 
     return (
         <>
@@ -143,6 +162,7 @@ export default function TestsEditor() {
                           className={styles['no-padding-top']} spacing={2}>
                         <Grid item xs={12} lg={9}>
                             <Paper sx={{padding: '20px'}}>
+
                                 <Typography component="h2" variant="h6" sx={{paddingBottom: '5px'}}> <span
                                     style={{color: 'gray'}}>Тест:</span> {test?.title}
                                 </Typography>
@@ -182,6 +202,36 @@ export default function TestsEditor() {
                                         Тривалість:</Typography>
                                     <Typography> {test?.time_limit ? test?.time_limit + ' хвилин' : 'Необмежений у часі'}
                                     </Typography>
+                                </Box>
+                                <Box style={{paddingTop: 15}} display="flex" alignItems="center">
+                                    <Button
+                                        color="secondary"
+                                        style={{
+                                            color: 'white',
+                                            marginRight: 10,
+                                        }}
+                                        // onClick={handleClickOpen}
+                                        // startIcon={<QuestionMarkIcon/>}
+                                        // endIcon={<KeyboardArrowDownIcon/>}
+                                        variant="contained"
+                                        disableElevation
+                                        onClick={handleClickOpenDialogEdit}
+                                    >
+                                        Редагувати
+                                    </Button>
+                                    <Button
+                                        style={{
+                                            color: 'white',
+                                        }}
+                                        variant="contained" color="error"
+                                        // onClick={handleClickOpen}
+                                        // startIcon={<QuestionMarkIcon/>}
+                                        // endIcon={<KeyboardArrowDownIcon/>}
+                                        disableElevation
+                                        onClick={handleClickOpenDialogDelete}
+                                    >
+                                        Видалити
+                                    </Button>
                                 </Box>
                             </Paper>
                             {test.questions?.map((question, index) => (
@@ -304,12 +354,20 @@ export default function TestsEditor() {
                             </Box>
                         </Grid>
                     </Grid>
-                    {
-                        notification && (
-                            <Notification notification={!!notification}
-                                          handleCloseAlert={handleCloseAlert} hideDuration={3000}
-                                          text={notification}/>
-                        )
+
+                    {openDialogEdit !== null && (
+                        <FormTest open={!!openDialogEdit} onClose={handleCloseDialogEdit}
+                                  test={outputTest}/>
+                    )}
+                    {openDialogDelete && (
+                        <DeleteTest open={!!openDialogDelete} onClose={handleCloseDialogDelete}
+                                    test={outputTest}/>
+                    )}
+                    {notification && (
+                        <Notification notification={!!notification}
+                                      handleCloseAlert={handleCloseAlert} hideDuration={3000}
+                                      text={notification}/>
+                    )
                     }
                 </>
             }
