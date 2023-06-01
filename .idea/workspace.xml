@@ -6,16 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="369ea667-65c6-4f76-97c2-3e996c2a7e9c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateTestRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateTestRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/DefaultLayout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/DefaultLayout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/DeleteTest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/DeleteTest.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/FormTest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/FormTest.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/TestCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestCard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsEditor.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsEditor.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/test/testsSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/test/testsSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -253,6 +244,8 @@
       <workItem from="1685341375162" duration="21199000" />
       <workItem from="1685439315698" duration="21039000" />
       <workItem from="1685516184977" duration="23054000" />
+      <workItem from="1685621965521" duration="69000" />
+      <workItem from="1685622456004" duration="593000" />
     </task>
     <servers />
   </component>
