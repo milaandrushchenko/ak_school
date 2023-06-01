@@ -166,7 +166,7 @@ export default function DashboardContent() {
                         >
                             <MenuIcon/>
                         </IconButton>
-                        <Typography
+                        {/* <Typography
                             component="h1"
                             variant="h6"
                             color="inherit"
@@ -174,7 +174,17 @@ export default function DashboardContent() {
                             sx={{flexGrow: 1}}
                         >
                             AK SCHOOL
-                        </Typography>
+                        </Typography> */}
+                        <Grid sx={{flexGrow: 8}}>
+                            <Box
+                                component="img"
+                                sx={{
+                                    maxWidth: 200
+                                }}
+                                alt="AK school"
+                                src="logo.png"
+                            />
+                        </Grid>
                         <IconButton color="inherit">
                             <Badge badgeContent={4} color="secondary">
                                 <NotificationsIcon/>
