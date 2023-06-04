@@ -101,8 +101,8 @@ export default function ClassesList() {
                   className={styles['no-padding-top']}>
                 <Grid item xs={6} lg={8} style={{alignItems: 'end', paddingBottom: 5}}
                       className={styles['no-padding-top']}>
-                    <Typography component="h2" variant="h6" color="primary" gutterBottom>
-                        Класи
+                    <Typography component="h2" variant="h4" color="primary" py="30px" gutterBottom>
+                        КЛАСИ
                     </Typography>
 
                 </Grid>
