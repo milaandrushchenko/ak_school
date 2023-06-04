@@ -5,21 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="369ea667-65c6-4f76-97c2-3e996c2a7e9c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateQuestionsRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/QuestionCard.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/manage/DeleteQuestion.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/FormTest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/FormTest.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/manage/QuestionForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/manage/QuestionForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/TestCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestCard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsEditor.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsEditor.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/core/TextEditor.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/core/TextEditor.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/test/testsSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/test/testsSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/common.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,18 +160,17 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\PhpStorm 2020.3.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\Question\manage" />
       <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\Question\display" />
       <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\questionTypes" />
       <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests" />
       <recent name="C:\OSPanel\domains\diploma\frontend\src\store" />
+      <recent name="C:\OSPanel\domains\diploma\frontend\src\componets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\Question\manage" />
@@ -194,9 +180,6 @@
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="SvnConfiguration">
-    <configuration />
-  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="369ea667-65c6-4f76-97c2-3e996c2a7e9c" name="Changes" comment="" />
@@ -260,11 +243,9 @@
       <workItem from="1685302304758" duration="7504000" />
       <workItem from="1685341375162" duration="21199000" />
       <workItem from="1685439315698" duration="21039000" />
-      <workItem from="1685516184977" duration="23421000" />
-      <workItem from="1685606741782" duration="24257000" />
-      <workItem from="1685692722831" duration="5463000" />
-      <workItem from="1685815945446" duration="2859000" />
-      <workItem from="1685862500550" duration="2310000" />
+      <workItem from="1685516184977" duration="23054000" />
+      <workItem from="1685621965521" duration="69000" />
+      <workItem from="1685622456004" duration="593000" />
     </task>
     <servers />
   </component>
@@ -281,9 +262,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
   </component>
 </project>
