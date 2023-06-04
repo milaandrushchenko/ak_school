@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreQuestionsRequest;
 use App\Http\Requests\StoreTestRequest;
+use App\Http\Requests\UpdateQuestionsRequest;
 use App\Http\Requests\UpdateTestRequest;
 use App\Http\Resources\TestResource;
 use App\Models\Questions;
@@ -87,5 +88,24 @@ class TestController extends Controller
 //        var_dump($data);
         $question = Questions::create($data);
         return response($question, 201);
+    }
+
+    public function updateQuestions(UpdateQuestionsRequest $request, string $id)
+    {
+        $data = $request->validated();
+        $question = Questions::findOrFail($id);
+        if (is_array($data['options'])) {
+            $data['options'] = json_encode($data['options']);
+        }
+        $question->update($data);
+        return response($question, 201);
+    }
+
+    public function deleteQuestions(string $id)
+    {
+        $question = Questions::findOrFail($id);
+        $question->delete();
+
+        return response('question was deleted', 204);
     }
 }

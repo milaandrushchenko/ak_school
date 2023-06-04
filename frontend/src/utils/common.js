@@ -27,3 +27,10 @@ export const formattedDate = (dateTime) => {
     }
     return '';
 }
+export const compareDate = (data1, data2) => {
+    if (!data1 || data1 > data2) {
+        return data2;
+    }
+    return data1;
+
+}

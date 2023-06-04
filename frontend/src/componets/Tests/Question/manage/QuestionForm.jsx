@@ -7,7 +7,12 @@ import {
 } from "@mui/material";
 import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {clearErrors, createClass, getClasses, updateClass} from "../../../../store/class/classesSlice.js";
+import {
+    clearErrors,
+    createClass,
+    getClasses,
+    updateClass
+} from "../../../../store/class/classesSlice.js";
 import {FormikProvider, useFormik, useFormikContext} from 'formik';
 import 'react-quill/dist/quill.snow.css';
 import * as Yup from 'yup';
@@ -27,7 +32,7 @@ import {
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import {createUser, updateUser} from "../../../../store/user/usersSlice.js";
-import {addQuestion} from "../../../../store/test/testsSlice.js";
+import {addQuestion, updateQuestion} from "../../../../store/test/testsSlice.js";
 import {QUESTION} from "../../../../utils/constans.js";
 
 export default function QuestionForm({open, onClose, type, question}) {
@@ -37,7 +42,7 @@ export default function QuestionForm({open, onClose, type, question}) {
         console.log('close');
         onClose(value);
         dispatch(clearErrors());
-        // formik.resetForm(initialValues);
+        formik.resetForm(initialValues);
         formik.setErrors({});
     }
 
@@ -47,19 +52,19 @@ export default function QuestionForm({open, onClose, type, question}) {
     switch (type) {
         case QUESTION.SINGLE_CHOICE:
             validationSchema = validationSchemaSingleChoice;
-            initialValues = initialValuesSingleChoice;
+            initialValues = question ? question : initialValuesSingleChoice;
             break;
         case QUESTION.MULTIPLE_CHOICE:
             validationSchema = validationSchemaMultipleAnswers;
-            initialValues = initialValuesMultipleAnswers;
+            initialValues = question ? question : initialValuesMultipleAnswers;
             break;
         case QUESTION.MATCHING:
             validationSchema = validationSchemaMatching;
-            initialValues = initialValuesMatching;
+            initialValues = question ? question : initialValuesMatching;
             break;
         case QUESTION.SHORT_ANSWER:
             validationSchema = validationSchemaShortAnswer;
-            initialValues = initialValuesShortAnswer;
+            initialValues = question ? question : initialValuesShortAnswer;
             break;
         default:
             validationSchema = Yup.object({});
@@ -73,21 +78,22 @@ export default function QuestionForm({open, onClose, type, question}) {
         enableReinitialize: true, // Увімкнути оновлення значень initialValues
         onSubmit: async (values, {setErrors, setSubmitting}) => {
             if (!question) {
+                console.log(values)
+
                 const test_id = test.id;
                 const resultAction = await dispatch(addQuestion({test_id, values}));
                 if (addQuestion.fulfilled.match(resultAction)) {
                     close(true);
                 }
             } else {
-                // console.log(values)
                 // let data = Object.assign({}, values);
                 // delete data.password;
-                // let id = data.id;
-                // const resultAction = await dispatch(updateUser({id, data}));
-                // if (updateUser.fulfilled.match(resultAction)) {
-                //     console.log('user updated');
-                //     close(true);
-                // }
+                let question_id = question.id;
+                const resultAction = await dispatch(updateQuestion({question_id, values}));
+                if (updateQuestion.fulfilled.match(resultAction)) {
+                    console.log('question updated');
+                    close(true);
+                }
             }
         }
     });

@@ -108,6 +108,44 @@ export const addQuestion = createAsyncThunk(
     }
 );
 
+export const updateQuestion = createAsyncThunk(
+    "tests/updateQuestion",
+    async ({question_id, values}, {rejectWithValue}) => {
+        try {
+            console.log(values);
+            const res = await axiosClient.put(`/tests/update-questions/${question_id}`, values);
+            console.log(res.data);
+            return res.data;
+        } catch (error) {
+            if (!error.response) {
+                // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+
+    }
+);
+
+export const deleteQuestion = createAsyncThunk(
+    "tests/deleteQuestion",
+    async ({id, question}, {rejectWithValue}) => {
+        try {
+            const res = await axiosClient.delete(`/tests/delete-questions/${id}`);
+            return question;
+        } catch (error) {
+            if (!error.response) {
+                // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+
+    }
+);
+
 
 const testsSlice = createSlice({
     name: "tests",
@@ -178,6 +216,32 @@ const testsSlice = createSlice({
             // state.visibleData.unshift(action.payload);
         });
         builder.addCase(addQuestion.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.errors = action.payload;
+        });
+        builder.addCase(updateQuestion.pending, (state) => {
+            // state.isLoading = true;
+        });
+        builder.addCase(updateQuestion.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            console.log(action.payload);
+            // state.tests = state.tests.map(test => test.id === action.payload.id ? action.payload : test)
+            state.test.questions = state.test.questions.map(question => question.id === action.payload.id ? action.payload : question);
+            // state.visibleData.unshift(action.payload);
+        });
+        builder.addCase(updateQuestion.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.errors = action.payload;
+        });
+        builder.addCase(deleteQuestion.pending, (state) => {
+            //state.isLoading = true;
+        });
+        builder.addCase(deleteQuestion.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.test.questions = state.test.questions.filter(question => question.id !== action.payload.id);
+            // state.visibleData = state.tests;
+        });
+        builder.addCase(deleteQuestion.rejected, (state, action) => {
             state.status = 'rejected';
             state.errors = action.payload;
         });

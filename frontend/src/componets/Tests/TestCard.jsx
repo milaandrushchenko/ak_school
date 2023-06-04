@@ -47,6 +47,7 @@ export default function TestCard({test, onDelete}) {
         setOpenDialogDelete(false);
         console.log(value);
     };
+
     const handleMenuOpen = (event) => {
         event.preventDefault();
         event.stopPropagation();

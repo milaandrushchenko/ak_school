@@ -1,12 +1,8 @@
-import {createTheme, styled, ThemeProvider} from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import styles from "../../styles/Grid.module.css";
 import Typography from "@mui/material/Typography";
 import {
-    alpha,
     Button,
-    Card,
-    CardContent, Chip,
     CircularProgress,
     InputBase, Menu,
     MenuItem
@@ -34,20 +30,11 @@ import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import ShortTextIcon from '@mui/icons-material/ShortText';
 import QuestionForm from "./Question/manage/QuestionForm.jsx";
 import {QUESTION} from "../../utils/constans.js";
-import ShortAnswerQuestionForm from "./Question/manage/questionTypes/ShortAnswerQuestionForm.jsx";
-import MultiChoiceQuestionForm from "./Question/manage/questionTypes/MultiChoiceQuestionForm.jsx";
-import SingleChoiceQuestionForm from "./Question/manage/questionTypes/SingleChoiceQuestionForm.jsx";
-import MatchingQuestionForm from "./Question/manage/questionTypes/MatchingQuestionForm.jsx";
-import ShortAnswerQuestion from "./Question/display/questionTypes/ShortAnswerQuestion.jsx";
-import MultiChoiceQuestion from "./Question/display/questionTypes/MultiChoiceQuestion.jsx";
-import SingleChoiceQuestion from "./Question/display/questionTypes/SingleChoiceQuestion.jsx";
-import MatchingQuestion from "./Question/display/questionTypes/MatchingQuestion.jsx";
 import Notification from "../core/Notification.jsx";
-import UserForm from "../Users/UserForm.jsx";
-import DeleteUser from "../Users/DeleteUser.jsx";
 import FormTest from "./FormTest.jsx";
 import dayjs from "dayjs";
 import DeleteTest from "./DeleteTest.jsx";
+import QuestionCard from "./Question/display/QuestionCard.jsx";
 
 export default function TestsEditor() {
     const dispatch = useDispatch();
@@ -61,6 +48,7 @@ export default function TestsEditor() {
     const [openQuestionForm, setOpenQuestionForm] = useState(false);
     const [openDialogEdit, setOpenDialogEdit] = useState(false);
     const [openDialogDelete, setOpenDialogDelete] = useState(false);
+    const [openDialogDeleteQuestion, setOpenDialogDeleteQuestion] = useState(false);
 
     const [selectedTaskType, setSelectedTaskType] = useState('');
 
@@ -124,12 +112,22 @@ export default function TestsEditor() {
         }
     };
 
+    const handleCloseDialogDeleteQuestion = (value) => {
+        console.log(value);
+        setOpenDialogDeleteQuestion(false);
+        if (value) setNotification('Запитання успішно видалено!');
+    };
+
+
+    const handleClickOpenDialogDeleteQuestion = () => {
+            setOpenDialogDeleteQuestion(true);
+        };
 
     useEffect(() => {
         console.log(id);
         const fetchData = async () => {
-        await dispatch(getTests());
-        dispatch(getTestById(id));
+            await dispatch(getTests());
+            dispatch(getTestById(id));
         };
 
         fetchData();
@@ -235,36 +233,8 @@ export default function TestsEditor() {
                                 </Box>
                             </Paper>
                             {test.questions?.map((question, index) => (
-                                <Paper key={index} sx={{padding: '20px', marginTop: '10px'}}>
-                                    <Chip
-                                        label={`Запитання ${index + 1}/${test.questions.length}`}/>
-                                    <span style={{
-                                        color: 'gray',
-                                        marginLeft: '5px'
-                                    }}>Балів: {question.score}/{sumOfScores}</span>
-                                    <Typography component="div" variant="body1"
-                                                sx={{paddingBottom: '5px'}}>
-                                        <div
-                                            style={{maxWidth: '90%', overflow: 'hidden'}}
-                                            dangerouslySetInnerHTML={{__html: question.question}}
-                                            className="question-content"
-                                        />
-                                    </Typography>
-                                    {question.type === QUESTION.SHORT_ANSWER &&
-                                        <ShortAnswerQuestion
-                                            options={JSON.parse(question.options)}/>}
-                                    {question.type === QUESTION.MULTIPLE_CHOICE && (
-                                        <MultiChoiceQuestion
-                                            options={JSON.parse(question.options)}/>
-                                    )}
-                                    {question.type === QUESTION.SINGLE_CHOICE &&
-                                        <SingleChoiceQuestion
-                                            options={JSON.parse(question.options)}/>}
-                                    {question.type === QUESTION.MATCHING && (
-                                        <MatchingQuestion options={JSON.parse(question.options)}/>
-                                    )}
-                                </Paper>
-                            ))}
+                                <QuestionCard key={question.id} sum={sumOfScores} index={index} question={question} count={test.questions.length} openDeleteDialog={openDialogDeleteQuestion} onOpenDeleteDialog={handleClickOpenDialogDeleteQuestion} onCloseDeleteDialog={handleCloseDialogDeleteQuestion}/>
+                                ))}
 
                         </Grid>
                         <Grid item xs={12} lg={3}>

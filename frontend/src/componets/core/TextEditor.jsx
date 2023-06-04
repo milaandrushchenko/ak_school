@@ -42,7 +42,11 @@ const formats = [
     "indent",
     "link",
     "image",
-    "video"
+    "video",
+    'alt',
+    'height',
+    'width',
+    'style'
 ];
 
 function TextEditor({label, name, value, onChange, error, helperText}) {

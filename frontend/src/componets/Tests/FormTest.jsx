@@ -24,12 +24,13 @@ import 'dayjs/locale/uk';
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {clearErrors, createTest, updateTest} from "../../store/test/testsSlice.js";
+import {compareDate} from "../../utils/common.js";
 
 const currentDate = dayjs();
 
 const createValidationSchema = (minStartTime, minEndTime) => {
-    let minStartDate = minStartTime ? minStartTime : currentDate;
-    let minEndDate = minEndTime ? minEndTime : currentDate;
+    // let minStartDate = minStartTime ? minStartTime : currentDate;
+    // let minEndDate = minEndTime ? minEndTime : currentDate;
     return Yup.lazy(values => {
         return Yup.object().shape({
             title: Yup.string().required('Обов\'язкове поле'),
@@ -39,14 +40,14 @@ const createValidationSchema = (minStartTime, minEndTime) => {
                     const end_time = values.end_time;
                     return value === null || end_time === null || value < end_time;
                 })
-                .min(minStartDate, 'Дата початку має бути обрана починаючи від поточної.'),
+                .min(minStartTime, 'Дата початку має бути обрана починаючи від поточної.'),
             end_time: Yup.date()
                 .nullable()
                 .test('more-than-start_time', 'Дата завершення повинна бути більшою за дату початку.', function (value) {
                     const start_time = values.start_time;
                     return value === null || start_time === null || value > start_time;
                 })
-                .min(minEndDate, 'Дата завершення має бути обрана починаючи від поточної.'),
+                .min(minEndTime, 'Дата завершення має бути обрана починаючи від поточної.'),
             max_attempts: Yup.number().nullable().max(10, 'Максимальна кількість спроб становить 10'),
             time_limit: Yup.number()
                 .nullable()
@@ -79,7 +80,7 @@ export default function FormTest({open, onClose, test}) {
 
     const formik = useFormik({
         initialValues: test ? {...test} : {...initialValues},
-        validationSchema: createValidationSchema(test ? test.start_time : currentDate, test ? test.end_time : currentDate),
+        validationSchema: createValidationSchema(compareDate(test?.start_time, currentDate), compareDate(test?.end_time, currentDate)),
         enableReinitialize: true, // Увімкнути оновлення значень initialValues
         onSubmit: async (values, {setErrors, setSubmitting}) => {
             const {start_time, end_time, ...otherValues} = values;
@@ -176,7 +177,7 @@ export default function FormTest({open, onClose, test}) {
                                                             helperText: formik.errors?.start_time,
                                                         },
                                                     }}
-                                                    minDate={test ? test.start_time : currentDate}
+                                                    minDate={compareDate(test?.start_time, currentDate)}
                                                 />
 
                                                 {formik.values.start_time !== null && (
@@ -208,7 +209,8 @@ export default function FormTest({open, onClose, test}) {
                                                     onChange={(newValue) => {
                                                         formik.setFieldValue('end_time', newValue);
                                                     }}
-                                                    minDate={test ? test.end_time : currentDate}
+                                                    // minDate={test ? test.end_time : currentDate}
+                                                    minDate={compareDate(test?.end_time, currentDate)}
                                                 />
                                                 {formik.values.end_time !== null && (
                                                     <IconButton
