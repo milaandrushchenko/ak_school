@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SubjectsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -58,11 +59,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/tests/{test}', [TestController::class, 'destroy']);
     });
 
-    Route::apiResource('/classes', ClassesController::class);
     Route::apiResource('/tests', TestController::class);
     Route::apiResource('/roles', RoleController::class);
+    Route::apiResource('/classes', ClassesController::class);
+
 
 });
+    Route::apiResource('/subjects', SubjectsController::class);
 
 
 Route::post('/login', [AuthController::class, 'login']);

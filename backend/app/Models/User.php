@@ -96,6 +96,9 @@ class User extends Authenticatable
         return $this->hasMany(Test::class, 'created_by');
     }
 
+//    public function teacherSubjects(){
+//        return $this->hasMany(Subject::class, 'teacher_id');
+//    }
 
 
 }

@@ -23,19 +23,19 @@ import styles from '../../styles/Navlink.module.css';
 ///////////ADMIN//////////
 export const AdminMainListItems = (
     <React.Fragment>
-        <NavLink to='' className={
+        <NavLink to='/subjects' className={
             classNames(
                 styles['nav-link'],
             )
         }>
             {({isActive, isExact}) => (
                 <ListItemButton
-                    // className={isActive ? classNames(styles.active) : ''}
+                    className={isActive ? classNames(styles.active) : ''}
                 >
                     <ListItemIcon>
                         <LibraryBooksIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Предмети"/>
+                    <ListItemText primary="ПРЕДМЕТИ"/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -51,7 +51,7 @@ export const AdminMainListItems = (
                     <ListItemIcon>
                         <CalendarMonthIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Розклад"/>
+                    <ListItemText primary="РОЗКЛАДИ"/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -67,7 +67,7 @@ export const AdminMainListItems = (
                     <ListItemIcon>
                         <GroupsIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Класи"/>
+                    <ListItemText primary="КЛАСИ"/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -83,7 +83,7 @@ export const AdminMainListItems = (
                     <ListItemIcon>
                         <BarChartIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Звіти"/>
+                    <ListItemText primary="ЖУРНАЛИ"/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -107,7 +107,7 @@ export const AdminSecondaryListItems = (
                     <ListItemIcon>
                         <PeopleIcon/>
                     </ListItemIcon>
-                    <ListItemText primary='Користувачі'/>
+                    <ListItemText primary='КОРИСТУВАЧІ'/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -123,7 +123,7 @@ export const AdminSecondaryListItems = (
                     <ListItemIcon>
                         <ContactEmergencyRoundedIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Ролі"/>
+                    <ListItemText primary="РОЛІ"/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -139,7 +139,7 @@ export const AdminSecondaryListItems = (
                     <ListItemIcon>
                         <LockPersonRoundedIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Дозволи"/>
+                    <ListItemText primary="ДОЗВОЛИ"/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -150,19 +150,19 @@ export const AdminSecondaryListItems = (
 ///////////TEACHER//////////
 export const TeacherMainListItems = (
     <React.Fragment>
-        <NavLink to='' className={
+        <NavLink to='/subjects' className={
             classNames(
                 styles['nav-link'],
             )
         }>
             {({isActive, isExact}) => (
                 <ListItemButton
-                    // className={isActive ? classNames(styles.active) : ''}
+                    className={isActive ? classNames(styles.active) : ''}
                 >
                     <ListItemIcon>
                         <LibraryBooksIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Предмети"/>
+                    <ListItemText primary="ПРЕДМЕТИ"/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -178,7 +178,7 @@ export const TeacherMainListItems = (
                     <ListItemIcon>
                         <CalendarMonthIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Розклад"/>
+                    <ListItemText primary="РОЗКДЛАД"/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -194,7 +194,7 @@ export const TeacherMainListItems = (
                     <ListItemIcon>
                         <GroupsIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Класи"/>
+                    <ListItemText primary="КЛАСИ"/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -210,7 +210,7 @@ export const TeacherMainListItems = (
                     <ListItemIcon>
                         <FactCheckIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Мої тести"/>
+                    <ListItemText primary="ТЕСТИ"/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -226,7 +226,7 @@ export const TeacherMainListItems = (
                     <ListItemIcon>
                         <BarChartIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Рейтинги"/>
+                    <ListItemText primary="ЖУРНАЛИ"/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -250,7 +250,7 @@ export const TeacherSecondaryListItems = (
                     <ListItemIcon>
                         <PeopleIcon/>
                     </ListItemIcon>
-                    <ListItemText primary='Користувачі'/>
+                    <ListItemText primary='КОРИСТУВАЧІ'/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -260,19 +260,19 @@ export const TeacherSecondaryListItems = (
 ///////////STUDENT//////////
 export const StudentMainListItems = (
     <React.Fragment>
-        <NavLink to='' className={
+        <NavLink to='/subjects' className={
             classNames(
                 styles['nav-link'],
             )
         }>
             {({isActive, isExact}) => (
                 <ListItemButton
-                    // className={isActive ? classNames(styles.active) : ''}
+                    className={isActive ? classNames(styles.active) : ''}
                 >
                     <ListItemIcon>
                         <LibraryBooksIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Мої предмети"/>
+                    <ListItemText primary="ПРЕДМЕТИ"/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -288,7 +288,7 @@ export const StudentMainListItems = (
                     <ListItemIcon>
                         <CalendarMonthIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Мій розклад"/>
+                    <ListItemText primary="РОЗКЛАД"/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -309,7 +309,7 @@ export const StudentSecondaryListItems = (
                     <ListItemIcon>
                         <PeopleIcon/>
                     </ListItemIcon>
-                    <ListItemText primary='Користувачі'/>
+                    <ListItemText primary='КОРИСТУВАЧІ'/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -319,7 +319,7 @@ export const StudentSecondaryListItems = (
                     <ListItemIcon>
                         <BarChartIcon />
                     </ListItemIcon>
-                    <ListItemText primary='Мої оцінки' />
+                    <ListItemText primary='ЖУРНАЛ' />
                 </ListItemButton>
             )}
         </NavLink>

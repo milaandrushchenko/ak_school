@@ -6,6 +6,7 @@ import DashboardContent from "./Dashboard/DashboardContent.jsx";
 import {fetchStudentsWithoutClass, getUsers} from "../store/user/usersSlice.js";
 import {getClasses} from "../store/class/classesSlice.js";
 import {getTests} from "../store/test/testsSlice.js";
+import {getSubjects} from "../store/subject/subjectsSlice.js";
 
 
 export default function DefaultLayout() {
@@ -23,6 +24,7 @@ export default function DefaultLayout() {
         dispatch(getUsers());
         dispatch(getClasses());
         dispatch(getTests());
+        dispatch(getSubjects());
 
     }, [])
 
