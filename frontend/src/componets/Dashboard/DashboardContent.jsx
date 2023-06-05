@@ -182,7 +182,7 @@ export default function DashboardContent() {
                                     maxWidth: 200
                                 }}
                                 alt="AK school"
-                                src="logo.png"
+                                src="/logo.png"
                             />
                         </Grid>
                         <IconButton color="inherit">

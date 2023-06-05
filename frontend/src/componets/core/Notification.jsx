@@ -7,12 +7,18 @@ const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function Notification({notification, handleCloseAlert, hideDuration, text}) {
+export default function Notification({
+                                         notification,
+                                         handleCloseAlert,
+                                         hideDuration,
+                                         text,
+                                         color = 'success'
+                                     }) {
     return (
         <>
             <Snackbar open={notification} autoHideDuration={hideDuration}
                       onClose={handleCloseAlert}>
-                <Alert onClose={handleCloseAlert} severity="success" sx={{
+                <Alert onClose={handleCloseAlert} severity={color} sx={{
                     width: '300px',
                     position: 'fixed',
                     bottom: '20px',

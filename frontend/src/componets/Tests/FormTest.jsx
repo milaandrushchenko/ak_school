@@ -104,7 +104,6 @@ export default function FormTest({open, onClose, test}) {
             }
         }
     });
-
     return (
         <>
             <Dialog
@@ -209,7 +208,16 @@ export default function FormTest({open, onClose, test}) {
                                                     onChange={(newValue) => {
                                                         formik.setFieldValue('end_time', newValue);
                                                     }}
-                                                    // minDate={test ? test.end_time : currentDate}
+                                                    onError={(error) => {
+                                                        formik.setFieldError('end_time', error);
+                                                    }}
+                                                    slotProps={{
+                                                        textField: {
+                                                            variant: 'outlined',
+                                                            error: !!formik.errors?.end_time,
+                                                            helperText: formik.errors?.end_time,
+                                                        },
+                                                    }}
                                                     minDate={compareDate(test?.end_time, currentDate)}
                                                 />
                                                 {formik.values.end_time !== null && (

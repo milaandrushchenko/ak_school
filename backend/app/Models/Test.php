@@ -33,4 +33,10 @@ class Test extends Model
     {
         return $this->hasMany(Questions::class, 'test_id');
     }
+
+    public function setStatus(bool $isActive): void
+    {
+        $this->is_active = $isActive;
+        $this->save();
+    }
 }

@@ -88,6 +88,25 @@ export const getTests = createAsyncThunk(
     }
 );
 
+
+export const changeTestStatus = createAsyncThunk(
+    "tests/changeTestStatus",
+    async ({id}, {rejectWithValue}) => {
+        try {
+            const res = await axiosClient.post(`/tests/${id}/changeTestStatus`);
+            return res.data;
+        } catch (error) {
+            if (!error.response) {
+                // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+
+    }
+);
+
 export const addQuestion = createAsyncThunk(
     "tests/addQuestion",
     async ({test_id, values}, {rejectWithValue}) => {
@@ -203,6 +222,14 @@ const testsSlice = createSlice({
             state.visibleData = state.tests;
         });
         builder.addCase(deleteTest.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.errors = action.payload;
+        });
+        builder.addCase(changeTestStatus.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.test = {...state.test, is_active: !state.test.is_active};
+        });
+        builder.addCase(changeTestStatus.rejected, (state, action) => {
             state.status = 'rejected';
             state.errors = action.payload;
         });

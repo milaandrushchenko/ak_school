@@ -11,7 +11,12 @@ import React, {useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import TestCard from "./TestCard.jsx";
 import Box from "@mui/material/Box";
-import {getTestById, searchTest} from "../../store/test/testsSlice.js";
+import {
+    changeTestStatus,
+    getTestById,
+    searchTest,
+    updateTest
+} from "../../store/test/testsSlice.js";
 import {Navigate, useNavigate, useParams} from "react-router-dom";
 import {getTests} from "../../store/test/testsSlice.js";
 import {theme} from "../../utils/theme.js";
@@ -36,14 +41,15 @@ import dayjs from "dayjs";
 import DeleteTest from "./DeleteTest.jsx";
 import QuestionCard from "./Question/display/QuestionCard.jsx";
 
+const currentDate = dayjs();
 export default function TestsEditor() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const {id} = useParams();
 
-    const {tests, isLoading, visibleData, test} = useSelector((state) => state.tests)
-    const [notification, setNotification] = useState(false);
+    const {tests, isLoading, visibleData, test, errors} = useSelector((state) => state.tests)
+    const [notification, setNotification] = useState({text: '', color: 'success'});
 
     const [openQuestionForm, setOpenQuestionForm] = useState(false);
     const [openDialogEdit, setOpenDialogEdit] = useState(false);
@@ -53,7 +59,6 @@ export default function TestsEditor() {
     const [selectedTaskType, setSelectedTaskType] = useState('');
 
     const [anchorEl, setAnchorEl] = useState(null);
-
     const openMenu = Boolean(anchorEl);
 
     const sumOfScores = test?.questions?.reduce((accumulator, question) => {
@@ -70,7 +75,10 @@ export default function TestsEditor() {
     const handleClickCloseQuestionForm = (value) => {
         console.log(value);
         setOpenQuestionForm(false);
-        if (value) setNotification(`Запитання успішно додано!`);
+        if (value) {
+            setNotification({text: 'Запитання успішно додано!', color: 'success'});
+        }
+
     };
     const handleClickMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -80,14 +88,15 @@ export default function TestsEditor() {
     };
 
     const handleClickOpenDialogEdit = () => {
-        event.stopPropagation();
         setOpenDialogEdit(true);
     };
 
     const handleCloseDialogEdit = (value) => {
         setOpenDialogEdit(false);
-        console.log(value)
-        if (value) setNotification('Успішно оновлені дані тесту!');
+        if (value) {
+            setNotification({text: 'Успішно оновлені дані тесту!', color: 'success'});
+        }
+
     };
 
     const handleCloseAlert = (event, reason) => {
@@ -95,7 +104,8 @@ export default function TestsEditor() {
             return;
         }
 
-        setNotification(false);
+        setNotification(prevNotification => ({...prevNotification, text: ''}));
+
     };
     const handleClickOpenDialogDelete = () => {
         setOpenDialogDelete(true);
@@ -105,7 +115,7 @@ export default function TestsEditor() {
         setOpenDialogDelete(false);
         console.log(value);
         if (value) {
-            setNotification('Тест був успішно видалений!');
+            setNotification({text: 'Тест був успішно видалений!', color: 'success'});
             setTimeout(() => {
                 navigate('/tests'); // Перенаправлення на сторінку /tests
             }, 1000);
@@ -115,23 +125,49 @@ export default function TestsEditor() {
     const handleCloseDialogDeleteQuestion = (value) => {
         console.log(value);
         setOpenDialogDeleteQuestion(false);
-        if (value) setNotification('Запитання успішно видалено!');
+        if (value) setNotification({text: 'Запитання успішно видалено!', color: 'success'});
     };
 
 
     const handleClickOpenDialogDeleteQuestion = () => {
-            setOpenDialogDeleteQuestion(true);
-        };
+        setOpenDialogDeleteQuestion(true);
+    };
+
+    const handleChangeTestStatus = async () => {
+        if (dayjs(test?.end_time) < currentDate || test?.questions.length < 2) {
+            setNotification({
+                text: 'Помилка! Дата закриття тесту вже минула обо тест мість меньше,ніж 2 запитання!',
+                color: 'error'
+            });
+        } else {
+            let id = test.id;
+            const resultAction = await dispatch(changeTestStatus({id}));
+            if (changeTestStatus.rejected.match(resultAction)) {
+                setNotification({
+                    text: errors,
+                    color: 'error'
+                });
+
+            }
+            if (changeTestStatus.fulfilled.match(resultAction)) {
+                setNotification({
+                    text: 'Операція успішна! Статус тесту змінено!',
+                    color: 'success'
+                });
+
+            }
+        }
+
+    }
 
     useEffect(() => {
-        console.log(id);
         const fetchData = async () => {
             await dispatch(getTests());
             dispatch(getTestById(id));
         };
 
         fetchData();
-    }, [])
+    }, [id])
 
 
     const outputTest = test ? {
@@ -208,7 +244,6 @@ export default function TestsEditor() {
                                             color: 'white',
                                             marginRight: 10,
                                         }}
-                                        // onClick={handleClickOpen}
                                         // startIcon={<QuestionMarkIcon/>}
                                         // endIcon={<KeyboardArrowDownIcon/>}
                                         variant="contained"
@@ -222,7 +257,6 @@ export default function TestsEditor() {
                                             color: 'white',
                                         }}
                                         variant="contained" color="error"
-                                        // onClick={handleClickOpen}
                                         // startIcon={<QuestionMarkIcon/>}
                                         // endIcon={<KeyboardArrowDownIcon/>}
                                         disableElevation
@@ -233,8 +267,12 @@ export default function TestsEditor() {
                                 </Box>
                             </Paper>
                             {test.questions?.map((question, index) => (
-                                <QuestionCard key={question.id} sum={sumOfScores} index={index} question={question} count={test.questions.length} openDeleteDialog={openDialogDeleteQuestion} onOpenDeleteDialog={handleClickOpenDialogDeleteQuestion} onCloseDeleteDialog={handleCloseDialogDeleteQuestion}/>
-                                ))}
+                                <QuestionCard key={question.id} sum={sumOfScores} index={index}
+                                              question={question} count={test.questions.length}
+                                              openDeleteDialog={openDialogDeleteQuestion}
+                                              onOpenDeleteDialog={handleClickOpenDialogDeleteQuestion}
+                                              onCloseDeleteDialog={handleCloseDialogDeleteQuestion}/>
+                            ))}
 
                         </Grid>
                         <Grid item xs={12} lg={3}>
@@ -246,7 +284,6 @@ export default function TestsEditor() {
                                         color: 'white',
                                         width: '100%'
                                     }}
-                                    // onClick={handleClickOpen}
                                     startIcon={<QuestionMarkIcon/>}
                                     endIcon={<KeyboardArrowDownIcon/>}
                                     variant="contained"
@@ -315,11 +352,12 @@ export default function TestsEditor() {
                                     style={{
                                         marginTop: 10,
                                         width: '100%',
-                                        backgroundColor: test?.is_active === 0 ? 'green' : 'red'
+                                        backgroundColor: test?.is_active ? 'red' : 'green'
                                     }}
-                                    startIcon={test?.is_active === 0 ? <KeyIcon/> : <KeyOffIcon/>}
+                                    startIcon={test?.is_active ? <KeyOffIcon/> : <KeyIcon/>}
+                                    onClick={handleChangeTestStatus}
                                 >
-                                    Активувати тест
+                                    {test?.is_active ? 'Деактивувати тест' : 'Активувати тест'}
                                 </Button>
                             </Box>
                         </Grid>
@@ -334,9 +372,9 @@ export default function TestsEditor() {
                                     test={outputTest}/>
                     )}
                     {notification && (
-                        <Notification notification={!!notification}
+                        <Notification notification={!!notification.text}
                                       handleCloseAlert={handleCloseAlert} hideDuration={3000}
-                                      text={notification}/>
+                                      text={notification.text} color={notification.color}/>
                     )
                     }
                 </>

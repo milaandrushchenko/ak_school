@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateTestRequest;
 use App\Http\Resources\TestResource;
 use App\Models\Questions;
 use App\Models\Test;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TestController extends Controller
@@ -79,6 +80,27 @@ class TestController extends Controller
         return response('test was deleted', 204);
     }
 
+    public function changeTestStatus(Test $test)
+    {
+        if ($test->is_active === 0) {
+            // Перевіряємо, чи тест має хочаб 2 питання
+            if ($test->questions()->count() < 2) {
+                return response()->json(['errors' => 'Тест повинен мати хочаб 2 питання.'], 400);
+            }
+
+            // Перевіряємо, чи дата завершення тесту ще не минула
+            if ($test->end_time && Carbon::now()->isAfter($test->end_time)) {
+                return response()->json(['errors' => 'Дата завершення тесту вже минула.'], 400);
+            }
+        }
+
+        // Виконуємо зміну статусу тесту
+        $test->setStatus(!$test->is_active);
+
+        return response()->json(['message' => 'Статус тесту змінено успішно.'], 200);
+
+    }
+
     public function addQuestions(StoreQuestionsRequest $request, string $id)
     {
         $data = $request->validated();
@@ -108,4 +130,6 @@ class TestController extends Controller
 
         return response('question was deleted', 204);
     }
+
+
 }
