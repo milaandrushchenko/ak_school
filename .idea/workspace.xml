@@ -5,20 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="369ea667-65c6-4f76-97c2-3e996c2a7e9c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Question/Question.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Question/questionTypes/MatchingQuestion.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Question/questionTypes/MultiChoiceQuestion.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Question/questionTypes/ShortAnswerQuestion.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Question/questionTypes/SingleChoiceQuestion.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/StartTest.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/TestPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Resources/TestResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Resources/TestResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/QuestionCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/QuestionCard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/router.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/test/testsSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/test/testsSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/diploma.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/diploma.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -261,7 +249,7 @@
       <workItem from="1685621965521" duration="69000" />
       <workItem from="1685622456004" duration="593000" />
       <workItem from="1685944654080" duration="22920000" />
-      <workItem from="1686037179866" duration="11587000" />
+      <workItem from="1686037179866" duration="12696000" />
     </task>
     <servers />
   </component>
