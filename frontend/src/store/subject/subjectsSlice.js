@@ -31,7 +31,7 @@ export const createSubject = createAsyncThunk(
     "subjects/createSubject",
     async (payload, {rejectWithValue}) => {
         try {
-            console.log(payload);
+            console.log(payload)
             const res = await axiosClient.post('/subjects', payload);
             return res.data;
         } catch (error) {
@@ -69,7 +69,7 @@ export const deleteSubject = createAsyncThunk(
     async ({id, subjectItem}, {rejectWithValue}) => {
         try {
             const res = await axiosClient.delete(`/subjects/${id}`);
-            console.log(res);
+            // console.log(res);
             return subjectItem;
         } catch (error) {
             if (!error.response) {
@@ -101,6 +101,7 @@ const subjectsSlice = createSlice({
             state.errors = null;
         },
         searchSubject: (state, {payload}) => {
+
             state.visibleData = state.subjects.filter(
                 (item) =>
                     item.name.toLowerCase().includes(payload.toLowerCase())

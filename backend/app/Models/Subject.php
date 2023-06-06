@@ -12,12 +12,12 @@ class Subject extends Model
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
-    protected $fillable = ['name', 'teacher_id'];
     protected $guarded = [];
 
     public function teacher()
     {
         return $this->belongsTo(User::class, 'teacher_id');
     }
+
 
 }

@@ -3,10 +3,18 @@ import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import SubjectCard from "./SubjectCard.jsx";
 import {useNavigate} from "react-router-dom";
-import {searchClass} from "../../store/class/classesSlice.js";
 import {searchSubject} from "../../store/subject/subjectsSlice.js";
 import Typography from "@mui/material/Typography";
 import styles from "../../styles/Grid.module.css";
+import {Button} from "@mui/material";
+import {theme} from "../../utils/theme.js";
+import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined.js";
+import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
+import FormClass from "../Classes/FormClass.jsx";
+import FormSubject from "./FormSubject";
+import {Search, SearchIconWrapper, StyledInputBase} from "../../styles/searchStyles.js";
+import SearchIcon from "@mui/icons-material/Search.js";
+import ClearIcon from "@mui/icons-material/Clear.js";
 
 
 const SubjectsList = () => {
@@ -23,7 +31,7 @@ const SubjectsList = () => {
     const dispatch = useDispatch();
 
     const {subjects, isLoading, visibleData} = useSelector((state) => state.subjects)
-    console.log(subjects)
+    // console.log(visibleData)
 
     const [notification, setNotification] = useState(false);
 
@@ -82,14 +90,52 @@ const SubjectsList = () => {
                     </Typography>
                 </Grid>
 
+                <Grid item xs={6} lg={3} style={{textAlign: 'right', paddingBottom: 5}}
+                      className={styles['no-padding-top']}>
+                    {user.permissions?.includes("create classes") &&
+                        <Button color="secondary"
+                                style={{ backgroundColor: theme.palette.secondary.main, color: 'white' }}
+                                onClick={handleClickOpen}>
+                            <AddToPhotosIcon style={{marginRight: 10}}/>
+                            ДОДАТИ ПРЕДМЕТ
+                        </Button>
+                    }
+                    <FormSubject open={open}
+                               onClose={handleClose}
+                    />
+                </Grid>
 
+                <Grid item xs={7} lg={2} style={{alignItems: 'end', paddingBottom: 5}}
+                      className={styles['no-padding-top']}>
+                    <Search>
+                        <SearchIconWrapper>
+                            <SearchIcon/>
+                        </SearchIconWrapper>
+                        <StyledInputBase
+                            placeholder="Пошук..."
+                            inputProps={{'aria-label': 'search'}}
+                            onChange={handleSearch}
+                            value={searchValue}
+                        />
+                    </Search>
+                </Grid>
+                <Grid item xs={5} lg={3} style={{textAlign: 'right'}}
+                      className={styles['no-padding-top']}>
+                    <Button color="secondary"
+                            style={{backgroundColor: '#676FC9', color: 'white'}}
+                            onClick={onClickReset}
+                    >
+                        <ClearIcon style={{marginRight: 10}}/>
+                        СКИНУТИ
+                    </Button>
+                </Grid>
             </Grid>
 
 
 
 
             <Grid container spacing={2}>
-                {subjects.map((subject) => (
+                {displayedSubjects.map((subject) => (
                     <Grid key={subject.id} item xs={12} sm={6} md={4}>
                         <SubjectCard subjectItem={subject}/>
                     </Grid>

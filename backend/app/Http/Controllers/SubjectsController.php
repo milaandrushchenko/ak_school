@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSubjectRequest;
 use App\Http\Resources\SubjectResource;
 use App\Models\Subject;
 use Illuminate\Http\Request;
@@ -33,7 +34,15 @@ class SubjectsController extends Controller
         return ('');
     }
 
-    public function store(){
+//    public function store(StoreSubjectRequest $request){
+    public function store(Request $request){
+        var_dump($request);
+//        $data = $request->validated();
+//        $classes = $data['classes_ids'];
+//        dd($request);
+//        $subject = Subject::create($data);
+//        return response(new SubjectResource($subject), 201);
 
+        return "";
     }
 }
