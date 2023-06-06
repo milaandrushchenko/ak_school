@@ -63,6 +63,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/tests/{test}', [TestController::class, 'destroy']);
     });
 
+    Route::group(['middleware' => [
+//        'permission:pass tests' ,
+        ]], function () {
+        Route::get('/tests/get-by-slug/{test:slug}', [TestController::class, 'getBySlug']);
+    });
+
     Route::apiResource('/tests', TestController::class);
     Route::apiResource('/roles', RoleController::class);
     Route::apiResource('/classes', ClassesController::class);
