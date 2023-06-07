@@ -1,6 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axiosClient from "../../axios-client.js";
-import {deleteClass} from "../class/classesSlice.js";
 
 const initialState = {
     subjects: [],
@@ -15,6 +14,7 @@ export const getSubjects = createAsyncThunk(
     async (_, {rejectWithValue}) => {
         try {
             const res = await axiosClient.get('/subjects');
+            console.log(res.data)
             return res.data;
         } catch (error) {
             if (!error.response) {
@@ -50,6 +50,7 @@ export const updateSubject = createAsyncThunk(
     "subjects/updateSubject",
     async ({id, values}, {rejectWithValue}) => {
         try {
+            console.log(values)
             const res = await axiosClient.put(`/subjects/${id}`, values);
             return res.data;
         } catch (error) {

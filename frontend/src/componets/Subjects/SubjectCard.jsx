@@ -1,23 +1,15 @@
-import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Card, CardActions,
-    CardContent, CardHeader,
-    ListItem, Menu, MenuItem
-} from "@mui/material";
+import {Card, CardContent, CardHeader, Chip, Menu, MenuItem, Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import {Edit, ExpandMore} from "@mui/icons-material";
 import Button from "@mui/material/Button";
-import {Link, NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import React, {useState} from "react";
 import Notification from "../core/Notification.jsx";
 import 'react-toastify/dist/ReactToastify.css';
-import FormClass from "../Classes/FormClass.jsx";
-import DeleteClass from "../Classes/DeleteClass.jsx";
 import FormSubject from "./FormSubject";
+import DeleteSubject from "./DeleteSubject.jsx";
+import {useSelector} from "react-redux";
 
 export default function SubjectCard({subjectItem, onDelete}) {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -55,10 +47,18 @@ export default function SubjectCard({subjectItem, onDelete}) {
         id: subjectItem.id,
         name: subjectItem.name,
         teacher_id: subjectItem.teacher.id,
-        // classes_ids: subjectItem.classes_ids.map(class_ => class_.id)
+        classes: subjectItem.classes.map(class_ => class_.class_id)
     };
-
-    // console.log(subjectItem)
+    let subjCls = [];
+    try {
+        const {classes} = useSelector((state) => state.classes);
+        subjectItem.classes.map((cls) => {
+            // console.log(cls)
+            subjCls.push(classes.find(item => item.id === cls.class_id))
+        })
+        // console.log(subjCls)
+    } catch {}
+    const {userToken, user} = useSelector((state) => state.currentUser)
 
     return (
         <>
@@ -85,9 +85,9 @@ export default function SubjectCard({subjectItem, onDelete}) {
                                            onClose={handleCloseDialogEdit}
                                            subjectItem={outputSubjectItem}/>
                                 <MenuItem onClick={handleClickOpenDialogDelete}>Видалити</MenuItem>
-                                {/*<DeleteSubject open={openDialogDelete}*/}
-                                {/*             onClose={handleCloseDialogDelete} subjectItem={subjectItem}*/}
-                                {/*/>*/}
+                                <DeleteSubject open={openDialogDelete}
+                                             onClose={handleCloseDialogDelete} subjectItem={subjectItem}
+                                />
                             </Menu>
                         </>
                     }
@@ -99,6 +99,13 @@ export default function SubjectCard({subjectItem, onDelete}) {
                             {`${subjectItem.teacher.first_name} ${subjectItem.teacher.second_name}`}
                         </Button>
                     </Typography>
+                    <Stack direction="row" spacing={1}>
+                        {user.role === 'admin' ? subjCls.map((c) => {
+                            return (
+                                <Chip label={c.name} color="primary" />
+                            )
+                        }) : ''}
+                    </Stack>
                     <Typography style={{fontSize: "0.8em", color: "grey", top: "10px", position: "relative"}}>
                         Створено: {subjectItem.created_at}
                     </Typography>

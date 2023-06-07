@@ -19,7 +19,7 @@ class SubjectResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'teacher' => $this->teacher,
-//            'classes' => $this->classes,
+            'classes' => $this->classes,
             'created_at' => Carbon::parse($this->created_at)->isoFormat('DD MMMM, YYYY HH:mm'),
             'updated_at' => Carbon::parse($this->updated_at)->isoFormat('DD MMMM, YYYY HH:mm'),
         ];

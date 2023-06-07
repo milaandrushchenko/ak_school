@@ -19,21 +19,22 @@ const MenuProps = {
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('Обов\'язкове поле'),
     teacher_id: Yup.number().required('Обов\'язкове поле'),
-    // classes_ids: Yup.array().of(Yup.number()).min(1, 'Оберіть хоча б один клас'),
+    classes_ids: Yup.array().of(Yup.number()).min(1, 'Оберіть хоча б один клас'),
 });
 
 const initialValues = {
     name: '',
     teacher_id: '',
-    // classes_ids: [],
+    classes_ids: [],
 };
 
 export default function FormSubject({open, onClose, subjectItem}) {
+    // console.log(subjectItem)
     const dispatch = useDispatch();
 
     const {user, userToken} = useSelector((state) => state.currentUser)
 
-    // const {classes} = useSelector((state) => state.classes);
+    const {classes} = useSelector((state) => state.classes);
     // console.log(classes)
 
     const {users} = useSelector((state) => state.users)
@@ -47,7 +48,19 @@ export default function FormSubject({open, onClose, subjectItem}) {
         formik.resetForm(initialValues);
         formik.setErrors({});
     }
+    // try {
+    //     console.log(subjectItem)
+    //     subjectItem.classes.push(16)
+    //     console.log(subjectItem)
+    // } catch {
+    //
+    // }
+    if (subjectItem){
+        subjectItem.classes_ids = subjectItem.classes
+    }
 
+
+    // subjectItem['classes_ids'] = subjectItem.classes
     const formik = useFormik({
         initialValues: subjectItem ? {...subjectItem} : {...initialValues},
         validationSchema,
@@ -73,24 +86,23 @@ export default function FormSubject({open, onClose, subjectItem}) {
     });
 
 
-    // useEffect(() => {
-    //
-    //     if (errorsServer) {
-    //         let errors = {...errorsServer};
-    //         Object.keys(errors).forEach((key) => {
-    //             const match = key.match(/classes_ids\.\d+/);
-    //             if (match) {
-    //                 const fieldName = match[0].replace(/\.\d+/, '');
-    //                 errors[fieldName] = errors[key];
-    //                 delete errors[key];
-    //             }
-    //         });
-    //
-    //         formik.setErrors({...formik.errors, ...errors});
-    //     }
-    //
-    // }, [errorsServer]);
+    useEffect(() => {
+        if (errorsServer) {
+            let errors = {...errorsServer};
+            Object.keys(errors).forEach((key) => {
+                const match = key.match(/classes_ids\.\d+/);
+                if (match) {
+                    const fieldName = match[0].replace(/\.\d+/, '');
+                    errors[fieldName] = errors[key];
+                    delete errors[key];
+                }
+            });
 
+            formik.setErrors({...formik.errors, ...errors});
+        }
+
+    }, [errorsServer]);
+    // console.log(formik.values.classes_ids)
     return (
         <>
             <Dialog
@@ -121,68 +133,68 @@ export default function FormSubject({open, onClose, subjectItem}) {
                                 error={formik.touched.name && Boolean(formik.errors?.name)}
                                 helperText={formik.touched.name && formik.errors && formik.errors.name}
                             />
-                            {/*<FormControl fullWidth sx={{marginTop: 2}}*/}
-                            {/*             error={formik.touched.classes_ids && Boolean(formik.errors.classes_ids)}>*/}
-                            {/*    <InputLabel id="classes-label">Класи</InputLabel>*/}
-                            {/*    <Select*/}
-                            {/*        // style={{ maxHeight: '100px', overflow: 'auto' }}*/}
-                            {/*        labelId="classes-label"*/}
-                            {/*        id="classes"*/}
-                            {/*        name="classes_ids"*/}
-                            {/*        label="Класи"*/}
-                            {/*        value={formik.values.classes_ids}*/}
-                            {/*        onChange={formik.handleChange}*/}
-                            {/*        onBlur={formik.handleBlur}*/}
-                            {/*        multiple*/}
-                            {/*        onMouseDown={(event) => {*/}
-                            {/*            if (event.target.tagName === 'svg') {*/}
-                            {/*                event.preventDefault();*/}
-                            {/*            }*/}
-                            {/*        }}*/}
-                            {/*        renderValue={(selected) => {*/}
-                            {/*            return (*/}
-                            {/*                <div style={{*/}
-                            {/*                    display: 'flex',*/}
-                            {/*                    flexWrap: 'wrap',*/}
-                            {/*                    maxHeight: '100px',*/}
-                            {/*                    overflow: 'auto'*/}
-                            {/*                }}>*/}
-                            {/*                    {selected.map((id) => {*/}
-                            {/*                        const cls = classes.find((u) => u.id === id);*/}
-                            {/*                        return (*/}
-                            {/*                            <Chip*/}
-                            {/*                                key={id}*/}
-                            {/*                                label={cls ? cls.name : ''}*/}
-                            {/*                                style={{margin: '2px'}}*/}
-                            {/*                                onMouseDown={(event) => {*/}
-                            {/*                                    event.stopPropagation();*/}
-                            {/*                                }}*/}
-                            {/*                                onDelete={() => {*/}
-                            {/*                                    const newSelected = formik.values.classes_ids.filter((s) => s !== id);*/}
-                            {/*                                    formik.setFieldValue('classes_ids', newSelected);*/}
-                            {/*                                }}*/}
+                            <FormControl fullWidth sx={{marginTop: 2}}
+                                         error={formik.touched.classes_ids && Boolean(formik.errors.classes_ids)}>
+                                <InputLabel id="classes-label">Класи</InputLabel>
+                                <Select
+                                    // style={{ maxHeight: '100px', overflow: 'auto' }}
+                                    labelId="classes-label"
+                                    id="classes"
+                                    name="classes_ids"
+                                    label="Класи"
+                                    value={formik.values.classes_ids}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    multiple
+                                    onMouseDown={(event) => {
+                                        if (event.target.tagName === 'svg') {
+                                            event.preventDefault();
+                                        }
+                                    }}
+                                    renderValue={(selected) => {
+                                        return (
+                                            <div style={{
+                                                display: 'flex',
+                                                flexWrap: 'wrap',
+                                                maxHeight: '100px',
+                                                overflow: 'auto'
+                                            }}>
+                                                {selected.map((id) => {
+                                                    const cls = classes.find((u) => u.id === id);
+                                                    return (
+                                                        <Chip
+                                                            key={id}
+                                                            label={cls ? cls.name : ''}
+                                                            style={{margin: '2px'}}
+                                                            onMouseDown={(event) => {
+                                                                event.stopPropagation();
+                                                            }}
+                                                            onDelete={() => {
+                                                                const newSelected = formik.values.classes_ids.filter((s) => s !== id);
+                                                                formik.setFieldValue('classes_ids', newSelected);
+                                                            }}
 
-                            {/*                            />*/}
-                            {/*                        );*/}
-                            {/*                    })}*/}
-                            {/*                </div>*/}
-                            {/*            );*/}
-                            {/*        }}*/}
-                            {/*        MenuProps={MenuProps}*/}
-                            {/*    >*/}
-                            {/*        {classes.length === 0 && (*/}
-                            {/*            <MenuItem disabled>Немає класів для вибору</MenuItem>*/}
-                            {/*        )}*/}
-                            {/*        {classes.map(cls => (*/}
-                            {/*            <MenuItem key={cls.id}*/}
-                            {/*                      value={cls.id}>{cls.name}</MenuItem>*/}
-                            {/*        ))}*/}
+                                                        />
+                                                    );
+                                                })}
+                                            </div>
+                                        );
+                                    }}
+                                    MenuProps={MenuProps}
+                                >
+                                    {classes.length === 0 && (
+                                        <MenuItem disabled>Немає класів для вибору</MenuItem>
+                                    )}
+                                    {classes.map(cls => (
+                                        <MenuItem key={cls.id}
+                                                  value={cls.id}>{cls.name}</MenuItem>
+                                    ))}
 
-                            {/*    </Select>*/}
-                            {/*    {formik.touched.classes_ids && formik.errors.classes_ids && (*/}
-                            {/*        <FormHelperText>{formik.touched.classes_ids && formik.errors && formik.errors.classes_ids}</FormHelperText>*/}
-                            {/*    )}*/}
-                            {/*</FormControl>*/}
+                                </Select>
+                                {formik.touched.classes_ids && formik.errors.classes_ids && (
+                                    <FormHelperText>{formik.touched.classes_ids && formik.errors && formik.errors.classes_ids}</FormHelperText>
+                                )}
+                            </FormControl>
 
                             <FormControl fullWidth sx={{marginTop: 2}}
                                          error={formik.touched.teacher_id && Boolean(formik.errors.teacher_id)}>

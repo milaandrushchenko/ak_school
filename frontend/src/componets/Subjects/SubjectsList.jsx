@@ -15,6 +15,8 @@ import FormSubject from "./FormSubject";
 import {Search, SearchIconWrapper, StyledInputBase} from "../../styles/searchStyles.js";
 import SearchIcon from "@mui/icons-material/Search.js";
 import ClearIcon from "@mui/icons-material/Clear.js";
+import TablePagination from "@mui/material/TablePagination";
+import Notification from "../core/Notification.jsx";
 
 
 const SubjectsList = () => {
@@ -40,7 +42,7 @@ const SubjectsList = () => {
     const [searchValue, setSearchValue] = useState('');
 
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(6);
+    const [rowsPerPage, setRowsPerPage] = useState(9);
 
     const handleCloseAlert = (event, reason) => {
         if (reason === 'clickaway') {return;}
@@ -141,6 +143,22 @@ const SubjectsList = () => {
                     </Grid>
                 ))}
             </Grid>
+
+            <TablePagination
+                rowsPerPageOptions={[9, 21, 33, 45]}
+                component="div"
+                count={subjects.length}
+                page={page}
+                onPageChange={handleChangePage}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                labelRowsPerPage="Кількість на сторінці:"
+            />
+            {notification && (
+                <Notification notification={!!notification}
+                              handleCloseAlert={handleCloseAlert} hideDuration={3000}
+                              text={notification}/>
+            )}
         </>
     );
 }
