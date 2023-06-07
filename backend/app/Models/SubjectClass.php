@@ -8,22 +8,19 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class Subject extends Model
+class SubjectClass extends Model
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     protected $guarded = [];
 
-    public function teacher()
-    {
-        return $this->belongsTo(User::class, 'teacher_id');
-    }
-
     public function classes()
     {
-        return $this->hasMany(SubjectClass::class, 'subject_id');
+        return $this->belongsTo(Classes::class, 'class_id');
     }
-//    public function studentSubjects(){
-//        return $this->hasMany
-//    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'subject_id');
+    }
 }
