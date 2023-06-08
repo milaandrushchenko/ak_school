@@ -34,3 +34,9 @@ export const compareDate = (data1, data2) => {
     return data1;
 
 }
+
+export const timeConverter = time => {
+    return `0${time}`.slice(-2);
+};
+
+

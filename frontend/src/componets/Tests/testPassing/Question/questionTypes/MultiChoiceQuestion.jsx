@@ -39,26 +39,51 @@ import Checkbox from "@mui/material/Checkbox";
 import TextEditor from "../../../../core/TextEditor.jsx";
 
 
-export default function MultiChoiceQuestion({options}) {
-    // options = JSON.parse(options);
+export default function MultiChoiceQuestion({ options, answerChanged }) {
+    const [selectedOptions, setSelectedOptions] = useState([]);
+
+    const onCheckboxChange = (text, e) => {
+        console.log(text);
+        if (e.target.checked) {
+            setSelectedOptions((prevSelectedOptions) => {
+                const updatedOptions = [...prevSelectedOptions, text];
+                answerChanged(updatedOptions);
+                return updatedOptions;
+            });
+        } else {
+            setSelectedOptions((prevSelectedOptions) => {
+                const updatedOptions = prevSelectedOptions.filter((op) => op !== text);
+                answerChanged(updatedOptions);
+                return updatedOptions;
+            });
+        }
+    };
+
 
     return (
         <>
-
             {options?.map((option, index) => (
                 <Box key={index} display="flex" alignItems="center">
                     <Box flexGrow={1} display="flex" alignItems="center">
-                        <Checkbox
-                            // checked={option.isCorrect}
-                        />
-                        <div
-                            style={{maxWidth: '90%', overflow: 'hidden'}}
-                            dangerouslySetInnerHTML={{__html: option.text}}
-                            className="question-content"
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    onChange={(e) => onCheckboxChange(option.text,e)}
+                                    checked={selectedOptions.includes(option.text)}
+                                />
+                            }
+                            label={
+                                <div
+                                    style={{ overflow: "hidden" }}
+                                    dangerouslySetInnerHTML={{ __html: option.text }}
+                                    className="question-content"
+                                />
+                            }
+                            onChange={(e) => onCheckboxChange(option.text,e)}
                         />
                     </Box>
                 </Box>
             ))}
         </>
-    )
+    );
 }

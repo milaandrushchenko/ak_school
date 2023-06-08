@@ -29,6 +29,22 @@ export const validationSchemaSingleChoice = Yup.object({
         .min(2, "Потрібно додати щонайменше 2 варіанти!")
         .test('one-correct-option', 'Будь ласка,оберіть один правильний варіант відповіді!', options => {
             return options.filter(option => option.isCorrect).length === 1;
+        })
+        .test('unique-option-text', 'Текст варіантів повинен бути унікальним!!', options => {
+            let uniqueValues = new Set();
+            let hasDuplicates = false;
+
+            for (let i = 0; i < options.length; i++) {
+                let value = options[i].text;
+
+                if (uniqueValues.has(value)) {
+                    hasDuplicates = true;
+                    break;
+                }
+
+                uniqueValues.add(value);
+            }
+            return !hasDuplicates;
         }),
     score: Yup.number().required("Це поле є обов'язковим для заповнення!").min(0, 'Значення не може бути меньше 0.'),
 });
@@ -78,6 +94,22 @@ export const validationSchemaMultipleAnswers = Yup.object({
         .min(2, "Потрібно додати щонайменше 2 варіанти!")
         .test('one-correct-option', 'Будь ласка,оберіть 2 правильних варіанти відповіді!', options => {
             return options.filter(option => option.isCorrect).length > 1;
+        })
+        .test('unique-option-text', 'Текст варіантів повинен бути унікальним!!', options => {
+            let uniqueValues = new Set();
+            let hasDuplicates = false;
+
+            for (let i = 0; i < options.length; i++) {
+                let value = options[i].text;
+
+                if (uniqueValues.has(value)) {
+                    hasDuplicates = true;
+                    break;
+                }
+
+                uniqueValues.add(value);
+            }
+            return !hasDuplicates;
         }),
     score: Yup.number().required("Це поле є обов'язковим для заповнення!").min(0, 'Значення не може бути меньше 0.'),
 });

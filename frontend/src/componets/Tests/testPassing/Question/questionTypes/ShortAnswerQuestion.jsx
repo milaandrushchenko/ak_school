@@ -11,12 +11,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Divider from "@mui/material/Divider";
 import {theme} from "../../../../../utils/theme.js";
 
-export default function ShortAnswerQuestion({options}) {
+export default function ShortAnswerQuestion({answerChanged}) {
 
     return (
         <>
                     <TextField
-                        // key={index}
+                        onChange={(ev) => answerChanged(ev.target.value)}
                         label={`Ваша відповідь`}
                         fullWidth
                         margin="normal"

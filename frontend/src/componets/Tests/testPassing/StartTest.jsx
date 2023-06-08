@@ -11,11 +11,13 @@ export default function StartTest({test, startTest, showStart}) {
                     <Typography variant="h4" sx={{marginBottom: "24px"}}>
                         {test.title}
                     </Typography>
-                    {test.max_attempts && (
-                        <Typography variant="subtitle1" sx={{marginBottom: "16px"}}>
-                            Кількість дозволених спроб: {test.max_attempts}
-                        </Typography>)
-                    }
+
+                    <Typography variant="subtitle1" sx={{marginBottom: "16px"}}>
+                        Кількість дозволених
+                        спроб: {test.max_attempts !== 0 ? test.max_attempts : 'необмежена кількість'}
+                    </Typography>
+
+
                     {test.time_limit && (
                         <Typography variant="subtitle1" sx={{marginBottom: "16px"}}>
                             Обмеження в часі : {test.time_limit} хв

@@ -4,7 +4,7 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    Radio
+    Radio, RadioGroup
 } from "@mui/material";
 import {AddCircle, ExpandMore, Visibility, VisibilityOff} from '@mui/icons-material';
 import IconButton from "@mui/material/IconButton";
@@ -15,30 +15,37 @@ import 'dayjs/locale/uk';
 import Box from "@mui/material/Box";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TextEditor from "../../../../core/TextEditor.jsx";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
-export default function SingleChoiceQuestion({options}) {
+export default function SingleChoiceQuestion({options, answerChanged}) {
+    const handleOptionClick = (selectedOption) => {
+        answerChanged(selectedOption);
+    };
     return (
         <>
+            <RadioGroup defaultValue="outlined" name="radio-buttons-group">
+                {options.map((option, index) => (
+                    <FormControlLabel
+                        key={index}
+                        control={
+                            <Radio
+                                onChange={(ev) => answerChanged(ev.target.value)}
+                                id={`option-${index}-${option.text}`}
+                                value={option.text}
+                            />
+                        }
+                        label={
+                            <div
+                                style={{ overflow: 'hidden' }}
+                                dangerouslySetInnerHTML={{ __html: option.text }}
+                                className="question-content"
+                            />
+                        }
+                        onClick={() => handleOptionClick(option.text)}
+                    />
+                ))}
+            </RadioGroup>
 
-            {options.map((option, index) => (
-                <Box key={index} display="flex" alignItems="center">
-                    <Box flexGrow={1} display="flex" alignItems="center">
-                        <Radio
-                            // checked={option.isCorrect}
-                        />
-                        {/*<TextEditor*/}
-                        {/*    label={`Варіант ${index + 1}`}*/}
-                        {/*    name={`options[${index}].text`}*/}
-                        {/*    value={option.text}*/}
-                        {/*/>*/}
-                        <div
-                            style={{maxWidth: '90%', overflow: 'hidden'}}
-                            dangerouslySetInnerHTML={{__html: option.text}}
-                            className="question-content"
-                        />
-                    </Box>
-                </Box>
-            ))}
         </>
     )
 }

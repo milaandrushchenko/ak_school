@@ -5,8 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="369ea667-65c6-4f76-97c2-3e996c2a7e9c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/diploma.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/diploma.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/CountDown.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Prompt.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Question/questionTypes/MatchingQuestion1.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/AuthController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Question/Question.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Question/Question.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Question/questionTypes/MatchingQuestion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Question/questionTypes/MatchingQuestion.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Question/questionTypes/MultiChoiceQuestion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Question/questionTypes/MultiChoiceQuestion.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Question/questionTypes/ShortAnswerQuestion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Question/questionTypes/ShortAnswerQuestion.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Question/questionTypes/SingleChoiceQuestion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Question/questionTypes/SingleChoiceQuestion.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/StartTest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/StartTest.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/TestPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/TestPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/utils/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/common.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/utils/validate.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/validate.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,24 +169,25 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/OSPanel/domains/survey",
+    "last_opened_file_path": "C:/OSPanel/domains/diploma",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.editor",
     "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PhpStorm 2020.3.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\testPassing" />
+      <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\testPassing\Question\questionTypes" />
       <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\testPassing\Question" />
       <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\Question\display" />
       <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\questionTypes" />
-      <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests" />
-      <recent name="C:\OSPanel\domains\diploma\frontend\src\store" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\testPassing\Question" />
@@ -250,6 +266,9 @@
       <workItem from="1685622456004" duration="593000" />
       <workItem from="1685944654080" duration="22920000" />
       <workItem from="1686037179866" duration="12696000" />
+      <workItem from="1686119679077" duration="31015000" />
+      <workItem from="1686200349927" duration="2330000" />
+      <workItem from="1686202817094" duration="28634000" />
     </task>
     <servers />
   </component>
