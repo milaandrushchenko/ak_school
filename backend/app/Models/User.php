@@ -3,11 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Http\Controllers\SubjectsController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use function Symfony\Component\Translation\t;
 
 class User extends Authenticatable
 {
@@ -96,9 +98,8 @@ class User extends Authenticatable
         return $this->hasMany(Test::class, 'created_by');
     }
 
-//    public function teacherSubjects(){
-//        return $this->hasMany(Subject::class, 'teacher_id');
-//    }
-
+    public function teacherSubjects(){
+        return $this->hasMany(Subject::class, 'id');
+    }
 
 }

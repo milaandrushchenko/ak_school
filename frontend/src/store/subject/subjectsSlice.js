@@ -1,6 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axiosClient from "../../axios-client.js";
-import {deleteClass} from "../class/classesSlice.js";
 
 const initialState = {
     subjects: [],
@@ -15,6 +14,7 @@ export const getSubjects = createAsyncThunk(
     async (_, {rejectWithValue}) => {
         try {
             const res = await axiosClient.get('/subjects');
+            console.log(res.data)
             return res.data;
         } catch (error) {
             if (!error.response) {
@@ -31,7 +31,7 @@ export const createSubject = createAsyncThunk(
     "subjects/createSubject",
     async (payload, {rejectWithValue}) => {
         try {
-            console.log(payload);
+            console.log(payload)
             const res = await axiosClient.post('/subjects', payload);
             return res.data;
         } catch (error) {
@@ -50,6 +50,7 @@ export const updateSubject = createAsyncThunk(
     "subjects/updateSubject",
     async ({id, values}, {rejectWithValue}) => {
         try {
+            console.log(values)
             const res = await axiosClient.put(`/subjects/${id}`, values);
             return res.data;
         } catch (error) {
@@ -69,7 +70,7 @@ export const deleteSubject = createAsyncThunk(
     async ({id, subjectItem}, {rejectWithValue}) => {
         try {
             const res = await axiosClient.delete(`/subjects/${id}`);
-            console.log(res);
+            // console.log(res);
             return subjectItem;
         } catch (error) {
             if (!error.response) {
@@ -101,6 +102,7 @@ const subjectsSlice = createSlice({
             state.errors = null;
         },
         searchSubject: (state, {payload}) => {
+
             state.visibleData = state.subjects.filter(
                 (item) =>
                     item.name.toLowerCase().includes(payload.toLowerCase())
