@@ -109,7 +109,11 @@ class TestController extends Controller
         }
 //        var_dump($data);
         $question = Questions::create($data);
-        return response($question, 201);
+
+        $parsedQuestion = json_decode($question, true);
+        $parsedQuestion['options'] = json_decode($parsedQuestion['options'], true);
+
+        return response($parsedQuestion, 201);
     }
 
     public function updateQuestions(UpdateQuestionsRequest $request, string $id)
@@ -119,8 +123,13 @@ class TestController extends Controller
         if (is_array($data['options'])) {
             $data['options'] = json_encode($data['options']);
         }
+
         $question->update($data);
-        return response($question, 201);
+
+        $parsedQuestion = json_decode($question, true);
+        $parsedQuestion['options'] = json_decode($parsedQuestion['options'], true);
+
+        return response($parsedQuestion, 201);
     }
 
     public function deleteQuestions(string $id)
@@ -129,6 +138,20 @@ class TestController extends Controller
         $question->delete();
 
         return response('question was deleted', 204);
+    }
+
+
+    public function getBySlug(Test $test)
+    {
+        if (!$test->is_active) {
+            return response('', 404);
+        }
+//        $currentDate = new \DateTime();
+//        $expireDate = new \DateTime($survey->expire_date);
+//        if ($currentDate > $expireDate) {
+//            return response('', 404);
+//        };
+        return new TestResource($test);
     }
 
 

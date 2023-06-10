@@ -23,7 +23,6 @@ export default function QuestionCard({
                                          onCloseDeleteDialog
                                      }) {
 
-    question = {...question, options: JSON.parse(question.options)}
 
     const [notification, setNotification] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);

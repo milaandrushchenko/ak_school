@@ -1,30 +1,55 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     Box,
-    Button, DialogActions, DialogTitle, DialogContent,
+    Button,
+    DialogActions,
+    DialogTitle,
+    DialogContent,
     Grid,
     TextField,
-    Typography, Alert, Chip
+    Typography,
+    Alert,
+    MenuItem,
+    Autocomplete, InputAdornment, Chip
 } from "@mui/material";
 import EastIcon from '@mui/icons-material/East';
 import {theme} from "../../../../../utils/theme.js";
+import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete.js";
-import TextEditor from "../../../../core/TextEditor.jsx";
-import {AddCircle} from "@mui/icons-material";
-import {ukrainianLetters} from "../../../../../utils/common.js";
+import {SendSharp} from "@mui/icons-material";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
+import {ukrainianLetters} from "../../../../../utils/common.js";
 import TableBody from "@mui/material/TableBody";
 import Checkbox from "@mui/material/Checkbox";
-import Divider from "@mui/material/Divider";
 import Matrix from "../../../Matrix.jsx";
 
 
-const MatchingQuestion = ({options}) => {
+const MatchingQuestion = ({options, answerChanged}) => {
+    const [selectedOptions, setSelectedOptions] = useState([]);
+
+    const onCheckboxChange = (leftUuid, rightUuid, e) => {
+
+        let updateSelectedOptions = selectedOptions.filter(([left, right]) => left !== leftUuid && right !== rightUuid);
+
+        if (e.target.checked) {
+            updateSelectedOptions = [...updateSelectedOptions, [leftUuid, rightUuid]];
+            answerChanged(updateSelectedOptions);
+        } else {
+            answerChanged(updateSelectedOptions);
+        }
+
+        setSelectedOptions(updateSelectedOptions);
+
+    };
+
+    useEffect(() => {
+        setSelectedOptions([]);
+    }, [options]);
+
     return (
         <>
             <Grid container spacing={2}>
@@ -67,13 +92,7 @@ const MatchingQuestion = ({options}) => {
                     ))}
                 </Grid>
             </Grid>
-            <Divider/>
-            <div style={{
-                color: 'gray',
-
-            }}>Правильна відповідь :
-            </div>
-            <Matrix options={options} selectedOptions={options?.correctAnswers}/>
+            <Matrix options={options} onChange={onCheckboxChange} selectedOptions={selectedOptions}/>
         </>
     );
 };
