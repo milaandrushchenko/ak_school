@@ -44,6 +44,10 @@ const router = createBrowserRouter([
                 element: <TestsEditor />,
             },
             {
+                path: '/tests/passing/:slug',
+                // element: <TestPage/>,
+            },
+            {
                 path: '/subjects',
                 element: <SubjectsList />
             },
