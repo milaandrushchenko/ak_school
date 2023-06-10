@@ -49,7 +49,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/tests/passing/:slug',
-                // element: <TestPage/>,
+                element: <TestPage/>,
             },
             {
                 path: '/subjects',
