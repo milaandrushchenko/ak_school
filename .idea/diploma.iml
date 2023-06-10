@@ -8,6 +8,25 @@
       <sourceFolder url="file://$MODULE_DIR$/backend/tests" isTestSource="true" packagePrefix="Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/0a" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/1c" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/27" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/65" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/66" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/71" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/85" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/88" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/a2" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/b2" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/bb" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/bc" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/c0" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/cb" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/d4" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/ea" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/ec" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/fa" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -88,6 +88,24 @@ export const getTests = createAsyncThunk(
     }
 );
 
+export const getTestBySlug = createAsyncThunk(
+    "tests/getTestBySlug",
+    async ({slug}, {rejectWithValue}) => {
+        try {
+            const res = await axiosClient.get(`tests/get-by-slug/${slug}`);
+            return res.data;
+        } catch (error) {
+            if (!error.response) {
+                // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+
+    }
+);
+
 
 export const changeTestStatus = createAsyncThunk(
     "tests/changeTestStatus",
@@ -282,6 +300,23 @@ const testsSlice = createSlice({
             state.isLoading = false;
         });
         builder.addCase(getTests.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.errors = action.payload;
+            state.isLoading = false;
+        });
+
+
+
+
+        builder.addCase(getTestBySlug.pending, (state) => {
+            state.isLoading = true;
+        });
+        builder.addCase(getTestBySlug.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.test = action.payload.data;
+            state.isLoading = false;
+        });
+        builder.addCase(getTestBySlug.rejected, (state, action) => {
             state.status = 'rejected';
             state.errors = action.payload;
             state.isLoading = false;

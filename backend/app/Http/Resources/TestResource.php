@@ -16,6 +16,15 @@ class TestResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
+        $questions = [];
+        foreach ($this->questions as $question) {
+            $parsedQuestion = json_decode($question, true);
+            if (isset($parsedQuestion['options'])) {
+                $parsedQuestion['options'] = json_decode($parsedQuestion['options'], true);
+            }
+            $questions[] = $parsedQuestion;
+        }
         //Carbon::setLocale('uk');
         return [
             'id' => $this->id,
@@ -29,7 +38,7 @@ class TestResource extends JsonResource
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
             'created_at' => Carbon::parse($this->created_at)->isoFormat('DD MMMM, YYYY HH:mm'),
-            'questions' => $this->questions,
+            'questions' => $questions,
 
         ];
     }
