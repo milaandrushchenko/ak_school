@@ -172,7 +172,11 @@ export default function TasksList(){
                         <Grid container spacing={2}>
                             {subject.tasks ? subject.tasks.map((task) => (
                                 <Grid key={task.id} item xs={12}>
-                                    <TaskCard taskItem={task}/>
+                                    <TaskCard task={task}
+                                        openDeleteDialog={openDialogDeleteTask}
+                                        onOpenDeleteDialog={handleClickOpenDialogDeleteTask}
+                                        onCloseDeleteDialog={handleCloseDialogDeleteTask}
+                                    />
                                 </Grid>
                             )) : ""}
                         </Grid>
