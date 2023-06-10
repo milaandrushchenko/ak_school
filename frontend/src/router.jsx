@@ -8,6 +8,7 @@ import TestsList from "./componets/Tests/TestsList.jsx";
 import TestsEditor from "./componets/Tests/TestsEditor.jsx";
 import SubjectsList from "./componets/Subjects/SubjectsList.jsx";
 import TestPage from "./componets/Tests/testPassing/TestPage.jsx";
+import TasksList from "./componets/Tasks/TasksList.jsx";
 
 const router = createBrowserRouter([
     {
@@ -49,12 +50,17 @@ const router = createBrowserRouter([
             },
             {
                 path: '/tests/passing/:slug',
-                // element: <TestPage/>,
+                element: <TestPage/>,
             },
             {
                 path: '/subjects',
                 element: <SubjectsList/>
-            }
+            },
+            {
+                path: '/subjects/:id',
+                element: <TasksList />
+            },
+
         ]
     },
     {
