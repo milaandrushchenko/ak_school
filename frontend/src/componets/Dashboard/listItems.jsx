@@ -178,7 +178,7 @@ export const TeacherMainListItems = (
                     <ListItemIcon>
                         <CalendarMonthIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="РОЗКДЛАД"/>
+                    <ListItemText primary="РОЗКЛАД"/>
                 </ListItemButton>
             )}
         </NavLink>

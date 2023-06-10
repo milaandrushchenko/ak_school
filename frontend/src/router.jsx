@@ -7,6 +7,7 @@ import ClassesList from "./componets/Classes/ClassesList.jsx";
 import TestsList from "./componets/Tests/TestsList.jsx";
 import TestsEditor from "./componets/Tests/TestsEditor.jsx";
 import SubjectsList from "./componets/Subjects/SubjectsList.jsx";
+import TasksList from "./componets/Tasks/TasksList.jsx";
 
 const router = createBrowserRouter([
     {
@@ -45,7 +46,11 @@ const router = createBrowserRouter([
             {
                 path: '/subjects',
                 element: <SubjectsList />
-            }
+            },
+            {
+                path: '/subjects/:id',
+                element: <TasksList />
+            },
         ]
     },
     {
