@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom";
 import {searchSubject} from "../../store/subject/subjectsSlice.js";
 import Typography from "@mui/material/Typography";
 import styles from "../../styles/Grid.module.css";
-import {Button} from "@mui/material";
+import {Button, CircularProgress} from "@mui/material";
 import {theme} from "../../utils/theme.js";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined.js";
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
@@ -17,6 +17,7 @@ import SearchIcon from "@mui/icons-material/Search.js";
 import ClearIcon from "@mui/icons-material/Clear.js";
 import TablePagination from "@mui/material/TablePagination";
 import Notification from "../core/Notification.jsx";
+import Box from "@mui/material/Box";
 
 
 const SubjectsList = () => {
@@ -123,8 +124,7 @@ const SubjectsList = () => {
                 </Grid>
                 <Grid item xs={5} lg={3} style={{textAlign: 'right'}}
                       className={styles['no-padding-top']}>
-                    <Button color="secondary"
-                            style={{backgroundColor: '#676FC9', color: 'white'}}
+                    <Button style={{backgroundColor: '#b3b7d7', color: 'white'}}
                             onClick={onClickReset}
                     >
                         <ClearIcon style={{marginRight: 10}}/>
@@ -134,31 +134,37 @@ const SubjectsList = () => {
             </Grid>
 
 
-
-
-            <Grid container spacing={2}>
-                {displayedSubjects.map((subject) => (
-                    <Grid key={subject.id} item xs={12} sm={6} md={4}>
-                        <SubjectCard subjectItem={subject}/>
+            {isLoading &&
+                <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                    <CircularProgress/>
+                </Box>
+            }
+            {!isLoading &&
+                <>
+                    <Grid container spacing={2}>
+                        {displayedSubjects.map((subject) => (
+                            <Grid key={subject.id} item xs={12} sm={6} md={4}>
+                                <SubjectCard subjectItem={subject}/>
+                            </Grid>
+                        ))}
                     </Grid>
-                ))}
-            </Grid>
-
-            <TablePagination
-                rowsPerPageOptions={[9, 21, 33, 45]}
-                component="div"
-                count={subjects.length}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                labelRowsPerPage="Кількість на сторінці:"
-            />
-            {notification && (
-                <Notification notification={!!notification}
-                              handleCloseAlert={handleCloseAlert} hideDuration={3000}
-                              text={notification}/>
-            )}
+                    <TablePagination
+                        rowsPerPageOptions={[9, 21, 33, 45]}
+                        component="div"
+                        count={subjects.length}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        rowsPerPage={rowsPerPage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        labelRowsPerPage="Кількість на сторінці:"
+                    />
+                    {notification && (
+                        <Notification notification={!!notification}
+                                      handleCloseAlert={handleCloseAlert} hideDuration={3000}
+                                      text={notification}/>
+                    )}
+                </>
+            }
         </>
     );
 }

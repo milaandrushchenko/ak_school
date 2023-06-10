@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\SubjectsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\TestController;
 
+use App\Http\Controllers\SubjectsController;
+use App\Http\Controllers\TasksController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -72,7 +73,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/tests', TestController::class);
     Route::apiResource('/roles', RoleController::class);
     Route::apiResource('/classes', ClassesController::class);
+
     Route::apiResource('/subjects', SubjectsController::class);
+
+    Route::apiResource('/tasks', TasksController::class);
+    Route::post('/subjects/create-task/{subject_id}', [SubjectsController::class, 'createTask']);
 });
 
 

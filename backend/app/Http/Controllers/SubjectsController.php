@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSubjectRequest;
+use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateSubjectRequest;
 use App\Http\Resources\SubjectResource;
 use App\Models\Subject;
 use App\Models\SubjectClass;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use PHPUnit\Metadata\Uses;
@@ -18,12 +20,12 @@ class SubjectsController extends Controller
         $user = auth()->user();
 
         if ($user->hasRole('admin')) {
-            $subjects = Subject::query()->orderBy('name', 'desc')->get();
+            $subjects = Subject::query()->orderBy('updated_at', 'desc')->get();
         } else if ($user->hasRole('teacher')) {
-              $subjects = Subject::query()->where('teacher_id', $user['id']) ->orderBy('name', 'desc')->get();
+              $subjects = Subject::query()->where('teacher_id', $user['id'])->orderBy('updated_at', 'desc')->get();
         } else if ($user->hasRole('student')) {
             $ids = SubjectClass::where('class_id', $user['class_id'])->pluck('subject_id')->toArray();
-            $subjects = Subject::whereIn('id', $ids)->get();
+            $subjects = Subject::whereIn('id', $ids)->orderBy('updated_at', 'desc')->get();
         } else {
             $subjects = [];
         }
@@ -70,5 +72,11 @@ class SubjectsController extends Controller
     {
         $subject->delete();
         return response()->json(['message' => `Subject deleted successfully`], 200);
+    }
+
+    public function createTask(StoreTaskRequest $request, string $id){
+        $data = $request->validated();
+        $task = Task::create($data);
+        return response($task, 201);
     }
 }

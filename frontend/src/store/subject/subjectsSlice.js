@@ -3,18 +3,18 @@ import axiosClient from "../../axios-client.js";
 
 const initialState = {
     subjects: [],
+    subject: {},
     visibleData: [],
     errors: null,
     isLoading: true,
     status: 'idle',
 }
 
-export const getSubjects = createAsyncThunk(
-    "subjects/getSubjects",
+export const getSubjects = createAsyncThunk("subjects/getSubjects",
     async (_, {rejectWithValue}) => {
         try {
             const res = await axiosClient.get('/subjects');
-            console.log(res.data)
+            // console.log(res.data)
             return res.data;
         } catch (error) {
             if (!error.response) {
@@ -27,11 +27,10 @@ export const getSubjects = createAsyncThunk(
     }
 );
 
-export const createSubject = createAsyncThunk(
-    "subjects/createSubject",
+export const createSubject = createAsyncThunk("subjects/createSubject",
     async (payload, {rejectWithValue}) => {
         try {
-            console.log(payload)
+            // console.log(payload)
             const res = await axiosClient.post('/subjects', payload);
             return res.data;
         } catch (error) {
@@ -45,12 +44,27 @@ export const createSubject = createAsyncThunk(
 
     }
 );
+export const createTask = createAsyncThunk("tasks/createTask",
+    async ({subject_id, values}, {rejectWithValue}) => {
+        try {
+            const res = await axiosClient.post(`/subjects/create-task/${subject_id}`, values);
+            console.log(res.data)
+            return res.data;
+        } catch (error) {
+            if (!error.response) {
+                // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+    }
+)
 
-export const updateSubject = createAsyncThunk(
-    "subjects/updateSubject",
+export const updateSubject = createAsyncThunk("subjects/updateSubject",
     async ({id, values}, {rejectWithValue}) => {
         try {
-            console.log(values)
+            // console.log(values)
             const res = await axiosClient.put(`/subjects/${id}`, values);
             return res.data;
         } catch (error) {
@@ -64,9 +78,12 @@ export const updateSubject = createAsyncThunk(
 
     }
 );
+export const updateTask = createAsyncThunk("tasks/updateTask",
+    async () => {
 
-export const deleteSubject = createAsyncThunk(
-    "subjects/deleteSubject",
+    })
+
+export const deleteSubject = createAsyncThunk("subjects/deleteSubject",
     async ({id, subjectItem}, {rejectWithValue}) => {
         try {
             const res = await axiosClient.delete(`/subjects/${id}`);
@@ -83,10 +100,6 @@ export const deleteSubject = createAsyncThunk(
 
     }
 );
-
-
-
-
 
 
 const subjectsSlice = createSlice({
@@ -108,6 +121,9 @@ const subjectsSlice = createSlice({
                     item.name.toLowerCase().includes(payload.toLowerCase())
             );
         },
+        getSubjectById: (state, {payload}) => {
+            state.subject = state.visibleData.find(subj => subj.id === parseInt(payload))
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(getSubjects.pending, (state) => {
@@ -134,6 +150,18 @@ const subjectsSlice = createSlice({
             state.visibleData.unshift(action.payload);
         });
         builder.addCase(createSubject.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.errors = action.payload;
+        });
+        builder.addCase(createTask.pending, (state, action) =>{
+            // state.isLoading = true;
+        });
+        builder.addCase(createTask.fulfilled, (state, action) =>{
+            state.status = 'succeeded';
+            console.log(action.payload);
+            state.subjects.tasks.push(action.payload);
+        });
+        builder.addCase(createTask.rejected, (state, action) => {
             state.status = 'rejected';
             state.errors = action.payload;
         });
@@ -166,5 +194,5 @@ const subjectsSlice = createSlice({
         });
     }
 })
-export const {clearErrors, reset, searchSubject} = subjectsSlice.actions;
+export const {clearErrors, reset, searchSubject, getSubjectById} = subjectsSlice.actions;
 export default subjectsSlice.reducer;

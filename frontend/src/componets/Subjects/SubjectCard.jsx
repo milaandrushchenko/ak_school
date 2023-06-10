@@ -1,4 +1,4 @@
-import {Card, CardContent, CardHeader, Chip, Menu, MenuItem, Stack} from "@mui/material";
+import {Card, CardContent, CardHeader, Chip, CircularProgress, Menu, MenuItem, Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import {NavLink} from "react-router-dom";
@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import FormSubject from "./FormSubject";
 import DeleteSubject from "./DeleteSubject.jsx";
 import {useSelector} from "react-redux";
+import Box from "@mui/material/Box";
 
 export default function SubjectCard({subjectItem, onDelete}) {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -50,21 +51,20 @@ export default function SubjectCard({subjectItem, onDelete}) {
         classes: subjectItem.classes.map(class_ => class_.class_id)
     };
     let subjCls = [];
-    try {
-        const {classes} = useSelector((state) => state.classes);
-        subjectItem.classes.map((cls) => {
-            // console.log(cls)
-            subjCls.push(classes.find(item => item.id === cls.class_id))
-        })
-        // console.log(subjCls)
-    } catch {}
+    const {classes, isLoading} = useSelector((state) => state.classes);
+    subjectItem.classes.map((cls) => {
+        subjCls.push(classes.find(item => item.id === cls.class_id))
+    })
     const {userToken, user} = useSelector((state) => state.currentUser)
-
     return (
         <>
             <Card sx={{height: '100%'}}>
                 <CardHeader
-                    title={subjectItem.name}
+                    title={
+                        <NavLink to={'/subjects/' + subjectItem.id} style={{color: '#1a237e'}}>
+                            {subjectItem.name}
+                        </NavLink>
+                    }
                     action={
                         <>
                             <IconButton
@@ -93,22 +93,31 @@ export default function SubjectCard({subjectItem, onDelete}) {
                     }
                 />
                 <CardContent>
-                    <Typography>Викладає:</Typography>
-                    <Typography>
-                        <Button component={NavLink} to={`/user/${subjectItem.teacher.id}`}>
-                            {`${subjectItem.teacher.first_name} ${subjectItem.teacher.second_name}`}
-                        </Button>
-                    </Typography>
-                    <Stack direction="row" spacing={1}>
-                        {user.role === 'admin' ? subjCls.map((c) => {
-                            return (
-                                <Chip label={c.name} color="primary" />
-                            )
-                        }) : ''}
-                    </Stack>
-                    <Typography style={{fontSize: "0.8em", color: "grey", top: "10px", position: "relative"}}>
-                        Створено: {subjectItem.created_at}
-                    </Typography>
+                    {isLoading &&
+                        <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                            <CircularProgress/>
+                        </Box>
+                    }
+                    {!isLoading &&
+                        <>
+                            <Typography>Викладає:</Typography>
+                            <Typography>
+                                <Button component={NavLink} to={`/user/${subjectItem.teacher.id}`}>
+                                    {`${subjectItem.teacher.first_name} ${subjectItem.teacher.second_name}`}
+                                </Button>
+                            </Typography>
+                            <Stack direction="row" spacing={1}>
+                                {user.role === 'admin' ? subjCls.map((c) => {
+                                    return (
+                                        <Chip key={c.id} label={c.name} color="primary" />
+                                    )
+                                }) : ''}
+                            </Stack>
+                            <Typography style={{fontSize: "0.8em", color: "grey", top: "10px", position: "relative"}}>
+                                Створено: {subjectItem.created_at}
+                            </Typography>
+                        </>
+                    }
                 </CardContent>
             </Card>
             {notification && (
