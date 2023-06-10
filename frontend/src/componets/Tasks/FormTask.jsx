@@ -12,7 +12,7 @@ import {DateTimePicker} from "@mui/x-date-pickers/DateTimePicker";
 import ClearIcon from "@mui/icons-material/Clear.js";
 import TextEditor from "../core/TextEditor.jsx";
 import React, {useEffect} from "react";
-import {createTask, getSubjectById, getSubjects} from "../../store/subject/subjectsSlice.js";
+import {createTask, getSubjectById, getSubjects, updateTask} from "../../store/subject/subjectsSlice.js";
 import {getTestById, getTests} from "../../store/test/testsSlice.js";
 import {useParams} from "react-router-dom";
 
@@ -30,17 +30,9 @@ const createValidationSchema = (minEndTime) => {
     })
 }
 
-const initialValues = {
-    name: '',
-    done_to: null,
-    content: ''
-};
-
 export default function FormTask({open, onClose, task}){
-    // console.log(task)
     const dispatch = useDispatch();
     let subject = useSelector((state) => state.subjects.subject)
-    // console.log(subject)
     const initialValues = {
         name: "",
         content: "",
@@ -53,41 +45,33 @@ export default function FormTask({open, onClose, task}){
         formik.setErrors({});
     }
 
+    const validationSchema = Yup.object({
+        name: Yup.string().required('Це поле є обов\'язковим для заповнення!'),
+        done_to: Yup.date().min(dayjs(new Date()), "Дата здачі не може бути в минулому").nullable(),
+        content: Yup.string().required('Це поле є обов\'язковим для заповнення!'),
+    })
 
 
     const formik = useFormik({
         initialValues: task ? {...task} : {...initialValues},
-        validationSchema: createValidationSchema(compareDate(task?.done_to, currentDate)),
-        enableReinitialize: true,
+        validationSchema: validationSchema,
+        enableReinitialize: true, // Увімкнути оновлення значень initialValues
         onSubmit: async (values, {setErrors, setSubmitting}) => {
+            if (values.done_to)
+                values.done_to = values.done_to.format('YYYY-MM-DD HH:mm:ss');
             if (!task) {
-                values.done_to = values.done_to.format('YYYY-MM-DD HH:mm:ss')
                 const subject_id = subject.id;
                 const resultAction = await dispatch((createTask({subject_id, values})));
                 if (createTask.fulfilled.match(resultAction))
                     close(true);
             } else {
-                let id = task.id;
-                // const resultAction = await dispatch()
+                let task_id = task.id;
+                const resultAction = await dispatch(updateTask({task_id, values}));
+                console.log('task updated');
+                close(true);
             }
         }
     });
-
-
-
-    const {
-        values,
-        touched,
-        errors,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        setFieldValue,
-        setErrors
-    } = formik;
-
-
-
 
     return (
         <Dialog open={open}
@@ -105,21 +89,22 @@ export default function FormTask({open, onClose, task}){
                                    error={formik.touched.name && Boolean(formik.errors?.name)}
                                    helperText={formik.touched.name && formik.errors && formik.errors.name}
                         />
-                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="uk">
+                        <LocalizationProvider
+                            dateAdapter={AdapterDayjs}
+                            adapterLocale="uk">
                             <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', mb: 2 }}>
                                 <DateTimePicker sx={{ flex: 1, maxWidth: '100%', position: 'relative' }}
-                                    label="Здати до" name="done_to" ampm={false} value={formik.values.done_to}
+                                    label="Здати до" name="done_to" ampm={false} value={formik.values.done_to ? dayjs(formik.values.done_to) : null}
                                     onChange={ (newValue) => { formik.setFieldValue('done_to', newValue) }}
                                     onError={ (error) => { formik.setFieldError('done_to', error) }}
+                                    minDateTime={dayjs(new Date())}
                                     slotProps={{
                                         textField: {
                                             variant: 'outlined',
                                             error: !!formik.errors?.done_to,
                                             helperText: formik.errors?.done_to,
                                         },
-                                    }}
-                                    minDate={compareDate(task?.done_to, currentDate)}
-                                />
+                                    }}/>
                                 {formik.values.done_to !== null && (
                                     <IconButton onClick={() => { formik.setFieldValue('done_to', null) }}>
                                         <ClearIcon/>

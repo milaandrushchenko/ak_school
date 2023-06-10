@@ -10,6 +10,7 @@ const initialState = {
     status: 'idle',
 }
 
+//           П Р Е Д М Е Т И
 export const getSubjects = createAsyncThunk("subjects/getSubjects",
     async (_, {rejectWithValue}) => {
         try {
@@ -24,9 +25,7 @@ export const getSubjects = createAsyncThunk("subjects/getSubjects",
             return rejectWithValue(errors);
         }
 
-    }
-);
-
+    });
 export const createSubject = createAsyncThunk("subjects/createSubject",
     async (payload, {rejectWithValue}) => {
         try {
@@ -42,25 +41,7 @@ export const createSubject = createAsyncThunk("subjects/createSubject",
             return rejectWithValue(errors);
         }
 
-    }
-);
-export const createTask = createAsyncThunk("tasks/createTask",
-    async ({subject_id, values}, {rejectWithValue}) => {
-        try {
-            const res = await axiosClient.post(`/subjects/create-task/${subject_id}`, values);
-            console.log(res.data)
-            return res.data;
-        } catch (error) {
-            if (!error.response) {
-                // Якщо немає відповіді від сервера
-                return rejectWithValue("Не вдалося з'єднатися з сервером.");
-            }
-            const {errors} = error.response.data;
-            return rejectWithValue(errors);
-        }
-    }
-)
-
+    });
 export const updateSubject = createAsyncThunk("subjects/updateSubject",
     async ({id, values}, {rejectWithValue}) => {
         try {
@@ -76,13 +57,7 @@ export const updateSubject = createAsyncThunk("subjects/updateSubject",
             return rejectWithValue(errors);
         }
 
-    }
-);
-export const updateTask = createAsyncThunk("tasks/updateTask",
-    async () => {
-
-    })
-
+    });
 export const deleteSubject = createAsyncThunk("subjects/deleteSubject",
     async ({id, subjectItem}, {rejectWithValue}) => {
         try {
@@ -98,8 +73,50 @@ export const deleteSubject = createAsyncThunk("subjects/deleteSubject",
             return rejectWithValue(errors);
         }
 
-    }
-);
+    });
+
+
+//           З А В Д А Н Н Я
+export const createTask = createAsyncThunk("tasks/createTask",
+    async ({subject_id, values}, {rejectWithValue}) => {
+        try {
+            const res = await axiosClient.post(`/subjects/create-task/${subject_id}`, values);
+            console.log(res.data)
+            return res.data;
+        } catch (error) {
+            if (!error.response) {
+                // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+    });
+export const updateTask = createAsyncThunk("tasks/updateTask",
+    async ({task_id, values}, {rejectWithValue}) => {
+        try {
+            const res = await axiosClient.put(`/subjects/update-task/${task_id}`, values);
+            console.log(res.data);
+            return res.data;
+        } catch (error) {
+            if (!error.response) {
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+    })
+export const deleteTask = createAsyncThunk("tasks/deleteTask",
+    async ({task_id, task}, {rejectWithValue}) => {
+        try {
+            await axiosClient.delete(`/subjects/delete-task/${task_id}`, task);
+            return task;
+        } catch (error) {
+            if (!error.response) return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+    })
 
 
 const subjectsSlice = createSlice({
@@ -126,6 +143,7 @@ const subjectsSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
+        //           П Р Е Д М Е Т И
         builder.addCase(getSubjects.pending, (state) => {
             state.isLoading = true;
         });
@@ -140,7 +158,6 @@ const subjectsSlice = createSlice({
             state.errors = action.payload;
             state.isLoading = false;
         });
-
         builder.addCase(createSubject.pending, (state) => {
             // state.isLoading = true;
         });
@@ -153,19 +170,6 @@ const subjectsSlice = createSlice({
             state.status = 'rejected';
             state.errors = action.payload;
         });
-        builder.addCase(createTask.pending, (state, action) =>{
-            // state.isLoading = true;
-        });
-        builder.addCase(createTask.fulfilled, (state, action) =>{
-            state.status = 'succeeded';
-            console.log(action.payload);
-            state.subjects.tasks.push(action.payload);
-        });
-        builder.addCase(createTask.rejected, (state, action) => {
-            state.status = 'rejected';
-            state.errors = action.payload;
-        });
-
         builder.addCase(updateSubject.pending, (state) => {
             //state.isLoading = true;
         });
@@ -179,7 +183,6 @@ const subjectsSlice = createSlice({
             state.status = 'rejected';
             state.errors = action.payload;
         });
-
         builder.addCase(deleteSubject.pending, (state) => {
             //state.isLoading = true;
         });
@@ -192,6 +195,41 @@ const subjectsSlice = createSlice({
             state.status = 'rejected';
             state.errors = action.payload;
         });
+
+
+//           З А В Д А Н Н Я
+        builder.addCase(createTask.pending, (state) =>{
+            // state.isLoading = true;
+        });
+        builder.addCase(createTask.fulfilled, (state, action) =>{
+            state.status = 'succeeded';
+            state.subject.tasks.push(action.payload);
+        });
+        builder.addCase(createTask.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.errors = action.payload;
+        });
+        builder.addCase(updateTask.pending, (state) => {})
+        builder.addCase(updateTask.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.subject.tasks = state.subject.tasks.map(task => task.id === action.payload.id ? action.payload : task);
+        })
+        builder.addCase(updateTask.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.errors = action.payload;
+        })
+        builder.addCase(deleteTask.pending, (state) => {})
+        builder.addCase(deleteTask.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.subject.tasks = state.subject.tasks.filter(task => task.id !== action.payload.id);
+        })
+        builder.addCase(deleteTask.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.errors = action.payload;
+        })
+
+
+
     }
 })
 export const {clearErrors, reset, searchSubject, getSubjectById} = subjectsSlice.actions;

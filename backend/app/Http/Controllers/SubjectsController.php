@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSubjectRequest;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateSubjectRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\SubjectResource;
 use App\Models\Subject;
 use App\Models\SubjectClass;
@@ -54,7 +55,6 @@ class SubjectsController extends Controller
         $data = $request->validated();
         $cls = $data['classes_ids'];
         unset($data['classes_ids']);
-//        unset($data['classes']);
 
         $subject->update($data);
 
@@ -71,12 +71,27 @@ class SubjectsController extends Controller
     public function destroy(Subject $subject)
     {
         $subject->delete();
-        return response()->json(['message' => `Subject deleted successfully`], 200);
+        return response()->json(['message' => "Subject deleted successfully"], 200);
     }
 
     public function createTask(StoreTaskRequest $request, string $id){
         $data = $request->validated();
         $task = Task::create($data);
         return response($task, 201);
+    }
+
+    public function updateTask(UpdateTaskRequest $request, string $id){
+        $data = $request->validated();
+        $task = Task::findOrFail($id);
+        $task->update($data);
+        return response($task, 201);
+    }
+
+    public function deleteTask(string $id)
+    {
+        $task = Task::findOrFail($id);
+        $task->delete();
+
+        return response('Task was deleted', 204);
     }
 }

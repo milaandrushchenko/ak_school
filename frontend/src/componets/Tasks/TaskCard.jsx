@@ -11,49 +11,57 @@ import FormTask from "./FormTask.jsx";
 import dayjs from "dayjs";
 import {ExpandMore} from "@mui/icons-material";
 import {useSelector} from "react-redux";
+import DeleteTask from "./DeleteTask.jsx";
 
 const currentDate = dayjs();
-export default function TaskCard({taskItem, onDelete}){
+
+export default function TaskCard({task, openDeleteDialog, onOpenDeleteDialog, onCloseDeleteDialog}){
+    const [notification, setNotification] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialogEdit, setOpenDialogEdit] = useState(false);
-    const [openDialogDelete, setOpenDialogDelete] = useState(false);
-    const [notification, setNotification] = useState(false);
+
+    const handleClickOpenDialogEdit = () => {
+        setOpenDialogEdit(true);
+    };
+    const handleCloseDialogEdit = (value) => {
+        setOpenDialogEdit(false);
+        console.log(value)
+        if (value) setNotification('Завдання успішно оновлено!');
+    };
     const handleCloseAlert = (event, reason) => {
         if (reason === 'clickaway') {
             return;
         }
         setNotification(false);
     };
+    const handleMenuOpen = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setAnchorEl(event.currentTarget);
+    };
+    const handleMenuClose = (event) => {
+        event.preventDefault();
+        setAnchorEl(null);
+    };
+
     const {user, userToken} = useSelector((state) => state.currentUser)
-    const handleClickOpenDialogEdit = () => {
-        setOpenDialogEdit(true);
-    };
 
-    const handleCloseDialogEdit = (value) => {
-        setOpenDialogEdit(false);
-        console.log(value)
-        if (value) setNotification('Завдання успішно оновлене!');
-    };
-    const handleClickOpenDialogDelete = () => {
-        setOpenDialogDelete(true);
-    };
-    const handleCloseDialogDelete = (value) => {
+    // const [openDialogDelete, setOpenDialogDelete] = useState(false);
+    // const handleClickOpenDialogDelete = () => {
+    //     setOpenDialogDelete(true);
+    // };
+    // const handleCloseDialogDelete = (value) => {
+    //
+    //     onDelete();
+    //     setOpenDialogDelete(false);
+    //     console.log(value);
+    // };
 
-        onDelete();
-        setOpenDialogDelete(false);
-        console.log(value);
-    };
-
-    const outputTaskItem = {
-        id: taskItem.id,
-        name: taskItem.name,
-        content: taskItem.content,
-        done_to: taskItem.done_to ? dayjs(taskItem.done_to) : null,
-    };
     const monthNames = ["Січня", "Лютого", "Березня", "Квітня", "Травня", "Червня",
         "Липня", "Серпня", "Вересня", "Жовтня", "Листопада", "Грудня"];
-    const dayNames = ["Понеділок", "Вівторок", "Середа", "Четвер", "П\'ятниця", "Суббота", "Неділя"];
-    let d = new Date(outputTaskItem.done_to)
+    const dayNames = ["Понеділок", "Вівторок", "Середа",
+        "Четвер", "П\'ятниця", "Суббота", "Неділя"];
+    const d = new Date(task.done_to)
 
     return (
         <>
@@ -62,57 +70,55 @@ export default function TaskCard({taskItem, onDelete}){
                     sx={{pb:0}}
                     title={
                         <Typography color="primary" variant="h5">
-                            {taskItem.name}
+                            {task.name}
                         </Typography>
                     }
-                    subheader={outputTaskItem.done_to ?
+                    subheader={task.done_to ?
                     <Typography sx={{py:1, color: "grey", fontStyle: "italic"}}>
                         Здати до: <span style={{color: "black"}}>{dayNames[d.getDay()]}, {d.getDate()} {monthNames[d.getMonth()]} {d.getFullYear()}</span>
-                        {taskItem.done !== 1 && dayjs(taskItem.done_to) < currentDate ?
+                        {task.done !== 1 && dayjs(task.done_to) < currentDate ?
                             <Chip component="span" label="Термін здачі вийшов" sx={{backgroundColor: "#ff1744", color: "white", ml:3}} /> : ""}
                     </Typography> : <Typography sx={{py:1, color: "grey", fontStyle: "italic"}}>Без терміну здачі</Typography>}
                     action={
                         <>
                             <IconButton
                                 aria-label="more"
-                                aria-controls={`menu-for-${taskItem.id}`}
+                                aria-controls={`menu-for-${task.id}`}
                                 aria-haspopup="true"
-                                onClick={(e) => setAnchorEl(e.currentTarget)}>
+                                onClick={handleMenuOpen}>
                                 <MoreVertIcon/>
                             </IconButton>
                             <Menu
-                                id={`menu-for-${taskItem.id}`}
+                                id={`menu-for-${task.id}`}
                                 anchorEl={anchorEl}
                                 open={Boolean(anchorEl)}
-                                onClose={() => setAnchorEl(null)}
+                                onClose={handleMenuClose}
                             >
                                 <MenuItem onClick={handleClickOpenDialogEdit}>Редагувати</MenuItem>
-                                <FormTask open={openDialogEdit}
-                                             onClose={handleCloseDialogEdit}
-                                             taskItem={outputTaskItem}/>
-                                {/*<MenuItem onClick={handleClickOpenDialogDelete}>Видалити</MenuItem>*/}
-                                {/*<DeleteSubject open={openDialogDelete}*/}
-                                {/*               onClose={handleCloseDialogDelete} subjectItem={subjectItem}*/}
-                                {/*/>*/}
+                                <FormTask open={openDialogEdit} onClose={handleCloseDialogEdit} task={task}/>
+                                <MenuItem onClick={onOpenDeleteDialog}>Видалити</MenuItem>
+                                <DeleteTask open={openDeleteDialog}
+                                               onClose={onCloseDeleteDialog} task={task}
+                                />
                             </Menu>
                         </>
                     }
                 />
                 <CardContent sx={{borderTop: "1px solid lightGrey", p:0}} style={{paddingBottom: 0}}>
-                    <Accordion>
-                        <AccordionSummary expandIcon={<ExpandMore/>}>
-                            <Typography variant="h6">Завдання</Typography>
+                    <Accordion style={{margin:0}}>
+                        <AccordionSummary expandIcon={<ExpandMore/>} sx={{borderBottom: "1px solid lightGrey"}}>
+                            <Typography variant="h6" color="primary">Завдання</Typography>
                         </AccordionSummary>
-                        <AccordionDetails>
-                            <div dangerouslySetInnerHTML={{__html: taskItem.content}}/>
+                        <AccordionDetails sx={{backgroundColor: "#f5f5f5"}}>
+                            <div dangerouslySetInnerHTML={{__html: task.content}}/>
                         </AccordionDetails>
                     </Accordion>
                     {user.role === 'admin' || user.role === "teacher" ?
-                        <Accordion>
-                            <AccordionSummary expandIcon={<ExpandMore/>}>
-                                <Typography variant="h6">Результати учнів</Typography>
+                        <Accordion style={{margin:0}}>
+                            <AccordionSummary expandIcon={<ExpandMore/>} sx={{borderBottom: "1px solid lightGrey"}}>
+                                <Typography variant="h6" color="primary">Результати учнів</Typography>
                             </AccordionSummary>
-                            <AccordionDetails>
+                            <AccordionDetails sx={{backgroundColor: "#f5f5f5"}}>
                                 <Typography variant="h5">Робота студента "1"</Typography>
                                 <Typography variant="h5">Робота студента "2"</Typography>
                                 <Typography variant="h5">Робота студента "3"</Typography>
@@ -121,25 +127,22 @@ export default function TaskCard({taskItem, onDelete}){
                         </Accordion>
                          :
                         <>
-                            <Accordion>
-                                <AccordionSummary expandIcon={<ExpandMore/>}>
-                                    <Typography variant="h6">Мої відповіді</Typography>
+                            <Accordion style={{margin:0}}>
+                                <AccordionSummary expandIcon={<ExpandMore/>} sx={{borderBottom: "1px solid lightGrey"}}>
+                                    <Typography variant="h6" color="primary">Мої відповіді</Typography>
                                 </AccordionSummary>
-                                <AccordionDetails>
+                                <AccordionDetails sx={{backgroundColor: "#f5f5f5"}}>
                                     дані з таблички TaskAttempts (якщо є) по id даного користувача і id завдання
                                 </AccordionDetails>
                             </Accordion>
-                            <Grid container justifyContent="space-between" sx={{pr:3, pt:3}}>
+                            <Grid container justifyContent="space-between" sx={{pr:3, py:3}}>
                                 <Grid item></Grid>
                                 <Grid item>
                                     <Button variant="contained">Здати завдання</Button>
                                 </Grid>
                             </Grid>
                         </>
-
                     }
-
-                    <Button></Button>
                 </CardContent>
             </Card>
         </>
