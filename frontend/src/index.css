@@ -11,15 +11,8 @@ div.ql-tooltip.ql-editing {
     max-width: 100%; /* Зменшуємо розмір зображення, щоб воно вміщалося в контейнер */
 }
 
-.question-numbering {
-    font-weight: bold;
-    color: blue;
-    /* Додайте інші стилі за бажанням */
-}
 
-.answer-numbering {
-    font-weight: bold;
-    color: red;
-    /* Додайте інші стилі за бажанням */
-}
+/*.css-1n8qzo8-MuiTableCell-root {*/
+/*    padding: 0px !important;*/
+/*}*/
 

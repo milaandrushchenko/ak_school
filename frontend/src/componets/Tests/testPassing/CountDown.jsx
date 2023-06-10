@@ -6,7 +6,6 @@ import {timeConverter} from "../../../utils/common.js";
 
 export default function CountDown({countdownTime, timeOver, endTime, setEndTime, testStorage}) {
 
-    console.log(endTime);
 
     useEffect(() => {
         const timer = setTimeout(() => {

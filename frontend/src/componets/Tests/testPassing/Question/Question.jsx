@@ -7,7 +7,6 @@ import ShortAnswerQuestion from "./questionTypes/ShortAnswerQuestion.jsx";
 import MultiChoiceQuestion from "./questionTypes/MultiChoiceQuestion.jsx";
 import SingleChoiceQuestion from "./questionTypes/SingleChoiceQuestion.jsx";
 import MatchingQuestion from "./questionTypes/MatchingQuestion.jsx";
-import MatchingQuestion1 from "./questionTypes/MatchingQuestion1.jsx";
 import CountDown from "../CountDown.jsx";
 
 export default function Question({
@@ -66,7 +65,7 @@ export default function Question({
                             options={question.options}
                             answerChanged={handleAnswerChanged}/>}
                     {question.type === QUESTION.MATCHING &&
-                        <MatchingQuestion1 options={question.options}
+                        <MatchingQuestion options={question.options}
                                            answerChanged={handleAnswerChanged}/>}
                     {
                         (questionIndex + 1) < test.questions.length ?
@@ -76,7 +75,7 @@ export default function Question({
                                 Наступне питання
                             </Button>
                             :
-                            <Button variant="contained" color="primary"
+                            <Button variant="contained" color="primary" disabled={!isAnswerSelected}
                                     onClick={showTheResult}
                             >
                                 Завершити тестування

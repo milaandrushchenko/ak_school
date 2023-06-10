@@ -43,7 +43,6 @@ export default function MultiChoiceQuestion({ options, answerChanged }) {
     const [selectedOptions, setSelectedOptions] = useState([]);
 
     const onCheckboxChange = (text, e) => {
-        console.log(text);
         if (e.target.checked) {
             setSelectedOptions((prevSelectedOptions) => {
                 const updatedOptions = [...prevSelectedOptions, text];
@@ -59,6 +58,9 @@ export default function MultiChoiceQuestion({ options, answerChanged }) {
         }
     };
 
+    useEffect(() => {
+        setSelectedOptions([]);
+    }, [options]);
 
     return (
         <>

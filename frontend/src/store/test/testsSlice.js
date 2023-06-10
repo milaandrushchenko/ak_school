@@ -92,8 +92,6 @@ export const getTestBySlug = createAsyncThunk(
     "tests/getTestBySlug",
     async ({slug}, {rejectWithValue}) => {
         try {
-            console.log(slug);
-
             const res = await axiosClient.get(`tests/get-by-slug/${slug}`);
             return res.data;
         } catch (error) {

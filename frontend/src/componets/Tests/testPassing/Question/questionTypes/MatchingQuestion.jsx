@@ -1,54 +1,100 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     Box,
-    Button, DialogActions, DialogTitle, DialogContent,
+    Button,
+    DialogActions,
+    DialogTitle,
+    DialogContent,
     Grid,
     TextField,
-    Typography, Alert, MenuItem, Autocomplete
+    Typography,
+    Alert,
+    MenuItem,
+    Autocomplete, InputAdornment, Chip
 } from "@mui/material";
 import EastIcon from '@mui/icons-material/East';
 import {theme} from "../../../../../utils/theme.js";
 import ListItemText from "@mui/material/ListItemText";
+import IconButton from "@mui/material/IconButton";
+import {SendSharp} from "@mui/icons-material";
+import TableContainer from "@mui/material/TableContainer";
+import Table from "@mui/material/Table";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import {ukrainianLetters} from "../../../../../utils/common.js";
+import TableBody from "@mui/material/TableBody";
+import Checkbox from "@mui/material/Checkbox";
+import Matrix from "../../../Matrix.jsx";
 
 
-const MatchingQuestion = ({ options }) => {
-    const getQuestionNumbering = (index) => {
-        // Повертаємо номер питання у форматі, як на "Всеосвіті" (наприклад: "1.", "2.", "3.", ...)
-        return `${index + 1}.`;
+const MatchingQuestion = ({options, answerChanged}) => {
+    const [selectedOptions, setSelectedOptions] = useState([]);
+
+    const onCheckboxChange = (leftUuid, rightUuid, e) => {
+
+        let updateSelectedOptions = selectedOptions.filter(([left, right]) => left !== leftUuid && right !== rightUuid);
+
+        if (e.target.checked) {
+            updateSelectedOptions = [...updateSelectedOptions, [leftUuid, rightUuid]];
+            answerChanged(updateSelectedOptions);
+        } else {
+            answerChanged(updateSelectedOptions);
+        }
+
+        setSelectedOptions(updateSelectedOptions);
+
     };
 
-    const getAnswerNumbering = (index) => {
-        // Повертаємо номер варіанту відповіді у форматі, як на "Всеосвіті" (наприклад: "А.", "Б.", "В.", ...)
-        return String.fromCharCode(65 + index) + '.';
-    };
+    useEffect(() => {
+        setSelectedOptions([]);
+    }, [options]);
 
     return (
-        <Grid container alignItems="center">
-            {options?.map((pair, index) => (
-                <React.Fragment key={index}>
-                    <Grid item xs={12} lg={6} sx={{ paddingRight: '5px' }}>
-                        <div
-                            style={{ maxWidth: '100%', overflow: 'hidden' }}
-                            dangerouslySetInnerHTML={{
-                                __html: `<span class="question-numbering">${getQuestionNumbering(index)}</span> ${pair.text}`,
-                            }}
-                            className="question-content"
-                        />
-                    </Grid>
-                    <Grid item xs={12} lg={6} sx={{ paddingRight: '5px' }}>
-                        <div
-                            style={{ maxWidth: '100%', overflow: 'hidden' }}
-                            dangerouslySetInnerHTML={{
-                                __html: `<span class="answer-numbering">${getAnswerNumbering(index)}</span> ${pair.correctAnswer}`,
-                            }}
-                            className="question-content"
-                        />
-                    </Grid>
-                </React.Fragment>
-            ))}
-        </Grid>
+        <>
+            <Grid container spacing={2}>
+                <Grid item xs={12} lg={6}>
+                    {options?.leftColumn.map((leftItem, index) => (
+                        <Grid container spacing={2} key={leftItem.uuid}>
+                            <Grid item xs={12}>
+                                <Box display="flex" alignItems="center">
+                                    <Chip label={`${index + 1}`} color="primary"
+                                          sx={{marginRight: '8px'}}/>
+                                    <div
+                                        style={{maxWidth: '100%', overflow: 'hidden'}}
+                                        dangerouslySetInnerHTML={{__html: leftItem.text}}
+                                        className="question-content"
+                                    />
+                                </Box>
+                            </Grid>
+
+                        </Grid>
+                    ))}
+                </Grid>
+
+                <Grid item xs={12} lg={6}>
+                    {options?.rightColumn.map((rightItem, index) => (
+                        <Grid container spacing={2} key={rightItem.uuid}>
+                            <Grid item xs={12}>
+                                <Grid item xs={12}>
+                                    <Box display="flex" alignItems="center">
+                                        <Chip label={ukrainianLetters[index]} color="primary"
+                                              sx={{marginRight: '8px'}}/>
+                                        <div
+                                            style={{maxWidth: '100%', overflow: 'hidden'}}
+                                            dangerouslySetInnerHTML={{__html: rightItem.text}}
+                                            className="question-content"
+                                        />
+                                    </Box>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Grid>
+            <Matrix options={options} onChange={onCheckboxChange} selectedOptions={selectedOptions}/>
+        </>
     );
 };
 
 export default MatchingQuestion;
-
