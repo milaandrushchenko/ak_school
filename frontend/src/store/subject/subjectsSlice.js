@@ -77,6 +77,20 @@ export const deleteSubject = createAsyncThunk("subjects/deleteSubject",
 
 
 //           З А В Д А Н Н Я
+export const getAttempts = createAsyncThunk('tasks/getTasks',
+    async (_, {rejectWithValue}) => {
+        try {
+            const res = await axiosClient.get('/tasks');
+            // console.log(res.data)
+            return res.data;
+        } catch (error) {
+            if (!error.response) {
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+    });
 export const createTask = createAsyncThunk("tasks/createTask",
     async ({subject_id, values}, {rejectWithValue}) => {
         try {
@@ -132,7 +146,6 @@ const subjectsSlice = createSlice({
             state.errors = null;
         },
         searchSubject: (state, {payload}) => {
-
             state.visibleData = state.subjects.filter(
                 (item) =>
                     item.name.toLowerCase().includes(payload.toLowerCase())

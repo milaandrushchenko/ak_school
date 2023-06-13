@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateAttemptRequest;
+use App\Http\Resources\AttemptResource;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
-
+use App\Models\TaskAttempt;
 class TasksController extends Controller
 {
     public function index(){
@@ -24,5 +26,13 @@ class TasksController extends Controller
 
         return TaskResource::collection($tasks);
 //        return $tasks;
+    }
+
+    public function updateTaskAttempt(UpdateAttemptRequest $request, string $id){
+        $data = $request->validated();
+        $data['score'] = number_format($data['score'], 2);
+        $attempt = TaskAttempt::findOrFail($id);
+        $attempt->update($data);
+        return response(new AttemptResource($attempt), 201);
     }
 }

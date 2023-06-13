@@ -71,7 +71,7 @@ export const AdminMainListItems = (
                 </ListItemButton>
             )}
         </NavLink>
-        <NavLink to='' className={
+        <NavLink to='/journal' className={
             classNames(
                 styles['nav-link'],
             )
@@ -297,23 +297,23 @@ export const StudentMainListItems = (
 
 export const StudentSecondaryListItems = (
     <React.Fragment>
-        <NavLink to='/users' className={
-            classNames(
-                styles['nav-link'],
-            )
-        }>
-            {({isActive, isExact}) => (
-                <ListItemButton
-                    className={isActive ? classNames(styles.active) : ''}
-                >
-                    <ListItemIcon>
-                        <PeopleIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary='КОРИСТУВАЧІ'/>
-                </ListItemButton>
-            )}
-        </NavLink>
-        <NavLink to='' className={classNames(styles['nav-link'])}>
+        {/*<NavLink to='/users' className={*/}
+        {/*    classNames(*/}
+        {/*        styles['nav-link'],*/}
+        {/*    )*/}
+        {/*}>*/}
+        {/*    {({isActive, isExact}) => (*/}
+        {/*        <ListItemButton*/}
+        {/*            className={isActive ? classNames(styles.active) : ''}*/}
+        {/*        >*/}
+        {/*            <ListItemIcon>*/}
+        {/*                <PeopleIcon/>*/}
+        {/*            </ListItemIcon>*/}
+        {/*            <ListItemText primary='КОРИСТУВАЧІ'/>*/}
+        {/*        </ListItemButton>*/}
+        {/*    )}*/}
+        {/*</NavLink>*/}
+        <NavLink to='/journal' className={classNames(styles['nav-link'])}>
             {({ isActive, isExact }) => (
                 <ListItemButton className={isActive ? classNames(styles.active) : ''}>
                     <ListItemIcon>

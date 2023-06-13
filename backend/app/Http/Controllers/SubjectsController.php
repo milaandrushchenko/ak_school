@@ -10,7 +10,11 @@ use App\Http\Resources\SubjectResource;
 use App\Models\Subject;
 use App\Models\SubjectClass;
 use App\Models\Task;
+use App\Models\TaskAttempt;
 use App\Models\User;
+use Carbon\Carbon;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use PHPUnit\Metadata\Uses;
 
@@ -53,6 +57,7 @@ class SubjectsController extends Controller
 
     public function update(UpdateSubjectRequest $request, Subject $subject){
         $data = $request->validated();
+//        var_dump($subject);
         $cls = $data['classes_ids'];
         unset($data['classes_ids']);
 
@@ -77,6 +82,18 @@ class SubjectsController extends Controller
     public function createTask(StoreTaskRequest $request, string $id){
         $data = $request->validated();
         $task = Task::create($data);
+        $class_ids = SubjectClass::where('subject_id', $task['subject_id'])->select('class_id')->get();
+        $student_ids = User::whereIn('class_id', $class_ids)->select('id')->get();
+        $attempts = [];
+        $date = new DateTime("now", new DateTimeZone('Europe/Kiev') );
+        foreach ($student_ids as $student )
+            $attempts[] = [
+                'task_id' => $task['id'],
+                'student_id' => $student['id'],
+                'updated_at' => $date->format('Y-m-d H:i:s'),
+                'created_at' => $date->format('Y-m-d H:i:s'),
+            ];
+        TaskAttempt::insert($attempts);
         return response($task, 201);
     }
 
