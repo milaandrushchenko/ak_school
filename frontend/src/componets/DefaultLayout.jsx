@@ -8,6 +8,7 @@ import {getClasses} from "../store/class/classesSlice.js";
 import {getTests} from "../store/test/testsSlice.js";
 import {getSubjects} from "../store/subject/subjectsSlice.js";
 import {getTasks} from "../store/task/tasksSlice.js";
+import {getAttempts} from "../store/task_attempts/attemptsSlice.js";
 
 
 export default function DefaultLayout() {
@@ -27,7 +28,7 @@ export default function DefaultLayout() {
         dispatch(getTests());
         dispatch(getSubjects());
         dispatch(getTasks());
-
+        dispatch(getAttempts());
     }, [])
 
     useEffect(() => {

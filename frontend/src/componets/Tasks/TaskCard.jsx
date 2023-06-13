@@ -19,7 +19,6 @@ export default function TaskCard({task, openDeleteDialog, onOpenDeleteDialog, on
     const [notification, setNotification] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialogEdit, setOpenDialogEdit] = useState(false);
-
     const handleClickOpenDialogEdit = () => {
         setOpenDialogEdit(true);
     };
@@ -45,24 +44,22 @@ export default function TaskCard({task, openDeleteDialog, onOpenDeleteDialog, on
     };
 
     const {user, userToken} = useSelector((state) => state.currentUser)
-
-    // const [openDialogDelete, setOpenDialogDelete] = useState(false);
-    // const handleClickOpenDialogDelete = () => {
-    //     setOpenDialogDelete(true);
-    // };
-    // const handleCloseDialogDelete = (value) => {
-    //
-    //     onDelete();
-    //     setOpenDialogDelete(false);
-    //     console.log(value);
-    // };
-
+    const {attempts, isLoading} = useSelector((state) => state.tasks)
+    let att, done;
+    if (!isLoading){
+        try {
+            att = attempts.find((a) => a.id === task.id).attempts
+            done = att.filter((a) => a.score !== null)
+        } catch {}
+    }
+    const currentAttempt = att ? att.find((a) => a.student_id === user.id) : null;
     const monthNames = ["Січня", "Лютого", "Березня", "Квітня", "Травня", "Червня",
         "Липня", "Серпня", "Вересня", "Жовтня", "Листопада", "Грудня"];
     const dayNames = ["Понеділок", "Вівторок", "Середа",
         "Четвер", "П\'ятниця", "Суббота", "Неділя"];
     const d = new Date(task.done_to)
-
+    const dc = new Date(task.created_at)
+    const du = new Date(task.updated_at)
     return (
         <>
             <Card sx={{height: '100%'}}>
@@ -70,7 +67,9 @@ export default function TaskCard({task, openDeleteDialog, onOpenDeleteDialog, on
                     sx={{pb:0}}
                     title={
                         <Typography color="primary" variant="h5">
-                            {task.name}
+                            {task.name}{currentAttempt && (currentAttempt.score || currentAttempt.score) !== "0.00" ?
+                            <Chip component="span" label={currentAttempt.score} color="primary" sx={{ml:2}}/> : ""
+                            }
                         </Typography>
                     }
                     subheader={task.done_to ?
@@ -79,7 +78,7 @@ export default function TaskCard({task, openDeleteDialog, onOpenDeleteDialog, on
                         {task.done !== 1 && dayjs(task.done_to) < currentDate ?
                             <Chip component="span" label="Термін здачі вийшов" sx={{backgroundColor: "#ff1744", color: "white", ml:3}} /> : ""}
                     </Typography> : <Typography sx={{py:1, color: "grey", fontStyle: "italic"}}>Без терміну здачі</Typography>}
-                    action={
+                    action={user.role !== 'student' ?
                         <>
                             <IconButton
                                 aria-label="more"
@@ -101,10 +100,54 @@ export default function TaskCard({task, openDeleteDialog, onOpenDeleteDialog, on
                                                onClose={onCloseDeleteDialog} task={task}
                                 />
                             </Menu>
+                        </> : <>
+                            {currentAttempt && (!currentAttempt.score || currentAttempt.score === "0.00") ?
+                                <>
+                                    <Grid sx={{mt: 2, mr: 2}}>
+                                        <Button variant="contained" component={NavLink} to={"/task/" + task.id}>
+                                            {currentAttempt.content ? "Редагувати" : "Здати завдання"}
+                                        </Button>
+                                    </Grid>
+                                </>
+                            :
+                                <Grid sx={{mt: 2, mr: 2}}>
+                                    <Button variant="outlined" component={NavLink} to={"/task/" + task.id}>Переглянути</Button>
+                                </Grid>
+                            }
                         </>
                     }
                 />
                 <CardContent sx={{borderTop: "1px solid lightGrey", p:0}} style={{paddingBottom: 0}}>
+                    {user.role === 'admin' || user.role === "teacher" ?
+                        <>
+                            {!isLoading &&
+                                <Grid container justifyContent="space-between" sx={{p:2}}>
+                                    <Grid item>
+                                        <Typography color="grey" fontStyle="italic">
+                                            Учнів виконало: <span style={{color: "black"}}>{done ? done.length : ""}/{att ? att.length : ""}</span>
+                                        </Typography>
+                                        <Typography color="grey" fontStyle="italic">
+                                            Опубліковано:
+                                            <span style={{color: "black", paddingLeft: "10px"}}>
+                                                {dayNames[dc.getDay()]}, {dc.getDate()} {monthNames[dc.getMonth()]} {dc.getFullYear()}
+                                            </span>
+                                        </Typography>
+                                        <Typography color="grey" fontStyle="italic">
+                                            Відредаговано:
+                                            <span style={{color: "black", paddingLeft: "10px"}}>
+                                                {dayNames[du.getDay()]}, {du.getDate()} {monthNames[du.getMonth()]} {du.getFullYear()}
+                                            </span>
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item>
+                                        <Button variant="contained" component={NavLink} to={"/task/" + task.id}>Результати учнів</Button>
+                                    </Grid>
+
+                                </Grid>
+                            }
+                        </>
+                        : ""
+                    }
                     <Accordion style={{margin:0}}>
                         <AccordionSummary expandIcon={<ExpandMore/>} sx={{borderBottom: "1px solid lightGrey"}}>
                             <Typography variant="h6" color="primary">Завдання</Typography>
@@ -113,36 +156,6 @@ export default function TaskCard({task, openDeleteDialog, onOpenDeleteDialog, on
                             <div dangerouslySetInnerHTML={{__html: task.content}}/>
                         </AccordionDetails>
                     </Accordion>
-                    {user.role === 'admin' || user.role === "teacher" ?
-                        <Accordion style={{margin:0}}>
-                            <AccordionSummary expandIcon={<ExpandMore/>} sx={{borderBottom: "1px solid lightGrey"}}>
-                                <Typography variant="h6" color="primary">Результати учнів</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails sx={{backgroundColor: "#f5f5f5"}}>
-                                <Typography variant="h5">Робота студента "1"</Typography>
-                                <Typography variant="h5">Робота студента "2"</Typography>
-                                <Typography variant="h5">Робота студента "3"</Typography>
-                                <Typography variant="h5">Робота студента "4"</Typography>
-                            </AccordionDetails>
-                        </Accordion>
-                         :
-                        <>
-                            <Accordion style={{margin:0}}>
-                                <AccordionSummary expandIcon={<ExpandMore/>} sx={{borderBottom: "1px solid lightGrey"}}>
-                                    <Typography variant="h6" color="primary">Мої відповіді</Typography>
-                                </AccordionSummary>
-                                <AccordionDetails sx={{backgroundColor: "#f5f5f5"}}>
-                                    дані з таблички TaskAttempts (якщо є) по id даного користувача і id завдання
-                                </AccordionDetails>
-                            </Accordion>
-                            <Grid container justifyContent="space-between" sx={{pr:3, py:3}}>
-                                <Grid item></Grid>
-                                <Grid item>
-                                    <Button variant="contained">Здати завдання</Button>
-                                </Grid>
-                            </Grid>
-                        </>
-                    }
                 </CardContent>
             </Card>
         </>
