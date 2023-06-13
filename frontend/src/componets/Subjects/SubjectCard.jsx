@@ -65,7 +65,7 @@ export default function SubjectCard({subjectItem, onDelete}) {
                             {subjectItem.name}
                         </NavLink>
                     }
-                    action={
+                    action={user.permissions?.includes("create classes") &&
                         <>
                             <IconButton
                                 aria-label="more"

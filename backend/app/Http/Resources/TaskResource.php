@@ -17,6 +17,7 @@ class TaskResource extends JsonResource
             'score' => $this->score,
             'subject' => $this->subject,
             'content' => $this->content,
+            'attempts' => $this->attempts,
             'created_at' => Carbon::parse($this->created_at)->isoFormat('DD MMMM, YYYY HH:mm'),
 //            'updated_at' => Carbon::parse($this->updated_at)->isoFormat('DD MMMM, YYYY HH:mm'),
         ];

@@ -81,11 +81,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('/answers', AnswersController::class);
 
-    Route::apiResource('/tasks', TasksController::class);
     Route::post('/subjects/create-task/{subject_id}', [SubjectsController::class, 'createTask']);
     Route::put('/subjects/update-task/{task_id}', [SubjectsController::class, 'updateTask']);
     Route::delete('/subjects/delete-task/{task_id}', [SubjectsController::class, 'deleteTask']);
 });
+    Route::apiResource('/tasks', TasksController::class);
+    Route::put('/tasks/update-attempt/{attempt_id}', [TasksController::class, 'updateTaskAttempt']);
 
 
 Route::post('/login', [AuthController::class, 'login']);

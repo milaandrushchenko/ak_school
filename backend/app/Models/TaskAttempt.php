@@ -8,19 +8,14 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class Task extends Model
+class TaskAttempt extends Model
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
-    protected $table = 'tasks';
     protected $guarded = [];
 
-    public function subject()
-    {
-        return $this->belongsTo(Subject::class, 'subject_id')->select(['id', 'name', 'teacher_id']);
+    public function task(){
+        return $this->belongsTo(Task::class, 'task_id');
     }
 
-    public function attempts(){
-        return $this->hasMany(TaskAttempt::class, 'task_id');
-    }
 }
