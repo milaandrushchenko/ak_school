@@ -5,45 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="369ea667-65c6-4f76-97c2-3e996c2a7e9c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/app/Http/Requests/answer/StoreAnwerRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/Http/Requests/answer/UpdateAnswerRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/Http/Resources/AnswerResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/QuestionResults.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestResults.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Result.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/AuthController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/ClassesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/ClassesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/LoginRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/user/LoginRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/StoreClassesRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/classes/StoreClassesRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/StoreQuestionsRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/test/StoreQuestionsRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/StoreTestRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/test/StoreTestRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/StoreUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/user/StoreUserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateClassesRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/classes/UpdateClassesRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateQuestionsRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/test/UpdateQuestionsRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateTestRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/test/UpdateTestRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/UpdateUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/user/UpdateUserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Resources/TestResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Resources/TestResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Resources/UserResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Resources/UserResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Questions.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Questions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Test.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Test.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/SubjectsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/SubjectsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/Classes.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Classes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/Subject.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Subject.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/User.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tasks/TasksList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tasks/TasksList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/Matrix.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Matrix.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/MatchingQuestion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/MatchingQuestion.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/MultiChoiceQuestion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/MultiChoiceQuestion.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/ShortAnswerQuestion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/ShortAnswerQuestion.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/SingleChoiceQuestion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/SingleChoiceQuestion.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsEditor.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsEditor.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Question/Question.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Question/Question.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/TestPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/TestPage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/router.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/test/testsSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/test/testsSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/common.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,23 +155,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/OSPanel/domains/diploma",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.editor",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PhpStorm 2020.3.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/OSPanel/domains/diploma&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\PhpStorm 2020.3.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests" />
@@ -295,7 +264,8 @@
       <workItem from="1686376765358" duration="8267000" />
       <workItem from="1686460951787" duration="7820000" />
       <workItem from="1686547061391" duration="39382000" />
-      <workItem from="1686635689090" duration="20853000" />
+      <workItem from="1686635689090" duration="23255000" />
+      <workItem from="1686680576120" duration="4422000" />
     </task>
     <servers />
   </component>

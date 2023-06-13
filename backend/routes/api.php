@@ -77,7 +77,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/tests', TestController::class);
     Route::apiResource('/roles', RoleController::class);
     Route::apiResource('/classes', ClassesController::class);
-    Route::apiResource('/classes', ClassesController::class);
+
+    Route::apiResource('/subjects', SubjectsController::class);
 
     Route::apiResource('/answers', AnswersController::class);
 
