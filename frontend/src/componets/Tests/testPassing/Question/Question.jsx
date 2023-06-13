@@ -17,7 +17,7 @@ export default function Question({
                                      nextQuestion,
                                      answerChanged,
                                      showTheResult, timeOver,
-                                     endTime, setEndTime,testStorage
+                                     endTime, setEndTime, testStorage
                                  }) {
     const [isAnswerSelected, setIsAnswerSelected] = useState(false);
 
@@ -44,9 +44,11 @@ export default function Question({
                         marginBottom: '10px'
                     }}>
                         <Chip label={`Запитання ${questionIndex + 1}/${test.questions.length}`}/>
-                        <CountDown countdownTime={test.time_limit * 60} timeOver={timeOver}
-                                   endTime={endTime} setEndTime={setEndTime}
-                                   questionIndex={questionIndex} testStorage={testStorage}/>
+                        {test.time_limit &&
+                            <CountDown countdownTime={test.time_limit * 60} timeOver={timeOver}
+                                       endTime={endTime} setEndTime={setEndTime}
+                                       questionIndex={questionIndex} testStorage={testStorage}/>
+                        }
                     </div>
                     <Typography>
                         <span style={{overflow: 'hidden'}}
@@ -66,7 +68,7 @@ export default function Question({
                             answerChanged={handleAnswerChanged}/>}
                     {question.type === QUESTION.MATCHING &&
                         <MatchingQuestion options={question.options}
-                                           answerChanged={handleAnswerChanged}/>}
+                                          answerChanged={handleAnswerChanged}/>}
                     {
                         (questionIndex + 1) < test.questions.length ?
                             <Button variant="contained" color="primary"

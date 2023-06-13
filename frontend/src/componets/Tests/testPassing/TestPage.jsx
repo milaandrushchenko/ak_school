@@ -1,7 +1,7 @@
 import {useNavigate, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getTestBySlug} from "../../../store/test/testsSlice.js";
+import {createAnswer, createTest, getTestBySlug} from "../../../store/test/testsSlice.js";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
@@ -10,6 +10,8 @@ import Box from "@mui/material/Box";
 import StartTest from "./StartTest.jsx";
 import Question from "./Question/Question.jsx";
 import Prompt from "./Prompt.jsx";
+import {format} from "date-fns";
+import Result from "./Result.jsx";
 
 export default function TestPage() {
     const navigate = useNavigate();
@@ -25,12 +27,12 @@ export default function TestPage() {
     const [question, setQuestion] = useState({});
     const [questionIndex, setQuestionIndex] = useState(storage?.questionIndex || 0);
     const [answers, setAnswers] = useState({...storage?.answers} || {});
-    const [showResult, setShowResult] = useState(!!localStorage.getItem("test"));
+    const [showResult, setShowResult] = useState(false);
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(parseInt(storage?.endTime) || null);
 
-
     const {isLoading, test, errors} = useSelector((state) => state.tests)
+
 
     const testStorage = {
         questionIndex: questionIndex,
@@ -38,6 +40,8 @@ export default function TestPage() {
         startTime: startTime,
         endTime: endTime,
     };
+
+    let data = {};
 
     // Start Quiz
     const startTest = () => {
@@ -59,14 +63,23 @@ export default function TestPage() {
             [question.id]: value,
         }));
     };
-    const showTheResult = () => {
-        console.log(answers);
-        setShowResult(true);
-        setShowTest(false);
-        localStorage.removeItem("test");
+    const showTheResult = async () => {
+        data = {
+            test_id: test.id,
+            answers: {...answers},
+            start_time: format(new Date(startTime), 'yyyy-MM-dd HH:mm:ss'),
+            end_time: format(Date.now(), 'yyyy-MM-dd HH:mm:ss')
+        };
 
+        const resultAction = await dispatch(createAnswer(data));
+        if (createAnswer.fulfilled.match(resultAction)) {
+            console.log(data);
+            setShowResult(true);
+            setShowTest(false);
+            localStorage.removeItem("test");
+        }
     }
-
+    console.log(showResult);
     const timeOver = () => {
         setShowTest(false);
         localStorage.removeItem("test");
@@ -97,6 +110,10 @@ export default function TestPage() {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
     }, [testStorage]);
+
+    // useEffect(() => {
+    //
+    // }, [test])
 
 
     return (
@@ -132,6 +149,9 @@ export default function TestPage() {
                                       showTheResult={showTheResult} timeOver={timeOver}
                                       testStorage={testStorage}
                                       endTime={endTime} setEndTime={setEndTime}
+                            />
+                            <Result showResult={showResult}
+                                    test={test}
                             />
                         </Paper>
                     </Grid>

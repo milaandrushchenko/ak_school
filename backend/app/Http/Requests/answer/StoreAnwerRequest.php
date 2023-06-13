@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\answer;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTestRequest extends FormRequest
+class StoreAnwerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,6 +15,12 @@ class UpdateTestRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'user_id' => $this->user()->id
+        ]);
+    }
     /**
      * Get the validation rules that apply to the request.
      *
@@ -22,12 +29,9 @@ class UpdateTestRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:1000',
-            'time_limit' => 'nullable|integer|max:180',
-            'created_by' => 'exists:users,id',
-            'access_type' => 'in:public,private',
-            'max_attempts' => 'nullable|integer',
-            'is_active' => 'nullable|boolean',
+            'test_id' => 'exists:tests,id',
+            'user_id' => 'exists:users,id',
+            'answers' => 'array',
             'start_time' => 'nullable|date',
             'end_time' => 'nullable|date',
         ];

@@ -11,7 +11,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Divider from "@mui/material/Divider";
 import {theme} from "../../../../../utils/theme.js";
 
-export default function ShortAnswerQuestion({options}) {
+export default function ShortAnswerQuestion({options,studentAnswer}) {
 
     return (
         <>
@@ -36,6 +36,31 @@ export default function ShortAnswerQuestion({options}) {
 
                 </Box>
             ))}
+            {
+                studentAnswer &&(
+                    <>
+                        <Divider />
+                            <Box style={{marginLeft: '5px'}}  >
+                                <div style={{
+                                    color: 'gray',
+
+                                }}>Відповідь студента: </div>
+                                <div
+                                    style={{
+                                        maxWidth: '90%',
+                                        overflow: 'hidden',
+                                        border: `2px solid ${theme.palette.primary.main}`,
+                                        padding: '10px',
+                                        display:'inline-block',
+                                    }}
+                                    dangerouslySetInnerHTML={{ __html: studentAnswer }}
+                                    className="question-content"
+                                />
+
+                            </Box>
+                    </>
+                )
+            }
         </>
     );
 };

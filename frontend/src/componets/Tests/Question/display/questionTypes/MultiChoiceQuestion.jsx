@@ -37,13 +37,19 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import TextEditor from "../../../../core/TextEditor.jsx";
+import Divider from "@mui/material/Divider";
 
 
-export default function MultiChoiceQuestion({options}) {
+export default function MultiChoiceQuestion({options, studentAnswer}) {
 
     return (
         <>
+            <Divider/>
+            <div style={{
+                color: 'gray',
 
+            }}>Правильна відповідь :
+            </div>
             {options?.map((option, index) => (
                 <Box key={index} display="flex" alignItems="center">
                     <Box flexGrow={1} display="flex" alignItems="center">
@@ -58,6 +64,33 @@ export default function MultiChoiceQuestion({options}) {
                     </Box>
                 </Box>
             ))}
+            {
+                studentAnswer && (
+                    <>
+                        <Divider/>
+                        <div style={{
+                            color: 'gray',
+
+                        }}>Відповідь студента:
+                        </div>
+                        {options?.map((option, index) => (
+                            <Box key={index} display="flex" alignItems="center">
+                                <Box flexGrow={1} display="flex" alignItems="center">
+                                    <Checkbox
+                                        checked={studentAnswer.includes(option.text)}
+                                    />
+                                    <div
+                                        style={{maxWidth: '90%', overflow: 'hidden'}}
+                                        dangerouslySetInnerHTML={{__html: option.text}}
+                                        className="question-content"
+                                    />
+                                </Box>
+                            </Box>
+                        ))}
+
+                    </>
+                )
+            }
         </>
     )
 }

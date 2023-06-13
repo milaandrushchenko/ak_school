@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\classes;
 
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use Spatie\Permission\Models\Role;
 
 class UpdateClassesRequest extends FormRequest
 {

@@ -24,7 +24,7 @@ import Divider from "@mui/material/Divider";
 import Matrix from "../../../Matrix.jsx";
 
 
-const MatchingQuestion = ({options}) => {
+const MatchingQuestion = ({options, studentAnswer}) => {
     return (
         <>
             <Grid container spacing={2}>
@@ -74,6 +74,16 @@ const MatchingQuestion = ({options}) => {
             }}>Правильна відповідь :
             </div>
             <Matrix options={options} selectedOptions={options?.correctAnswers}/>
+            {studentAnswer && (
+                <>
+                    <Divider/>
+                    <div style={{
+                        color: 'gray',
+
+                    }}>Відповідь студента:
+                    </div>
+                    <Matrix options={options} selectedOptions={studentAnswer}/></>
+            )}
         </>
     );
 };

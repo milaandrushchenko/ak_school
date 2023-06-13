@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\AnswersController;
 
 use App\Http\Controllers\SubjectsController;
 use App\Http\Controllers\TasksController;
@@ -70,11 +71,15 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/tests/get-by-slug/{test:slug}', [TestController::class, 'getBySlug']);
     });
 
+//    Route::post('tests/{test}/answer',[TestController::class, 'storeAnswer']);
+
+
     Route::apiResource('/tests', TestController::class);
     Route::apiResource('/roles', RoleController::class);
     Route::apiResource('/classes', ClassesController::class);
+    Route::apiResource('/classes', ClassesController::class);
 
-    Route::apiResource('/subjects', SubjectsController::class);
+    Route::apiResource('/answers', AnswersController::class);
 
     Route::apiResource('/tasks', TasksController::class);
     Route::post('/subjects/create-task/{subject_id}', [SubjectsController::class, 'createTask']);

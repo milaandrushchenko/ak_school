@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreQuestionsRequest;
-use App\Http\Requests\StoreTestRequest;
-use App\Http\Requests\UpdateQuestionsRequest;
-use App\Http\Requests\UpdateTestRequest;
+use App\Http\Requests\test\StoreQuestionsRequest;
+use App\Http\Requests\test\StoreTestRequest;
+use App\Http\Requests\test\UpdateQuestionsRequest;
+use App\Http\Requests\test\UpdateTestRequest;
 use App\Http\Resources\TestResource;
 use App\Models\Questions;
 use App\Models\Test;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class TestController extends Controller
 {

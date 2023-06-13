@@ -15,12 +15,17 @@ import 'dayjs/locale/uk';
 import Box from "@mui/material/Box";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TextEditor from "../../../../core/TextEditor.jsx";
+import Divider from "@mui/material/Divider";
 
-export default function SingleChoiceQuestion({options}) {
+export default function SingleChoiceQuestion({options,studentAnswer}) {
 
     return (
         <>
+            <Divider/>
+            <div style={{
+                color: 'gray',
 
+            }}>Правильна відповідь :</div>
             {options.map((option, index) => (
                 <Box key={index} display="flex" alignItems="center">
                     <Box flexGrow={1} display="flex" alignItems="center">
@@ -39,7 +44,39 @@ export default function SingleChoiceQuestion({options}) {
                         />
                     </Box>
                 </Box>
+
             ))}
+            {
+                studentAnswer && (
+                    <>
+                        <Divider/>
+                        <div style={{
+                            color: 'gray',
+
+                        }}>Відповідь студента :</div>
+                        {options.map((option, index) => (
+                            <Box key={index} display="flex" alignItems="center">
+                                <Box flexGrow={1} display="flex" alignItems="center">
+                                    <Radio
+                                        checked={option.text===studentAnswer}
+                                    />
+                                    {/*<TextEditor*/}
+                                    {/*    label={`Варіант ${index + 1}`}*/}
+                                    {/*    name={`options[${index}].text`}*/}
+                                    {/*    value={option.text}*/}
+                                    {/*/>*/}
+                                    <div
+                                        style={{maxWidth: '90%', overflow: 'hidden'}}
+                                        dangerouslySetInnerHTML={{__html: option.text}}
+                                        className="question-content"
+                                    />
+                                </Box>
+                            </Box>
+
+                        ))}
+                    </>
+                )
+            }
         </>
     )
 }
