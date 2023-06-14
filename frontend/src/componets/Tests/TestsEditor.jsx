@@ -180,6 +180,7 @@ export default function TestsEditor() {
         access_type: test.access_type,
         is_active: test.is_active,
         time_limit: test.time_limit,
+        result_display_type: test.result_display_type,
     } : null;
 
 

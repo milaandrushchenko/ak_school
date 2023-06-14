@@ -37,6 +37,7 @@ class StoreTestRequest extends FormRequest
             'is_active' => 'nullable|boolean',
             'start_time' => 'nullable|date',
             'end_time' => 'nullable|date',
+            'result_display_type' => 'in:score_only,user_only,user_and_correct',
         ];
     }
 }

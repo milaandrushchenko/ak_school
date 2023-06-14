@@ -27,7 +27,7 @@ import Box from "@mui/material/Box";
 const modalRoot = document.querySelector('#root');
 
 export default function QuestionResults(props) {
-    const { open, onClose, questionAnswer } = props;
+    const { open, onClose, questionAnswer,result_display_type } = props;
     const {question, user_answer, score,question_id} = questionAnswer;
 
     const onSubmit = async () => {
@@ -68,16 +68,21 @@ export default function QuestionResults(props) {
                     </Typography>
                     {question.type === QUESTION.SHORT_ANSWER && <ShortAnswerQuestion
                         options={JSON.parse(question.options)}
+                        result_display_type={result_display_type}
                         studentAnswer={user_answer}/>}
                     {question.type === QUESTION.MULTIPLE_CHOICE &&
                         <MultiChoiceQuestion
                             options={JSON.parse(question.options)}
+                            result_display_type={result_display_type}
                             studentAnswer={user_answer}/>}
                     {question.type === QUESTION.SINGLE_CHOICE &&
                         <SingleChoiceQuestion
-                            options={JSON.parse(question.options)} studentAnswer={user_answer}/>}
+                            options={JSON.parse(question.options)}
+                            result_display_type={result_display_type}
+                            studentAnswer={user_answer}/>}
                     {question.type === QUESTION.MATCHING &&
                         <MatchingQuestion options={JSON.parse(question.options)}
+                                          result_display_type={result_display_type}
                                           studentAnswer={user_answer}/>}
 
                     <Box display="flex" flexWrap="wrap">

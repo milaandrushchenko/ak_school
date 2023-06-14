@@ -50,6 +50,7 @@ class TestResource extends JsonResource
             'is_active' => $this->is_active,
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
+            'result_display_type' => $this->result_display_type,
             'created_at' => Carbon::parse($this->created_at)->isoFormat('DD MMMM, YYYY HH:mm'),
             'questions' => $questions,
             'results' => $results,

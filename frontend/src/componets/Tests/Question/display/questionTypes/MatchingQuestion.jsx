@@ -22,9 +22,10 @@ import TableBody from "@mui/material/TableBody";
 import Checkbox from "@mui/material/Checkbox";
 import Divider from "@mui/material/Divider";
 import Matrix from "../../../Matrix.jsx";
+import {RESULT_TYPE} from "../../../../../utils/constans.js";
 
 
-const MatchingQuestion = ({options, studentAnswer}) => {
+const MatchingQuestion = ({options, studentAnswer, result_display_type}) => {
     return (
         <>
             <Grid container spacing={2}>
@@ -67,20 +68,25 @@ const MatchingQuestion = ({options, studentAnswer}) => {
                     ))}
                 </Grid>
             </Grid>
-            <Divider/>
-            <div style={{
-                color: 'gray',
+            {result_display_type === null || result_display_type === RESULT_TYPE.ALL && (
+                <>
+                    <Divider/>
+                    <div style={{
+                        color: 'gray',
 
-            }}>Правильна відповідь :
-            </div>
-            <Matrix options={options} selectedOptions={options?.correctAnswers}/>
+                    }}>{'Правильна відповідь :'}
+                    </div>
+                    <Matrix options={options} selectedOptions={options?.correctAnswers}/>
+                </>
+            )
+            }
             {studentAnswer && (
                 <>
                     <Divider/>
                     <div style={{
                         color: 'gray',
 
-                    }}>Відповідь студента:
+                    }}>{result_display_type ? 'Ваша відповідь :' : 'Відповідь студента :'}
                     </div>
                     <Matrix options={options} selectedOptions={studentAnswer}/></>
             )}

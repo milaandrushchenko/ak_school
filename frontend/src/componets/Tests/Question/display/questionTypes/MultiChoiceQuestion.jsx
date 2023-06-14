@@ -38,32 +38,38 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import TextEditor from "../../../../core/TextEditor.jsx";
 import Divider from "@mui/material/Divider";
+import {RESULT_TYPE} from "../../../../../utils/constans.js";
 
 
-export default function MultiChoiceQuestion({options, studentAnswer}) {
+export default function MultiChoiceQuestion({options, studentAnswer, result_display_type}) {
 
     return (
         <>
-            <Divider/>
-            <div style={{
-                color: 'gray',
+            {result_display_type === null || result_display_type === RESULT_TYPE.ALL && (
+                <>
+                    <Divider/>
+                    <div style={{
+                        color: 'gray',
 
-            }}>Правильна відповідь :
-            </div>
-            {options?.map((option, index) => (
-                <Box key={index} display="flex" alignItems="center">
-                    <Box flexGrow={1} display="flex" alignItems="center">
-                        <Checkbox
-                            checked={option.isCorrect}
-                        />
-                        <div
-                            style={{maxWidth: '90%', overflow: 'hidden'}}
-                            dangerouslySetInnerHTML={{__html: option.text}}
-                            className="question-content"
-                        />
-                    </Box>
-                </Box>
-            ))}
+                    }}>Правильна відповідь :
+                    </div>
+                    {options?.map((option, index) => (
+                        <Box key={index} display="flex" alignItems="center">
+                            <Box flexGrow={1} display="flex" alignItems="center">
+                                <Checkbox
+                                    checked={option.isCorrect}
+                                />
+                                <div
+                                    style={{maxWidth: '90%', overflow: 'hidden'}}
+                                    dangerouslySetInnerHTML={{__html: option.text}}
+                                    className="question-content"
+                                />
+                            </Box>
+                        </Box>
+                    ))}
+                </>
+            )
+            }
             {
                 studentAnswer && (
                     <>
@@ -71,7 +77,7 @@ export default function MultiChoiceQuestion({options, studentAnswer}) {
                         <div style={{
                             color: 'gray',
 
-                        }}>Відповідь студента:
+                        }}>{result_display_type ? 'Ваша відповідь :' : 'Відповідь студента :'}
                         </div>
                         {options?.map((option, index) => (
                             <Box key={index} display="flex" alignItems="center">

@@ -6,7 +6,7 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle,
+    DialogTitle, FormControl, FormHelperText, InputLabel, MenuItem, Select,
     TextField
 } from "@mui/material";
 import {ExpandMore} from '@mui/icons-material';
@@ -25,6 +25,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {clearErrors, createTest, updateTest} from "../../store/test/testsSlice.js";
 import {compareDate} from "../../utils/common.js";
+import React from "react";
 
 const currentDate = dayjs();
 
@@ -66,6 +67,7 @@ const initialValues = {
     access_type: 'public',
     is_active: 0,
     time_limit: '',
+    result_display_type: 'score_only',
 };
 
 export default function FormTest({open, onClose, test}) {
@@ -83,6 +85,7 @@ export default function FormTest({open, onClose, test}) {
         validationSchema: createValidationSchema(compareDate(test?.start_time, currentDate), compareDate(test?.end_time, currentDate)),
         enableReinitialize: true, // Увімкнути оновлення значень initialValues
         onSubmit: async (values, {setErrors, setSubmitting}) => {
+            console.log(values.result_display_type);
             const {start_time, end_time, ...otherValues} = values;
             const formData = {
                 ...otherValues,
@@ -104,6 +107,7 @@ export default function FormTest({open, onClose, test}) {
             }
         }
     });
+
     return (
         <>
             <Dialog
@@ -267,6 +271,21 @@ export default function FormTest({open, onClose, test}) {
                                         error={formik.touched.time_limit && Boolean(formik.errors?.time_limit)}
                                         helperText={formik.touched.time_limit && formik.errors && formik.errors.time_limit}
                                     />
+                                    <Box sx={{ mb: 2 }}>
+                                        <Typography variant="subtitle2">Тип відображення результатів</Typography>
+                                        <Select
+                                            id="result_display_type"
+                                            name="result_display_type"
+                                            value={formik.values.result_display_type || ''}
+                                            onChange={formik.handleChange}
+                                            fullWidth
+                                            sx={{ marginTop: "8px" }}
+                                        >
+                                            <MenuItem value="score_only">Тільки оцінка</MenuItem>
+                                            <MenuItem value="user_only">Відображувати оцінку та відовіді учня</MenuItem>
+                                            <MenuItem value="user_and_correct">Деталізовано</MenuItem>
+                                        </Select>
+                                    </Box>
                                 </AccordionDetails>
                             </Accordion>
 
