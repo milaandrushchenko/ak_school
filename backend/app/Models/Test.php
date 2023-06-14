@@ -50,4 +50,10 @@ class Test extends Model
         return $this->questions()->sum('score');
     }
 
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'test_subjects');
+    }
+
+
 }

@@ -179,6 +179,7 @@ export default function TestsEditor() {
         max_attempts: test.max_attempts,
         access_type: test.access_type,
         is_active: test.is_active,
+        subject_ids: test.subjects?.map(subject => subject.id),
         time_limit: test.time_limit,
         result_display_type: test.result_display_type,
     } : null;

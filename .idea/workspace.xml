@@ -5,19 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="369ea667-65c6-4f76-97c2-3e996c2a7e9c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/app/Models/TestSubjects.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/ClassesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/ClassesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/test/StoreTestRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/test/StoreTestRequest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/test/UpdateTestRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/test/UpdateTestRequest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Resources/TestResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Resources/TestResource.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/Subject.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Subject.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/Test.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Test.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Subjects/SubjectCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Subjects/SubjectCard.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/FormTest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/FormTest.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/MatchingQuestion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/MatchingQuestion.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/MultiChoiceQuestion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/MultiChoiceQuestion.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/ShortAnswerQuestion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/ShortAnswerQuestion.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/SingleChoiceQuestion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/Question/display/questionTypes/SingleChoiceQuestion.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/QuestionResults.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/QuestionResults.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsEditor.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsEditor.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Result.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Result.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/constans.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/constans.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -271,7 +270,7 @@
       <workItem from="1686547061391" duration="39382000" />
       <workItem from="1686635689090" duration="23255000" />
       <workItem from="1686680576120" duration="8273000" />
-      <workItem from="1686725535463" duration="14636000" />
+      <workItem from="1686725535463" duration="19775000" />
     </task>
     <servers />
   </component>

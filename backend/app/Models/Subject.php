@@ -29,4 +29,9 @@ class Subject extends Model
         return $this->hasMany(Task::class, 'subject_id');
     }
 
+    public function tests()
+    {
+        return $this->belongsToMany(Test::class, 'test_subjects');
+    }
+
 }

@@ -8,6 +8,7 @@ use App\Http\Requests\test\UpdateQuestionsRequest;
 use App\Http\Requests\test\UpdateTestRequest;
 use App\Http\Resources\TestResource;
 use App\Models\Questions;
+use App\Models\Subject;
 use App\Models\Test;
 use Carbon\Carbon;
 
@@ -43,7 +44,16 @@ class TestController extends Controller
     {
         $data = $request->validated();
 
+        $subjects= $data['subject_ids'];
+        unset($data['subject_ids']);
+
         $test = Test::create($data);
+
+        $subjects = collect($subjects)->map(function ($subjectId) {
+            return Subject::findOrFail($subjectId);
+        });
+
+        $test->subjects()->attach($subjects);
 
         return response(new TestResource($test), 201);
 
@@ -63,11 +73,16 @@ class TestController extends Controller
     public function update(UpdateTestRequest $request, Test $test)
     {
         $data = $request->validated();
+        $subjects = $data['subject_ids'];
+        unset($data['subject_ids']);
 
         $test->update($data);
 
+        $test->subjects()->sync($subjects);
+
         return response(new TestResource($test), 201);
     }
+
 
     /**
      * Remove the specified resource from storage.

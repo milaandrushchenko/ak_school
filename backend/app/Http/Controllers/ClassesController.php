@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\classes\StoreAnwerRequest;
-use App\Http\Requests\classes\UpdateAnswerRequest;
+use App\Http\Requests\classes\StoreClassesRequest;
+use App\Http\Requests\classes\UpdateClassesRequest;
 use App\Http\Resources\ClassResource;
 use App\Models\Classes;
 use App\Models\Subject;
@@ -39,7 +39,7 @@ class ClassesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAnwerRequest $request)
+    public function store(StoreClassesRequest $request)
     {
         $data = $request->validated();
         $students = $data['student_ids'];
@@ -67,7 +67,7 @@ class ClassesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAnswerRequest $request, Classes $class)
+    public function update(UpdateClassesRequest $request, Classes $class)
     {
         $data = $request->validated();
         $students = $data['student_ids'];
