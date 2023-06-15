@@ -14,6 +14,7 @@ import React from "react";
 import {ExpandMore} from "@mui/icons-material";
 
 export default function AdminJournal({subjects}){
+    const {classes} = useSelector((state)=> state.classes)
     return (
         <Grid container>
             {subjects.map((subject) => (
@@ -22,10 +23,10 @@ export default function AdminJournal({subjects}){
                     {subject.tasks.length > 0 ?
                         <>
                             {subject.classes.map((cls)=>(
-                                <div key={cls.class_id} style={{marginBottom:10}}>
+                                <div key={cls.id} style={{marginBottom:10}}>
                                     <Accordion>
                                         <AccordionSummary  expandIcon={<ExpandMore/>} sx={{borderBottom: "1px solid lightGrey"}}>
-                                            {cls.name}
+                                            {classes.find((c) => c.id === cls.id).name}
                                         </AccordionSummary>
                                         <AccordionDetails sx={{backgroundColor: "#f5f5f5"}}>
                                             <TableContainer component={Paper}>

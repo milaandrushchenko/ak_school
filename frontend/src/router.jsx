@@ -12,13 +12,17 @@ import TasksList from "./componets/Tasks/TasksList.jsx";
 import TaskPage from "./componets/Tasks/Attempts/TaskPage.jsx";
 import NotFound from "./componets/errors/NotFound";
 import Journal from "./componets/journal/Journal.jsx";
-// import Journal from "./componets/journal/Journal.jsx";
+import Profile from "./componets/Users/Profile.jsx";
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <DefaultLayout/>,
         children: [
+            {
+                path: "/",
+                element: <Profile/>
+            },
             {
                 path: '/dashboard',
                 element: <Navigate to="/"/>
