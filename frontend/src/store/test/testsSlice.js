@@ -16,9 +16,7 @@ export const createTest = createAsyncThunk(
     "tests/createTest",
     async (payload, {rejectWithValue}) => {
         try {
-            console.log(payload);
             const res = await axiosClient.post('/tests/create', payload);
-            console.log(res.data);
             return res.data;
         } catch (error) {
             if (!error.response) {

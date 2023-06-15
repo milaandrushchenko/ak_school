@@ -22,7 +22,7 @@ export default function SingleChoiceQuestion({options, studentAnswer, result_dis
 
     return (
         <>
-            {result_display_type === null || result_display_type === RESULT_TYPE.ALL && (
+            {(result_display_type === undefined || result_display_type === RESULT_TYPE.ALL) && (
                 <>
                     <Divider/>
                     <div style={{

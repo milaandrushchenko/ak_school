@@ -11,6 +11,7 @@ import TestPage from "./componets/Tests/testPassing/TestPage.jsx";
 import TasksList from "./componets/Tasks/TasksList.jsx";
 import TaskPage from "./componets/Tasks/Attempts/TaskPage.jsx";
 import NotFound from "./componets/errors/NotFound";
+import Journal from "./componets/journal/Journal.jsx";
 // import Journal from "./componets/journal/Journal.jsx";
 
 const router = createBrowserRouter([
@@ -71,10 +72,10 @@ const router = createBrowserRouter([
                 path: 'error/404',
                 element: <NotFound/>
             },
-            // {
-            //     path: '/journal',
-            //     element: <Journal/>
-            // }
+            {
+                path: '/journal',
+                element: <Journal/>
+            }
         ]
     },
     {

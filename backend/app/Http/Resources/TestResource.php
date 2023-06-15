@@ -38,7 +38,7 @@ class TestResource extends JsonResource
         );
 
 
-        //Carbon::setLocale('uk');
+        Carbon::setLocale('uk');
         return [
             'id' => $this->id,
             'title' => $this->title,

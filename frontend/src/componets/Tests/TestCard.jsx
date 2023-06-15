@@ -20,7 +20,7 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import TimerIcon from '@mui/icons-material/Timer';
-import {formattedDate} from "../../utils/common.js";
+import {formattedDate, time_converter} from "../../utils/common.js";
 import Box from "@mui/material/Box";
 
 export default function TestCard({test, onDelete}) {
@@ -54,7 +54,7 @@ export default function TestCard({test, onDelete}) {
         setAnchorEl(event.currentTarget);
     };
 
-   const handleMenuClose = (event) => {
+    const handleMenuClose = (event) => {
         event.preventDefault();
         setAnchorEl(null);
     };
@@ -98,31 +98,35 @@ export default function TestCard({test, onDelete}) {
                         }
                     />
                     <CardContent>
-                        <Box display="flex" alignItems="center">
+                        <Box display="flex" flexWrap="wrap" alignItems="center">
                             <QueryBuilderIcon style={{marginRight: 10}}/>
                             <Typography
                                 sx={{color: 'gray', fontStyle: 'italic', paddingRight: '5px'}}>
-                                {'Дата вікриття :'} </Typography>
-                            <Typography> {formattedDate(test.start_time)}
-                            </Typography>
+                                {'Дата вікриття :'} <span
+                                style={{color: 'black'}}> {test.start_time ? formattedDate(test.start_time) : 'не зазначено'}</span> </Typography>
                         </Box>
-                        <Box style={{paddingTop: 5}} display="flex" alignItems="center">
+                        <Box display="flex" flexWrap="wrap" alignItems="center">
                             <QueryBuilderIcon style={{marginRight: 10}}/>
                             <Typography
                                 sx={{color: 'gray', fontStyle: 'italic', paddingRight: '5px'}}>
-                                Дата закриття:</Typography>
-                            <Typography>
-                                {formattedDate(test.end_time)}
-                            </Typography>
+                                {'Дата закриття :'} <span
+                                style={{color: 'black'}}> {test.end_time ? formattedDate(test.end_time) : 'не зазначено'}</span> </Typography>
                         </Box>
-                        <Box style={{paddingTop: 5}} display="flex" alignItems="center">
-                            <TimerIcon style={{marginRight: 10}}/>
+                        <Box display="flex" flexWrap="wrap" alignItems="center">
+                            <QueryBuilderIcon style={{marginRight: 10}}/>
                             <Typography
                                 sx={{color: 'gray', fontStyle: 'italic', paddingRight: '5px'}}>
-                                Тривалість:</Typography>
-                            <Typography> {test.time_limit ? test.time_limit + ' хвилин' : 'Необмежений у часі'}
-                            </Typography>
+                                {'Тривалість :'} <span
+                                style={{color: 'black'}}>{test.time_limit ? test.time_limit + ' хвилин' : 'необмежений у часі'}</span> </Typography>
                         </Box>
+                        <Typography style={{
+                            fontSize: "0.8em",
+                            color: "grey",
+                            top: "10px",
+                            position: "relative"
+                        }}>
+                            Створено: {test.created_at}
+                        </Typography>
                     </CardContent>
                 </Card>
             </Link>

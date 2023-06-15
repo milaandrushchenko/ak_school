@@ -17,7 +17,7 @@ import {
     searchTest,
     updateTest
 } from "../../store/test/testsSlice.js";
-import {Navigate, useNavigate, useParams} from "react-router-dom";
+import {Navigate, NavLink, useNavigate, useParams} from "react-router-dom";
 import {getTests} from "../../store/test/testsSlice.js";
 import {theme} from "../../utils/theme.js";
 import Paper from "@mui/material/Paper";
@@ -41,6 +41,9 @@ import dayjs from "dayjs";
 import DeleteTest from "./DeleteTest.jsx";
 import QuestionCard from "./Question/display/QuestionCard.jsx";
 import TestResults from "./TestResults.jsx";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace.js";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd.js";
+import FormTask from "../Tasks/FormTask.jsx";
 
 const currentDate = dayjs();
 export default function TestsEditor() {
@@ -192,6 +195,8 @@ export default function TestsEditor() {
     };
     return (
         <>
+
+
             {isLoading &&
                 <Box sx={{display: 'flex', justifyContent: 'center'}}>
                     <CircularProgress/>
@@ -209,79 +214,28 @@ export default function TestsEditor() {
                                 <Typography component="h2" variant="h6" sx={{paddingBottom: '5px'}}> <span
                                     style={{color: 'gray'}}>Тест:</span> {test?.title}
                                 </Typography>
-                                <Box display="flex" alignItems="center">
+                                <Box display="flex" flexWrap="wrap" alignItems="center">
                                     <QueryBuilderIcon style={{marginRight: 10}}/>
                                     <Typography
-                                        sx={{
-                                            color: 'gray',
-                                            fontStyle: 'italic',
-                                            paddingRight: '5px'
-                                        }}>
-                                        {'Дата вікриття :'} </Typography>
-                                    <Typography> {formattedDate(test?.start_time)}
-                                    </Typography>
+                                        sx={{color: 'gray', fontStyle: 'italic', paddingRight: '5px'}}>
+                                        {'Дата вікриття :'} <span
+                                        style={{color: 'black'}}> {test.start_time ? formattedDate(test.start_time) : 'не зазначено'}</span> </Typography>
                                 </Box>
-                                <Box style={{paddingTop: 5}} display="flex" alignItems="center">
+                                <Box display="flex" flexWrap="wrap" alignItems="center">
                                     <QueryBuilderIcon style={{marginRight: 10}}/>
                                     <Typography
-                                        sx={{
-                                            color: 'gray',
-                                            fontStyle: 'italic',
-                                            paddingRight: '5px'
-                                        }}>
-                                        Дата закриття:</Typography>
-                                    <Typography>
-                                        {formattedDate(test?.end_time)}
-                                    </Typography>
+                                        sx={{color: 'gray', fontStyle: 'italic', paddingRight: '5px'}}>
+                                        {'Дата закриття :'} <span
+                                        style={{color: 'black'}}> {test.end_time ? formattedDate(test.end_time) : 'не зазначено'}</span> </Typography>
                                 </Box>
-                                <Box style={{paddingTop: 5}} display="flex" alignItems="center">
-                                    <TimerIcon style={{marginRight: 10}}/>
+                                <Box display="flex" flexWrap="wrap" alignItems="center">
+                                    <QueryBuilderIcon style={{marginRight: 10}}/>
                                     <Typography
-                                        sx={{
-                                            color: 'gray',
-                                            fontStyle: 'italic',
-                                            paddingRight: '5px'
-                                        }}>
-                                        Тривалість:</Typography>
-                                    <Typography> {test?.time_limit ? test?.time_limit + ' хвилин' : 'Необмежений у часі'}
-                                    </Typography>
-                                </Box>
-                                <Box style={{paddingTop: 15}} display="flex" alignItems="center">
-                                    <Button
-                                        color="secondary"
-                                        style={{
-                                            color: 'white',
-                                            marginRight: 10,
-                                        }}
-                                        // startIcon={<QuestionMarkIcon/>}
-                                        // endIcon={<KeyboardArrowDownIcon/>}
-                                        variant="contained"
-                                        disableElevation
-                                        onClick={handleClickOpenDialogEdit}
-                                    >
-                                        Редагувати
-                                    </Button>
-                                    <Button
-                                        style={{
-                                            color: 'white',
-                                        }}
-                                        variant="contained" color="error"
-                                        // startIcon={<QuestionMarkIcon/>}
-                                        // endIcon={<KeyboardArrowDownIcon/>}
-                                        disableElevation
-                                        onClick={handleClickOpenDialogDelete}
-                                    >
-                                        Видалити
-                                    </Button>
+                                        sx={{color: 'gray', fontStyle: 'italic', paddingRight: '5px'}}>
+                                        {'Тривалість :'} <span
+                                        style={{color: 'black'}}>{test.time_limit ? test.time_limit + ' хвилин' : 'необмежений у часі'}</span> </Typography>
                                 </Box>
                             </Paper>
-                            {/*{test.questions?.map((question, index) => (*/}
-                            {/*    <QuestionCard key={question.id} sum={sumOfScores} index={index}*/}
-                            {/*                  question={question} count={test.questions.length}*/}
-                            {/*                  openDeleteDialog={openDialogDeleteQuestion}*/}
-                            {/*                  onOpenDeleteDialog={handleClickOpenDialogDeleteQuestion}*/}
-                            {/*                  onCloseDeleteDialog={handleCloseDialogDeleteQuestion}/>*/}
-                            {/*))}*/}
                             <Tabs value={selectedTab} onChange={handleTabChange}
                                   indicatorColor="primary">
                                 <Tab label="Питання"/>
@@ -318,8 +272,8 @@ export default function TestsEditor() {
                             )}
 
                         </Grid>
-                        <Grid item xs={12} lg={3}>
-                            <Box display="flex" flexWrap="wrap">
+                        <Grid item xs={12} lg={3} >
+                            <Box display="flex" flexWrap="wrap" >
                                 <Button
                                     color="secondary"
                                     style={{
@@ -349,24 +303,28 @@ export default function TestsEditor() {
                                     }}
                                 >
                                     <MenuItem
+                                        sx={{ whiteSpace: 'normal' }}
                                         onClick={() => handleClickOpenQuestionForm(QUESTION.SINGLE_CHOICE)}
                                         disableRipple>
                                         <RadioButtonCheckedIcon sx={{marginRight: '8px'}}/>
                                         З однією правильною відовіддю
                                     </MenuItem>
                                     <MenuItem
+                                        sx={{ whiteSpace: 'normal' }}
                                         onClick={() => handleClickOpenQuestionForm(QUESTION.MULTIPLE_CHOICE)}
                                         disableRipple>
                                         <FormatListBulletedIcon sx={{marginRight: '8px'}}/>
                                         З кількома правильними відповідями
                                     </MenuItem>
                                     <MenuItem
+                                        sx={{ whiteSpace: 'normal' }}
                                         onClick={() => handleClickOpenQuestionForm(QUESTION.MATCHING)}
                                         disableRipple>
                                         <SyncAltIcon sx={{marginRight: '8px'}}/>
                                         На встановлення відповідності
                                     </MenuItem>
                                     <MenuItem
+                                        sx={{ whiteSpace: 'normal' }}
                                         onClick={() => handleClickOpenQuestionForm(QUESTION.SHORT_ANSWER)}
                                         disableRipple>
                                         <ShortTextIcon sx={{marginRight: '8px'}}/>
@@ -376,20 +334,6 @@ export default function TestsEditor() {
                                 <QuestionForm open={openQuestionForm}
                                               onClose={handleClickCloseQuestionForm}
                                               type={selectedTaskType}/>
-                                <Button
-                                    color="primary"
-                                    style={{
-                                        backgroundColor: theme.palette.secondary.main,
-                                        color: 'white',
-                                        marginTop: 10,
-                                        width: '100%'
-
-                                    }}
-                                    startIcon={<LockPersonIcon/>}
-                                    // onClick={handleClickOpen}
-                                >
-                                    Керувати доступом
-                                </Button>
                                 <Button
                                     variant="contained"
                                     style={{
@@ -401,6 +345,35 @@ export default function TestsEditor() {
                                     onClick={handleChangeTestStatus}
                                 >
                                     {test?.is_active ? 'Деактивувати тест' : 'Активувати тест'}
+                                </Button>
+                                <Button
+                                    color="secondary"
+                                    style={{
+                                        color: 'white',
+                                        marginTop: 10,
+                                        width: '100%',
+                                    }}
+                                    // startIcon={<QuestionMarkIcon/>}
+                                    // endIcon={<KeyboardArrowDownIcon/>}
+                                    variant="contained"
+                                    disableElevation
+                                    onClick={handleClickOpenDialogEdit}
+                                >
+                                    Редагувати
+                                </Button>
+                                <Button
+                                    style={{
+                                        color: 'white',
+                                        marginTop: 10,
+                                        width: '100%',
+                                    }}
+                                    variant="contained" color="error"
+                                    // startIcon={<QuestionMarkIcon/>}
+                                    // endIcon={<KeyboardArrowDownIcon/>}
+                                    disableElevation
+                                    onClick={handleClickOpenDialogDelete}
+                                >
+                                    Видалити
                                 </Button>
                             </Box>
                         </Grid>

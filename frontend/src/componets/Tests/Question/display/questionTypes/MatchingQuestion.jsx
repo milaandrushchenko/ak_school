@@ -23,9 +23,13 @@ import Checkbox from "@mui/material/Checkbox";
 import Divider from "@mui/material/Divider";
 import Matrix from "../../../Matrix.jsx";
 import {RESULT_TYPE} from "../../../../../utils/constans.js";
+import {useSelector} from "react-redux";
 
 
 const MatchingQuestion = ({options, studentAnswer, result_display_type}) => {
+    console.log(result_display_type)
+    const {userToken, user} = useSelector((state) => state.currentUser)
+
     return (
         <>
             <Grid container spacing={2}>
@@ -68,7 +72,7 @@ const MatchingQuestion = ({options, studentAnswer, result_display_type}) => {
                     ))}
                 </Grid>
             </Grid>
-            {result_display_type === null || result_display_type === RESULT_TYPE.ALL && (
+            {(result_display_type === undefined || result_display_type === RESULT_TYPE.ALL) && (
                 <>
                     <Divider/>
                     <div style={{

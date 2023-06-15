@@ -48,7 +48,7 @@ class AnswersController extends Controller
             ];
 
             $totalScore += $scoreForQuestion;
-            $questionAnswer = QuestionAnswer::create($data);
+            QuestionAnswer::create($data);
         }
 
         $test = Test::find($validated['test_id']);

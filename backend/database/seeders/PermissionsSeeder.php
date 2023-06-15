@@ -85,5 +85,6 @@ class PermissionsSeeder extends Seeder
             $student->givePermissionTo($permission);
         }
 
+
     }
 }

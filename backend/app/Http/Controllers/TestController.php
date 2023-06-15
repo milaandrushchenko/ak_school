@@ -157,9 +157,9 @@ class TestController extends Controller
 
     public function getBySlug(Test $test)
     {
-        if (!$test->is_active) {
-            return response('', 404);
-        }
+//        if (!$test->is_active) {
+//            return response('', 404);
+//        }
 //        $currentDate = new \DateTime();
 //        $expireDate = new \DateTime($survey->expire_date);
 //        if ($currentDate > $expireDate) {

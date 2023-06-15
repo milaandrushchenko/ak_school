@@ -71,20 +71,18 @@ export default function UserForm({user, open, onClose}) {
     const formik = useFormik({
         initialValues: user ? {...user} : {...initialValues},
         validationSchema,
-        onSubmit: async (values, {setErrors, setSubmitting}) => {
+        onSubmit: async (values, {}) => {
             if (!user) {
                 const resultAction = await dispatch(createUser(values));
                 if (createUser.fulfilled.match(resultAction)) {
                     close(true);
                 }
             } else {
-                console.log(values)
                 let data = Object.assign({}, values);
                 delete data.password;
                 let id = data.id;
                 const resultAction = await dispatch(updateUser({id, data}));
                 if (updateUser.fulfilled.match(resultAction)) {
-                    console.log('user updated');
                     close(true);
                 }
             }

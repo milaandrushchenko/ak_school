@@ -16,7 +16,7 @@ export default function ShortAnswerQuestion({options, studentAnswer, result_disp
 
     return (
         <>
-            {result_display_type === null || result_display_type === RESULT_TYPE.ALL && (
+            {(result_display_type === undefined || result_display_type === RESULT_TYPE.ALL) && (
                 <>
                     <Divider/>
                     {options.map((answer, index) => (
