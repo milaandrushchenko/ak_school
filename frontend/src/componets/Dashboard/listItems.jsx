@@ -39,22 +39,22 @@ export const AdminMainListItems = (
                 </ListItemButton>
             )}
         </NavLink>
-        <NavLink to='' className={
-            classNames(
-                styles['nav-link'],
-            )
-        }>
-            {({isActive, isExact}) => (
-                <ListItemButton
-                    // className={isActive ? classNames(styles.active) : ''}
-                >
-                    <ListItemIcon>
-                        <CalendarMonthIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="РОЗКЛАДИ"/>
-                </ListItemButton>
-            )}
-        </NavLink>
+        {/*<NavLink to='' className={*/}
+        {/*    classNames(*/}
+        {/*        styles['nav-link'],*/}
+        {/*    )*/}
+        {/*}>*/}
+        {/*    {({isActive, isExact}) => (*/}
+        {/*        <ListItemButton*/}
+        {/*            // className={isActive ? classNames(styles.active) : ''}*/}
+        {/*        >*/}
+        {/*            <ListItemIcon>*/}
+        {/*                <CalendarMonthIcon/>*/}
+        {/*            </ListItemIcon>*/}
+        {/*            <ListItemText primary="РОЗКЛАДИ"/>*/}
+        {/*        </ListItemButton>*/}
+        {/*    )}*/}
+        {/*</NavLink>*/}
         <NavLink to='/classes' className={
             classNames(
                 styles['nav-link'],
@@ -78,7 +78,7 @@ export const AdminMainListItems = (
         }>
             {({isActive, isExact}) => (
                 <ListItemButton
-                    // className={isActive ? classNames(styles.active) : ''}
+                    className={isActive ? classNames(styles.active) : ''}
                 >
                     <ListItemIcon>
                         <BarChartIcon/>
@@ -166,22 +166,22 @@ export const TeacherMainListItems = (
                 </ListItemButton>
             )}
         </NavLink>
-        <NavLink to='' className={
-            classNames(
-                styles['nav-link'],
-            )
-        }>
-            {({isActive, isExact}) => (
-                <ListItemButton
-                    // className={isActive ? classNames(styles.active) : ''}
-                >
-                    <ListItemIcon>
-                        <CalendarMonthIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="РОЗКЛАД"/>
-                </ListItemButton>
-            )}
-        </NavLink>
+        {/*<NavLink to='' className={*/}
+        {/*    classNames(*/}
+        {/*        styles['nav-link'],*/}
+        {/*    )*/}
+        {/*}>*/}
+        {/*    {({isActive, isExact}) => (*/}
+        {/*        <ListItemButton*/}
+        {/*            // className={isActive ? classNames(styles.active) : ''}*/}
+        {/*        >*/}
+        {/*            <ListItemIcon>*/}
+        {/*                <CalendarMonthIcon/>*/}
+        {/*            </ListItemIcon>*/}
+        {/*            <ListItemText primary="РОЗКЛАД"/>*/}
+        {/*        </ListItemButton>*/}
+        {/*    )}*/}
+        {/*</NavLink>*/}
         <NavLink to='/classes' className={
             classNames(
                 styles['nav-link'],
@@ -214,22 +214,7 @@ export const TeacherMainListItems = (
                 </ListItemButton>
             )}
         </NavLink>
-        <NavLink to='' className={
-            classNames(
-                styles['nav-link'],
-            )
-        }>
-            {({isActive, isExact}) => (
-                <ListItemButton
-                    // className={isActive ? classNames(styles.active) : ''}
-                >
-                    <ListItemIcon>
-                        <BarChartIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="ЖУРНАЛИ"/>
-                </ListItemButton>
-            )}
-        </NavLink>
+
     </React.Fragment>
 );
 
@@ -238,7 +223,23 @@ export const TeacherSecondaryListItems = (
         {/*<ListSubheader component="div" inset>*/}
         {/*  Saved reports*/}
         {/*</ListSubheader>*/}
-        <NavLink to='/users' className={
+        {/*<NavLink to='/users' className={*/}
+        {/*    classNames(*/}
+        {/*        styles['nav-link'],*/}
+        {/*    )*/}
+        {/*}>*/}
+        {/*    {({isActive, isExact}) => (*/}
+        {/*        <ListItemButton*/}
+        {/*            className={isActive ? classNames(styles.active) : ''}*/}
+        {/*        >*/}
+        {/*            <ListItemIcon>*/}
+        {/*                <PeopleIcon/>*/}
+        {/*            </ListItemIcon>*/}
+        {/*            <ListItemText primary='КОРИСТУВАЧІ'/>*/}
+        {/*        </ListItemButton>*/}
+        {/*    )}*/}
+        {/*</NavLink>*/}
+        <NavLink to='/journal' className={
             classNames(
                 styles['nav-link'],
             )
@@ -248,9 +249,9 @@ export const TeacherSecondaryListItems = (
                     className={isActive ? classNames(styles.active) : ''}
                 >
                     <ListItemIcon>
-                        <PeopleIcon/>
+                        <BarChartIcon/>
                     </ListItemIcon>
-                    <ListItemText primary='КОРИСТУВАЧІ'/>
+                    <ListItemText primary="ЖУРНАЛИ"/>
                 </ListItemButton>
             )}
         </NavLink>
@@ -276,22 +277,22 @@ export const StudentMainListItems = (
                 </ListItemButton>
             )}
         </NavLink>
-        <NavLink to='' className={
-            classNames(
-                styles['nav-link'],
-            )
-        }>
-            {({isActive, isExact}) => (
-                <ListItemButton
-                    // className={isActive ? classNames(styles.active) : ''}
-                >
-                    <ListItemIcon>
-                        <CalendarMonthIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="РОЗКЛАД"/>
-                </ListItemButton>
-            )}
-        </NavLink>
+        {/*<NavLink to='' className={*/}
+        {/*    classNames(*/}
+        {/*        styles['nav-link'],*/}
+        {/*    )*/}
+        {/*}>*/}
+        {/*    {({isActive, isExact}) => (*/}
+        {/*        <ListItemButton*/}
+        {/*            // className={isActive ? classNames(styles.active) : ''}*/}
+        {/*        >*/}
+        {/*            <ListItemIcon>*/}
+        {/*                <CalendarMonthIcon/>*/}
+        {/*            </ListItemIcon>*/}
+        {/*            <ListItemText primary="РОЗКЛАД"/>*/}
+        {/*        </ListItemButton>*/}
+        {/*    )}*/}
+        {/*</NavLink>*/}
             </React.Fragment>
 );
 

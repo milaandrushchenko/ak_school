@@ -23,7 +23,7 @@ export default function Journal() {
             })
             if (user.role === 'admin' || user.role === 'teacher')
                 s.classes.map((c)=>{
-                    const cls = classes.find((cls) => cls.id === c.class_id)
+                    const cls = classes.find((cls) => cls.id === c.id)
                     c.students = cls ? cls.students : null
                     c.name = cls ? cls.name : null
                 })

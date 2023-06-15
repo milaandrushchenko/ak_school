@@ -38,7 +38,6 @@ export default function SubjectCard({subjectItem, onDelete}) {
         setOpenDialogDelete(true);
     };
     const handleCloseDialogDelete = (value) => {
-
         onDelete();
         setOpenDialogDelete(false);
         console.log(value);
@@ -53,9 +52,10 @@ export default function SubjectCard({subjectItem, onDelete}) {
     let subjCls = [];
     const {classes, isLoading} = useSelector((state) => state.classes);
     subjectItem.classes.map((cls) => {
-        subjCls.push(classes.find(item => item.id === cls.class_id))
+        subjCls.push(classes.find(item => item.id === cls.id))
     })
-    const {userToken, user} = useSelector((state) => state.currentUser)
+
+    const {user} = useSelector((state) => state.currentUser)
     return (
         <>
             <Card sx={{height: '100%'}}>
@@ -107,7 +107,7 @@ export default function SubjectCard({subjectItem, onDelete}) {
                                 </Button>
                             </Typography>
                             <Stack direction="row" spacing={1}>
-                                {user.role === 'admin' ? subjCls.map((c) => {
+                                {user.role === 'admin' || user.role === "teacher" ? subjCls.map((c) => {
                                     return (
                                         <Chip key={c?.id} label={c?.name} color="primary" />
                                     )
