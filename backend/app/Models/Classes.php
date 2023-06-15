@@ -28,5 +28,10 @@ class Classes extends Model
     {
         return $this->hasMany(User::class, 'class_id');
     }
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'subject_classes', 'class_id', 'subject_id');
+    }
+
 
 }

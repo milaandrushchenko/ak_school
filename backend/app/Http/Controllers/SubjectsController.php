@@ -27,7 +27,7 @@ class SubjectsController extends Controller
         if ($user->hasRole('admin')) {
             $subjects = Subject::query()->orderBy('updated_at', 'desc')->get();
         } else if ($user->hasRole('teacher')) {
-              $subjects = Subject::query()->where('teacher_id', $user['id'])->orderBy('updated_at', 'desc')->get();
+            $subjects =$user->teacherSubjects()->orderBy('name', 'desc')->get();
         } else if ($user->hasRole('student')) {
             $ids = SubjectClass::where('class_id', $user['class_id'])->pluck('subject_id')->toArray();
             $subjects = Subject::whereIn('id', $ids)->orderBy('updated_at', 'desc')->get();

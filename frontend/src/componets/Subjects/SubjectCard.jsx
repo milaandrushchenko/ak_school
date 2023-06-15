@@ -109,7 +109,7 @@ export default function SubjectCard({subjectItem, onDelete}) {
                             <Stack direction="row" spacing={1}>
                                 {user.role === 'admin' ? subjCls.map((c) => {
                                     return (
-                                        <Chip key={c.id} label={c.name} color="primary" />
+                                        <Chip key={c?.id} label={c?.name} color="primary" />
                                     )
                                 }) : ''}
                             </Stack>

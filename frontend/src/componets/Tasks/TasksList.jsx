@@ -92,7 +92,7 @@ export default function TasksList(){
                 </Grid>
 
                 <Grid item>
-                    {user.permissions?.includes("update classes") &&
+                    {/*{user.permissions?.includes("update classes") &&*/}
                         <Button
                             sx={{pr: 2, mt: 2}}
                             color="secondary"
@@ -101,7 +101,7 @@ export default function TasksList(){
                             <PlaylistAddIcon style={{marginRight: 10}}/>
                             НОВЕ ЗАВДАННЯ
                         </Button>
-                    }
+                    {/*}*/}
                     <FormTask open={openTaskForm} onClose={handleClickCloseTaskForm}/>
                 </Grid>
             </Grid>

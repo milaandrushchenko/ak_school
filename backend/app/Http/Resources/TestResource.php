@@ -16,6 +16,7 @@ class TestResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $user = auth()->user();
 
         $questions = [];
         foreach ($this->questions as $question) {
@@ -25,6 +26,18 @@ class TestResource extends JsonResource
             }
             $questions[] = $parsedQuestion;
         }
+
+        $results = $this->when(
+            $user->hasAnyRole(['teacher', 'admin']),
+            function () {
+                return AnswerResource::collection($this->answers);
+            },
+            function () use ($user) {
+                return AnswerResource::collection($this->answers()->where('user_id', $user->id)->get());
+            }
+        );
+
+
         //Carbon::setLocale('uk');
         return [
             'id' => $this->id,
@@ -37,8 +50,11 @@ class TestResource extends JsonResource
             'is_active' => $this->is_active,
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
+            'subjects' => $this->subjects,
+            'result_display_type' => $this->result_display_type,
             'created_at' => Carbon::parse($this->created_at)->isoFormat('DD MMMM, YYYY HH:mm'),
             'questions' => $questions,
+            'results' => $results,
 
         ];
     }

@@ -56,7 +56,7 @@ export default function Matrix({options, selectedOptions, onChange}) {
                                         padding: 0
                                     }}>
                                         <Checkbox
-                                            checked={selectedOptions.some(([left, right]) => left === leftItem.uuid && right === rightItem.uuid)}
+                                            checked={selectedOptions?.some(([left, right]) => left === leftItem.uuid && right === rightItem.uuid)}
                                             onChange={(e) => handleChange(leftItem.uuid, rightItem.uuid, e)}
                                         />
                                     </TableCell>

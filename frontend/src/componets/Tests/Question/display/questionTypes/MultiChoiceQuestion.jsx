@@ -37,27 +37,66 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import TextEditor from "../../../../core/TextEditor.jsx";
+import Divider from "@mui/material/Divider";
+import {RESULT_TYPE} from "../../../../../utils/constans.js";
 
 
-export default function MultiChoiceQuestion({options}) {
+export default function MultiChoiceQuestion({options, studentAnswer, result_display_type}) {
 
     return (
         <>
+            {result_display_type === null || result_display_type === RESULT_TYPE.ALL && (
+                <>
+                    <Divider/>
+                    <div style={{
+                        color: 'gray',
 
-            {options?.map((option, index) => (
-                <Box key={index} display="flex" alignItems="center">
-                    <Box flexGrow={1} display="flex" alignItems="center">
-                        <Checkbox
-                            checked={option.isCorrect}
-                        />
-                        <div
-                            style={{maxWidth: '90%', overflow: 'hidden'}}
-                            dangerouslySetInnerHTML={{__html: option.text}}
-                            className="question-content"
-                        />
-                    </Box>
-                </Box>
-            ))}
+                    }}>Правильна відповідь :
+                    </div>
+                    {options?.map((option, index) => (
+                        <Box key={index} display="flex" alignItems="center">
+                            <Box flexGrow={1} display="flex" alignItems="center">
+                                <Checkbox
+                                    checked={option.isCorrect}
+                                />
+                                <div
+                                    style={{maxWidth: '90%', overflow: 'hidden'}}
+                                    dangerouslySetInnerHTML={{__html: option.text}}
+                                    className="question-content"
+                                />
+                            </Box>
+                        </Box>
+                    ))}
+                </>
+            )
+            }
+            {
+                studentAnswer && (
+                    <>
+                        <Divider/>
+                        <div style={{
+                            color: 'gray',
+
+                        }}>{result_display_type ? 'Ваша відповідь :' : 'Відповідь студента :'}
+                        </div>
+                        {options?.map((option, index) => (
+                            <Box key={index} display="flex" alignItems="center">
+                                <Box flexGrow={1} display="flex" alignItems="center">
+                                    <Checkbox
+                                        checked={studentAnswer.includes(option.text)}
+                                    />
+                                    <div
+                                        style={{maxWidth: '90%', overflow: 'hidden'}}
+                                        dangerouslySetInnerHTML={{__html: option.text}}
+                                        className="question-content"
+                                    />
+                                </Box>
+                            </Box>
+                        ))}
+
+                    </>
+                )
+            }
         </>
     )
 }

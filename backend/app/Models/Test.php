@@ -39,4 +39,21 @@ class Test extends Model
         $this->is_active = $isActive;
         $this->save();
     }
+
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
+    }
+
+    public function maximumScoreForTest()
+    {
+        return $this->questions()->sum('score');
+    }
+
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'test_subjects');
+    }
+
+
 }

@@ -88,6 +88,11 @@ class User extends Authenticatable
         return $this->belongsTo(Classes::class,'class_id');
     }
 
+    public function monitorClasses()
+    {
+        return $this->hasMany(Classes::class, 'monitor_id');
+    }
+
     public function teacherClasses()
     {
         return $this->hasMany(Classes::class, 'teacher_id');
@@ -99,7 +104,7 @@ class User extends Authenticatable
     }
 
     public function teacherSubjects(){
-        return $this->hasMany(Subject::class, 'id');
+        return $this->hasMany(Subject::class, 'teacher_id');
     }
 
 }

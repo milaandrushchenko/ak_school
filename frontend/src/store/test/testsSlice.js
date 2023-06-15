@@ -165,6 +165,27 @@ export const updateQuestion = createAsyncThunk(
     }
 );
 
+
+export const createAnswer = createAsyncThunk(
+    "tests/createAnswer",
+    async (payload, {rejectWithValue}) => {
+        try {
+            console.log(payload);
+            const res = await axiosClient.post('/answers', payload);
+            console.log(res.data);
+            return res.data;
+        } catch (error) {
+            if (!error.response) {
+                // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+
+    }
+);
+
 export const deleteQuestion = createAsyncThunk(
     "tests/deleteQuestion",
     async ({id, question}, {rejectWithValue}) => {
@@ -207,6 +228,8 @@ const testsSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
+
+        //  tests //
         builder.addCase(createTest.pending, (state) => {
             // state.isLoading = true;
         });
@@ -251,6 +274,36 @@ const testsSlice = createSlice({
             state.status = 'rejected';
             state.errors = action.payload;
         });
+        builder.addCase(getTests.pending, (state) => {
+            state.isLoading = true;
+        });
+        builder.addCase(getTests.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.tests = action.payload.data;
+            state.visibleData = state.tests;
+            state.isLoading = false;
+        });
+        builder.addCase(getTests.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.errors = action.payload;
+            state.isLoading = false;
+        });
+        builder.addCase(getTestBySlug.pending, (state) => {
+            state.isLoading = true;
+        });
+        builder.addCase(getTestBySlug.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.test = action.payload.data;
+            state.isLoading = false;
+        });
+        builder.addCase(getTestBySlug.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.errors = action.payload;
+            state.isLoading = false;
+        });
+
+
+        //  questions //
         builder.addCase(addQuestion.pending, (state) => {
             // state.isLoading = true;
         });
@@ -290,36 +343,20 @@ const testsSlice = createSlice({
             state.status = 'rejected';
             state.errors = action.payload;
         });
-        builder.addCase(getTests.pending, (state) => {
-            state.isLoading = true;
+
+
+        // answers //
+        builder.addCase(createAnswer.pending, (state) => {
+            // state.isLoading = true;
         });
-        builder.addCase(getTests.fulfilled, (state, action) => {
+        builder.addCase(createAnswer.fulfilled, (state, action) => {
             state.status = 'succeeded';
-            state.tests = action.payload.data;
-            state.visibleData = state.tests;
-            state.isLoading = false;
+            state.tests = state.tests.map(test => test.id === action.payload.id ? action.payload : test)
+            state.test = action.payload;
         });
-        builder.addCase(getTests.rejected, (state, action) => {
+        builder.addCase(createAnswer.rejected, (state, action) => {
             state.status = 'rejected';
             state.errors = action.payload;
-            state.isLoading = false;
-        });
-
-
-
-
-        builder.addCase(getTestBySlug.pending, (state) => {
-            state.isLoading = true;
-        });
-        builder.addCase(getTestBySlug.fulfilled, (state, action) => {
-            state.status = 'succeeded';
-            state.test = action.payload.data;
-            state.isLoading = false;
-        });
-        builder.addCase(getTestBySlug.rejected, (state, action) => {
-            state.status = 'rejected';
-            state.errors = action.payload;
-            state.isLoading = false;
         });
     },
 });

@@ -5,7 +5,7 @@ import {
     Button,
     CircularProgress,
     InputBase, Menu,
-    MenuItem
+    MenuItem, Tab, Tabs
 } from "@mui/material";
 import React, {useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
@@ -40,6 +40,7 @@ import FormTest from "./FormTest.jsx";
 import dayjs from "dayjs";
 import DeleteTest from "./DeleteTest.jsx";
 import QuestionCard from "./Question/display/QuestionCard.jsx";
+import TestResults from "./TestResults.jsx";
 
 const currentDate = dayjs();
 export default function TestsEditor() {
@@ -178,9 +179,17 @@ export default function TestsEditor() {
         max_attempts: test.max_attempts,
         access_type: test.access_type,
         is_active: test.is_active,
+        subject_ids: test.subjects?.map(subject => subject.id),
         time_limit: test.time_limit,
+        result_display_type: test.result_display_type,
     } : null;
 
+
+    const [selectedTab, setSelectedTab] = useState(0); // Стан для вибраної вкладки
+
+    const handleTabChange = (event, newValue) => {
+        setSelectedTab(newValue);
+    };
     return (
         <>
             {isLoading &&
@@ -266,13 +275,47 @@ export default function TestsEditor() {
                                     </Button>
                                 </Box>
                             </Paper>
-                            {test.questions?.map((question, index) => (
-                                <QuestionCard key={question.id} sum={sumOfScores} index={index}
-                                              question={question} count={test.questions.length}
-                                              openDeleteDialog={openDialogDeleteQuestion}
-                                              onOpenDeleteDialog={handleClickOpenDialogDeleteQuestion}
-                                              onCloseDeleteDialog={handleCloseDialogDeleteQuestion}/>
-                            ))}
+                            {/*{test.questions?.map((question, index) => (*/}
+                            {/*    <QuestionCard key={question.id} sum={sumOfScores} index={index}*/}
+                            {/*                  question={question} count={test.questions.length}*/}
+                            {/*                  openDeleteDialog={openDialogDeleteQuestion}*/}
+                            {/*                  onOpenDeleteDialog={handleClickOpenDialogDeleteQuestion}*/}
+                            {/*                  onCloseDeleteDialog={handleCloseDialogDeleteQuestion}/>*/}
+                            {/*))}*/}
+                            <Tabs value={selectedTab} onChange={handleTabChange}
+                                  indicatorColor="primary">
+                                <Tab label="Питання"/>
+                                <Tab label="Результати учнів"/>
+                            </Tabs>
+
+                            {selectedTab === 0 && (
+                                <>
+                                    {test.questions?.map((question, index) => (
+                                        <QuestionCard
+                                            key={question.id}
+                                            sum={sumOfScores}
+                                            index={index}
+                                            question={question}
+                                            count={test.questions.length}
+                                            openDeleteDialog={openDialogDeleteQuestion}
+                                            onOpenDeleteDialog={handleClickOpenDialogDeleteQuestion}
+                                            onCloseDeleteDialog={handleCloseDialogDeleteQuestion}
+                                        />
+                                    ))}
+                                </>
+                            )}
+
+                            {selectedTab === 1 && (
+                                <>
+                                    {test.results.length > 0 ?
+                                        test.results?.map((result, index) => (
+                                            <TestResults index={index} result={result}/>
+                                        ))
+                                        :
+                                        <div>Цей тест ще ніхто не проходив</div>
+                                    }
+                                </>
+                            )}
 
                         </Grid>
                         <Grid item xs={12} lg={3}>

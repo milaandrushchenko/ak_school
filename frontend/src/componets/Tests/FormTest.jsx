@@ -2,11 +2,11 @@ import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
-    Button,
+    Button, Chip,
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle,
+    DialogTitle, FormControl, FormHelperText, InputLabel, MenuItem, Select,
     TextField
 } from "@mui/material";
 import {ExpandMore} from '@mui/icons-material';
@@ -25,8 +25,21 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {clearErrors, createTest, updateTest} from "../../store/test/testsSlice.js";
 import {compareDate} from "../../utils/common.js";
+import React from "react";
 
 const currentDate = dayjs();
+
+const ITEM_HEIGHT = 40;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
+
 
 const createValidationSchema = (minStartTime, minEndTime) => {
     // let minStartDate = minStartTime ? minStartTime : currentDate;
@@ -66,11 +79,15 @@ const initialValues = {
     access_type: 'public',
     is_active: 0,
     time_limit: '',
+    result_display_type: 'score_only',
+    subject_ids: [],
+
 };
 
 export default function FormTest({open, onClose, test}) {
     const dispatch = useDispatch();
     let errorsServer = useSelector((state) => state.tests.errors)
+    const {subjects, isLoading, visibleData} = useSelector((state) => state.subjects)
     const close = (value) => {
         onClose(value);
         dispatch(clearErrors());
@@ -83,6 +100,7 @@ export default function FormTest({open, onClose, test}) {
         validationSchema: createValidationSchema(compareDate(test?.start_time, currentDate), compareDate(test?.end_time, currentDate)),
         enableReinitialize: true, // Увімкнути оновлення значень initialValues
         onSubmit: async (values, {setErrors, setSubmitting}) => {
+            console.log(values);
             const {start_time, end_time, ...otherValues} = values;
             const formData = {
                 ...otherValues,
@@ -104,6 +122,7 @@ export default function FormTest({open, onClose, test}) {
             }
         }
     });
+
     return (
         <>
             <Dialog
@@ -129,12 +148,74 @@ export default function FormTest({open, onClose, test}) {
                                 label="Назва"
                                 type="text"
                                 fullWidth
-                                sx={{mb: 2}}
+
                                 value={formik.values.title}
                                 onChange={formik.handleChange}
                                 error={formik.touched.title && Boolean(formik.errors?.title)}
                                 helperText={formik.touched.title && formik.errors && formik.errors.title}
                             />
+                            <FormControl fullWidth sx={{mt: 2, mb: 2}}
+                                         error={formik.touched.subject_ids && Boolean(formik.errors.subject_ids)}>
+                                <InputLabel id="students-label">Предмети</InputLabel>
+                                <Select
+                                    // style={{ maxHeight: '100px', overflow: 'auto' }}
+                                    labelId="subject_ids-label"
+                                    id="subject_ids"
+                                    name="subject_ids"
+                                    label="Предмети"
+                                    value={formik.values.subject_ids}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    multiple // Додайте цей атрибут
+                                    onMouseDown={(event) => {
+                                        if (event.target.tagName === 'svg') {
+                                            event.preventDefault();
+                                        }
+                                    }}
+                                    renderValue={(selected) => {
+                                        return (
+                                            <div style={{
+                                                display: 'flex',
+                                                flexWrap: 'wrap',
+                                                maxHeight: '100px',
+                                                overflow: 'auto'
+                                            }}>
+                                                {selected.map((id) => {
+                                                    const subject = subjects.find((u) => u.id === id);
+                                                    return (
+                                                        <Chip
+                                                            key={id}
+                                                            label={subject ? subject.name : ''}
+                                                            style={{margin: '2px'}}
+                                                            onMouseDown={(event) => {
+                                                                event.stopPropagation();
+                                                            }}
+                                                            onDelete={() => {
+                                                                const newSelected = formik.values.subject_ids.filter((s) => s !== id);
+                                                                formik.setFieldValue('subject_ids', newSelected);
+                                                            }}
+
+                                                        />
+                                                    );
+                                                })}
+                                            </div>
+                                        );
+                                    }}
+                                    MenuProps={MenuProps}
+                                >
+                                    {subjects.length === 0 && (
+                                        <MenuItem disabled>Немає предметів для вибору</MenuItem>
+                                    )}
+                                    {subjects.map(subject => (
+                                        <MenuItem key={subject.id}
+                                                  value={subject.id}>{subject.name}</MenuItem>
+                                    ))}
+
+                                </Select>
+                                {formik.touched.subject_ids && formik.errors.subject_ids && (
+                                    <FormHelperText>{formik.touched.student_ids && formik.errors && formik.errors.student_ids}</FormHelperText>
+                                )}
+                            </FormControl>
                             <Accordion>
                                 <AccordionSummary
                                     expandIcon={<ExpandMore/>}
@@ -267,6 +348,24 @@ export default function FormTest({open, onClose, test}) {
                                         error={formik.touched.time_limit && Boolean(formik.errors?.time_limit)}
                                         helperText={formik.touched.time_limit && formik.errors && formik.errors.time_limit}
                                     />
+                                    <Box sx={{mb: 2}}>
+                                        <Typography variant="subtitle2">Тип відображення
+                                            результатів</Typography>
+                                        <Select
+                                            id="result_display_type"
+                                            name="result_display_type"
+                                            value={formik.values.result_display_type || ''}
+                                            onChange={formik.handleChange}
+                                            fullWidth
+                                            sx={{marginTop: "8px"}}
+                                        >
+                                            <MenuItem value="score_only">Тільки оцінка</MenuItem>
+                                            <MenuItem value="user_only">Відображувати оцінку та
+                                                відовіді учня</MenuItem>
+                                            <MenuItem
+                                                value="user_and_correct">Деталізовано</MenuItem>
+                                        </Select>
+                                    </Box>
                                 </AccordionDetails>
                             </Accordion>
 

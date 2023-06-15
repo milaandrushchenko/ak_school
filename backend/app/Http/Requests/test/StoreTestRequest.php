@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\test;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTestRequest extends FormRequest
+class StoreTestRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -12,6 +12,13 @@ class UpdateTestRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'created_by' => $this->user()->id
+        ]);
     }
 
     /**
@@ -30,6 +37,9 @@ class UpdateTestRequest extends FormRequest
             'is_active' => 'nullable|boolean',
             'start_time' => 'nullable|date',
             'end_time' => 'nullable|date',
+            'result_display_type' => 'in:score_only,user_only,user_and_correct',
+            'subject_ids' => 'nullable|array',
+
         ];
     }
 }

@@ -17,7 +17,7 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        //Carbon::setLocale('uk');
+        Carbon::setLocale('uk');
         return [
             'id' => $this->id,
             'login' => $this->login,

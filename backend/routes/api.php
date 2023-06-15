@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\AnswersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,11 +65,22 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/tests/{test}', [TestController::class, 'destroy']);
     });
 
+    Route::group(['middleware' => [
+//        'permission:pass tests' ,
+        ]], function () {
+        Route::get('/tests/get-by-slug/{test:slug}', [TestController::class, 'getBySlug']);
+    });
+
+//    Route::post('tests/{test}/answer',[TestController::class, 'storeAnswer']);
+
+
     Route::apiResource('/tests', TestController::class);
     Route::apiResource('/roles', RoleController::class);
     Route::apiResource('/classes', ClassesController::class);
 
     Route::apiResource('/subjects', SubjectsController::class);
+
+    Route::apiResource('/answers', AnswersController::class);
 
     Route::post('/subjects/create-task/{subject_id}', [SubjectsController::class, 'createTask']);
     Route::put('/subjects/update-task/{task_id}', [SubjectsController::class, 'updateTask']);
