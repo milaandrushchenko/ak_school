@@ -21,30 +21,23 @@ import Box from "@mui/material/Box";
 
 
 const SubjectsList = () => {
-    const navigate = useNavigate();
-    const {user, userToken} = useSelector((state) => state.currentUser)
-    // const hasPermission = user.permissions?.includes("view subjects") || user.permissions?.includes("view assigned subjects");
-
-    // useEffect(() => {
-    //     if (!userToken || !hasPermission) {
-    //         navigate("/");
-    //     }
-    // }, [userToken, hasPermission, navigate]);
-
     const dispatch = useDispatch();
 
+    const {user, userToken} = useSelector((state) => state.currentUser)
     const {subjects, isLoading, visibleData} = useSelector((state) => state.subjects)
-    // console.log(visibleData)
-
     const [notification, setNotification] = useState(false);
-
     const [open, setOpen] = useState(false);
-
     const [searchValue, setSearchValue] = useState('');
-
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(9);
 
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
     const handleCloseAlert = (event, reason) => {
         if (reason === 'clickaway') {return;}
         setNotification(false);
@@ -55,16 +48,6 @@ const SubjectsList = () => {
     const onClickReset = () => {
         setSearchValue('');
     };
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-    const handleDelete = () => {
-        setNotification('Предмет був успішно видалений');
-    }
     const handleClickOpen = () => {
         setOpen(true);
     };

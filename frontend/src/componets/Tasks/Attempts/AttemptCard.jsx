@@ -58,57 +58,47 @@ export default function AttemptCard({attempt}){
                                     </Typography>
                                 </Grid>
                                 <Grid item>
-                                    {attempt.content ?
-                                        <Typography sx={{py:1, color: "grey", fontStyle: "italic"}}>
-                                            {dayNames[d.getDay()]}, {d.getDate()+1} {monthNames[d.getMonth()]} {d.getFullYear()},
-                                            <span style={{fontWeight: "bold", paddingLeft: "5px"}}>{d.getHours()}:{d.getMinutes()}:{d.getSeconds()}</span>
-                                        </Typography>
-                                    :""}
+                                    <FormikProvider value={formik}>
+                                        <form onSubmit={formik.handleSubmit}>
+                                            <FormControl fullWidth
+                                                         error={formik.touched.score && Boolean(formik.errors.score)}>
+                                                <Grid container>
+                                                    <Grid item>
+                                                        <TextField sx={{mb:2}}
+                                                                   id="score" name="score" label="Оцінка"
+                                                                   variant="outlined" type="number"
+                                                                   value={formik.values.score ? parseInt(formik.values.score) : undefined}
+                                                                   onChange={formik.handleChange}
+                                                                   onBlur={formik.handleBlur}
+                                                                   inputProps={{ inputMode: 'numeric', step: "1", min: 0, max: 12}}>
+                                                        </TextField>
+                                                    </Grid>
+                                                    <Grid item sx={{pl:2, pt: 1.3}}>
+                                                        <Button type="submit" variant="contained" color="primary">
+                                                            Оцінити
+                                                        </Button>
+                                                    </Grid>
+                                                </Grid>
+                                            </FormControl>
+                                        </form>
+                                    </FormikProvider>
                                 </Grid>
                             </Grid>
                         }
                     />
                     <CardContent sx={{borderTop: "1px solid lightGrey", p:0}} style={{paddingBottom: 0}}>
-                        {(user.role === 'admin' || user.role === "teacher") && attempt.content ?
+                        {(user.role === 'admin' || user.role === "teacher") ?
                             <>
-                                <Accordion style={{margin:0}}>
-                                    <AccordionSummary expandIcon={<ExpandMore/>}>
-                                        <Typography variant="h6" color="primary">Відповіді учня</Typography>
-                                    </AccordionSummary>
-                                    <AccordionDetails sx={{backgroundColor: "#f5f5f5"}}>
-                                        <div dangerouslySetInnerHTML={{__html: attempt.content}}/>
-                                    </AccordionDetails>
-                                </Accordion>
-                                <Grid container spacing={2} justifyContent="space-between" sx={{pt:2}}>
-                                    <Grid item></Grid>
-                                    <Grid item>
-                                        <FormikProvider value={formik}>
-                                            <form onSubmit={formik.handleSubmit}>
-                                                <FormControl fullWidth sx={{marginTop: 2}}
-                                                    error={formik.touched.score && Boolean(formik.errors.score)}>
-                                                    <Grid container sx={{pr:2, pb:2}}>
-                                                        <Grid item>
-                                                            <TextField
-                                                                id="score" name="score" label="Оцінка"
-                                                                variant="outlined" type="number"
-                                                                value={formik.values.score ? parseInt(formik.values.score) : undefined}
-                                                                onChange={formik.handleChange}
-                                                                onBlur={formik.handleBlur}
-                                                                inputProps={{ inputMode: 'numeric', step: "1", min: 0, max: 12}}>
-                                                            </TextField>
-                                                        </Grid>
-                                                        <Grid item sx={{pt:1, pl:2}}>
-                                                            <Button type="submit" variant="contained" color="primary">
-                                                                Оцінити
-                                                            </Button>
-                                                        </Grid>
-                                                    </Grid>
-                                                </FormControl>
-                                            </form>
-                                        </FormikProvider>
-                                    </Grid>
-
-                                </Grid>
+                                {attempt.content ?
+                                    <Accordion style={{margin:0}}>
+                                        <AccordionSummary expandIcon={<ExpandMore/>}>
+                                            <Typography variant="h6" color="grey">Відповіді учня</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails sx={{backgroundColor: "#f5f5f5"}}>
+                                            <div dangerouslySetInnerHTML={{__html: attempt.content}}/>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                    : ""}
                             </>
                             : ""
                         }
