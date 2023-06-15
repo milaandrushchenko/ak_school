@@ -1,15 +1,14 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SubjectsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\TestController;
 
-use App\Http\Controllers\SubjectsController;
-use App\Http\Controllers\TasksController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -64,24 +63,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/tests/{test}', [TestController::class, 'destroy']);
     });
 
-    Route::group(['middleware' => [
-//        'permission:pass tests' ,
-        ]], function () {
-        Route::get('/tests/get-by-slug/{test:slug}', [TestController::class, 'getBySlug']);
-    });
-
     Route::apiResource('/tests', TestController::class);
     Route::apiResource('/roles', RoleController::class);
     Route::apiResource('/classes', ClassesController::class);
 
-    Route::apiResource('/subjects', SubjectsController::class);
 
-    Route::post('/subjects/create-task/{subject_id}', [SubjectsController::class, 'createTask']);
-    Route::put('/subjects/update-task/{task_id}', [SubjectsController::class, 'updateTask']);
-    Route::delete('/subjects/delete-task/{task_id}', [SubjectsController::class, 'deleteTask']);
 });
-    Route::apiResource('/tasks', TasksController::class);
-    Route::put('/tasks/update-attempt/{attempt_id}', [TasksController::class, 'updateTaskAttempt']);
+    Route::apiResource('/subjects', SubjectsController::class);
 
 
 Route::post('/login', [AuthController::class, 'login']);
