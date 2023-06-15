@@ -27,7 +27,7 @@ import {
     TeacherSecondaryListItems
 } from "./listItems";
 import Chart from "./Chart";
-import {Outlet} from "react-router-dom";
+import {NavLink, Outlet} from "react-router-dom";
 import {Avatar, Menu, MenuItem} from "@mui/material";
 import {Logout, PersonAdd, Settings} from "@mui/icons-material";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -185,11 +185,11 @@ export default function DashboardContent() {
                                 src="/logo.png"
                             />
                         </Grid>
-                        <IconButton color="inherit">
-                            <Badge badgeContent={4} color="secondary">
-                                <NotificationsIcon/>
-                            </Badge>
-                        </IconButton>
+                        {/*<IconButton color="inherit">*/}
+                        {/*    <Badge badgeContent={4} color="secondary">*/}
+                        {/*        <NotificationsIcon/>*/}
+                        {/*    </Badge>*/}
+                        {/*</IconButton>*/}
                         <IconButton color="inherit"
                                     onClick={handleClick}
                                     size="small"
@@ -235,7 +235,7 @@ export default function DashboardContent() {
                             anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
                         >
                             <MenuItem onClick={handleClose}>
-                                <Avatar/> Мій профіль
+                                <Avatar/> <NavLink to="/" style={{textDecoration: 'none', color: "black"}}>Мій профіль</NavLink>
                             </MenuItem>
                             <Divider/>
                             <MenuItem onClick={logout}>
