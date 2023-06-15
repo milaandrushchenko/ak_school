@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SubjectsController;
+use App\Http\Controllers\TasksController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -67,9 +68,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/roles', RoleController::class);
     Route::apiResource('/classes', ClassesController::class);
 
-
-});
     Route::apiResource('/subjects', SubjectsController::class);
+
+    Route::post('/subjects/create-task/{subject_id}', [SubjectsController::class, 'createTask']);
+    Route::put('/subjects/update-task/{task_id}', [SubjectsController::class, 'updateTask']);
+    Route::delete('/subjects/delete-task/{task_id}', [SubjectsController::class, 'deleteTask']);
+
+    Route::apiResource('/tasks', TasksController::class);
+    Route::put('/tasks/update-attempt/{attempt_id}', [TasksController::class, 'updateTaskAttempt']);
+});
+
+
 
 
 Route::post('/login', [AuthController::class, 'login']);

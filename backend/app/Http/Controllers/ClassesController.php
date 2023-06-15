@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\classes\StoreClassesRequest;
+use App\Http\Requests\classes\UpdateClassesRequest;
 use App\Http\Resources\ClassResource;
 use App\Models\Classes;
-use App\Http\Requests\StoreClassesRequest;
-use App\Http\Requests\UpdateClassesRequest;
+use App\Models\Subject;
 use App\Models\User;
 
 class ClassesController extends Controller
@@ -24,7 +25,9 @@ class ClassesController extends Controller
             $classes = Classes::query()->orderBy('name', 'desc')->get();
         } else if ($user->hasRole('teacher')) {
             // Якщо користувач є вчителем, показуємо тільки ті класи, в яких він є класним керівником
-            $classes = $user->teacherClasses()->orderBy('name', 'desc')->get();
+            $teacherClasses = $user->teacherClasses()->orderBy('name', 'desc')->get();
+            $сlassesSubject = $user->teacherSubjects()->with('classes')->get()->pluck('classes')->flatten();
+            $classes = $teacherClasses->merge($сlassesSubject);
         } else {
             // Якщо роль користувача не відповідає жодній з вище перерахованих, показуємо порожній список класів
             $classes = [];

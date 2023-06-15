@@ -23,14 +23,6 @@ export default function TaskPage(){
     const task = attempts.find((t) => t.id === parseInt(id))
     const {user, userToken} = useSelector((state) => state.currentUser)
     const currentAttempt = task ? task.attempts.find((a) => a.student_id === user.id) : null;
-    function doneOrNot(array, key) {
-        let arr = {done: [], notDone: []};
-        for (let i = 0; i < array.length; i++){
-            if (!array[i][key]) arr.notDone.push(array[i])
-            else arr.done.push(array[i])
-        }
-        return arr
-    }
     const dispatch = useDispatch();
     useEffect(() => {
         const fetchData = async () => {
@@ -105,16 +97,8 @@ export default function TaskPage(){
                             :
                             <Grid item xs={12}>
                                 <Grid container spacing={2} sx={{pt:4, py:5}}>
-                                    <Typography variant="h4" color="grey" sx={{px:2}}>ВИКОНАЛИ</Typography>
-                                    {doneOrNot(task.attempts, 'content').done.map((a)=>(
-                                        <Grid item key={a.id} xs={12}>
-                                            <AttemptCard attempt={a}/>
-                                        </Grid>
-                                    ))}
-                                </Grid>
-                                <Grid container spacing={2} sx={{pt:4}}>
-                                    <Typography variant="h4" color="grey" sx={{px:2}}>НЕ ВИКОНАЛИ</Typography>
-                                    {doneOrNot(task.attempts, 'content').notDone.map((a)=>(
+                                    <Typography variant="h4" color="grey" sx={{px:2}}>Учні</Typography>
+                                    {task.attempts.map((a)=>(
                                         <Grid item key={a.id} xs={12}>
                                             <AttemptCard attempt={a}/>
                                         </Grid>
