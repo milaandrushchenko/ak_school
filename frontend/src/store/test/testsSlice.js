@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axiosClient from "../../axios-client.js";
 import {createUser, deleteUser, getUsers, updateUser} from "../user/usersSlice.js";
 import {deleteClass} from "../class/classesSlice.js";
+import {da} from "date-fns/locale";
 
 const initialState = {
     test: {},
@@ -202,6 +203,24 @@ export const deleteQuestion = createAsyncThunk(
     }
 );
 
+export const changeScoreForQuestion = createAsyncThunk(
+    "tests/changeScoreForQuestion",
+    async ({answerId, data}, {rejectWithValue}) => {
+        try {
+            console.log(answerId);
+            const res = await axiosClient.put(`/answers/changeScore/${answerId}`, data);
+            return res.data;
+        } catch (error) {
+            if (!error.response) {
+                // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+    }
+);
+
 
 const testsSlice = createSlice({
     name: "tests",
@@ -309,7 +328,6 @@ const testsSlice = createSlice({
             state.status = 'succeeded';
             console.log(action.payload);
             state.test.questions.push(action.payload);
-            // state.visibleData.unshift(action.payload);
         });
         builder.addCase(addQuestion.rejected, (state, action) => {
             state.status = 'rejected';
@@ -321,9 +339,7 @@ const testsSlice = createSlice({
         builder.addCase(updateQuestion.fulfilled, (state, action) => {
             state.status = 'succeeded';
             console.log(action.payload);
-            // state.tests = state.tests.map(test => test.id === action.payload.id ? action.payload : test)
             state.test.questions = state.test.questions.map(question => question.id === action.payload.id ? action.payload : question);
-            // state.visibleData.unshift(action.payload);
         });
         builder.addCase(updateQuestion.rejected, (state, action) => {
             state.status = 'rejected';
@@ -355,6 +371,21 @@ const testsSlice = createSlice({
         builder.addCase(createAnswer.rejected, (state, action) => {
             state.status = 'rejected';
             state.errors = action.payload;
+        });
+        builder.addCase(changeScoreForQuestion.pending, (state) => {
+            // state.isLoading = true;
+        });
+        builder.addCase(changeScoreForQuestion.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            console.log(action.payload);
+
+            state.test.results = state.test.results.map(result => result.id === action.payload.id ? action.payload : result)
+            // state.test = action.payload;
+        });
+        builder.addCase(changeScoreForQuestion.rejected, (state, action) => {
+            state.status = 'rejected';
+            console.log(action.payload);
+            // state.errors = action.payload;
         });
     },
 });

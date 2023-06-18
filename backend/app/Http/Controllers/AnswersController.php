@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\answer\StoreAnwerRequest;
+use App\Http\Resources\AnswerResource;
 use App\Http\Resources\TestResource;
 use App\Models\Answer;
 use App\Models\QuestionAnswer;
@@ -84,4 +85,24 @@ class AnswersController extends Controller
     {
         //
     }
+
+    public function changeScore(Request $request, Answer $answer)
+    {
+        if ($answer) {
+            // Змінити значення поля score
+            $answer->questionAnswers()->where('question_id', $request['question_id'])->update(['score' => $request['score']]);
+        }
+
+        $test = Test::find($request['test_id']);
+        $maximumScore = $test->maximumScoreForTest();
+
+        $totalScoreForAnswer= $answer->scoreForAnswer();
+
+        $answer->total_score = 12 * ($totalScoreForAnswer / $maximumScore);
+        $answer->save();
+
+
+        return response(new AnswerResource($answer), 201);
+    }
+
 }

@@ -55,8 +55,12 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $data = $request->validated();
+        $role = $data['role'];
+        unset($data['role']);
 
-        $user->syncRoles($data['role']);
+        $role = Role::findByName($role, 'web'); // знайти роль за іменем
+
+        $user->syncRoles($role);
 
         $user->update($data);
         return new UserResource($user);

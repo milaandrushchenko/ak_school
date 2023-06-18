@@ -7,10 +7,15 @@ use App\Http\Requests\test\StoreTestRequest;
 use App\Http\Requests\test\UpdateQuestionsRequest;
 use App\Http\Requests\test\UpdateTestRequest;
 use App\Http\Resources\TestResource;
+use App\Models\Answer;
+use App\Models\QuestionAnswer;
 use App\Models\Questions;
 use App\Models\Subject;
 use App\Models\Test;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
 
 class TestController extends Controller
 {
@@ -53,7 +58,7 @@ class TestController extends Controller
             return Subject::findOrFail($subjectId);
         });
 
-        $test->subjects()->attach($subjects);
+        $test->subjects()->attach($subjects->pluck('id'));
 
         return response(new TestResource($test), 201);
 
@@ -167,6 +172,5 @@ class TestController extends Controller
 //        };
         return new TestResource($test);
     }
-
 
 }

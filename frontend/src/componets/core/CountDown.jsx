@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Countdown, {calcTimeDelta} from 'react-countdown';
 import Swal from 'sweetalert2';
 import {Chip} from '@mui/material';
-import {timeConverter} from "../../../utils/common.js";
+import {timeConverter} from "../../utils/common.js";
 
 export default function CountDown({countdownTime, timeOver, endTime, setEndTime, testStorage}) {
 

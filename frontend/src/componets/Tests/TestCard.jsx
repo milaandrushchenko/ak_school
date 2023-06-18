@@ -3,8 +3,8 @@ import {
     AccordionDetails,
     AccordionSummary,
     Card, CardActions,
-    CardContent, CardHeader,
-    ListItem, Menu, MenuItem
+    CardContent, CardHeader, Chip,
+    ListItem, Menu, MenuItem, Stack
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {Edit, ExpandMore} from "@mui/icons-material";
@@ -22,11 +22,16 @@ import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import TimerIcon from '@mui/icons-material/Timer';
 import {formattedDate, time_converter} from "../../utils/common.js";
 import Box from "@mui/material/Box";
+import dayjs from "dayjs";
+import {useSelector} from "react-redux";
 
 export default function TestCard({test, onDelete}) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialogEdit, setOpenDialogEdit] = useState(false);
     const [openDialogDelete, setOpenDialogDelete] = useState(false);
+
+    const {user} = useSelector((state) => state.currentUser)
+
 
     const handleClickOpenDialogEdit = () => {
         event.stopPropagation();
@@ -59,77 +64,104 @@ export default function TestCard({test, onDelete}) {
         setAnchorEl(null);
     };
 
+    const outputTest = test ? {
+        id: test.id,
+        title: test.title,
+        start_time: test.start_time ? dayjs(test.start_time) : null,
+        end_time: test.end_time ? dayjs(test.end_time) : null,
+        max_attempts: test.max_attempts,
+        access_type: test.access_type,
+        is_active: test.is_active,
+        subject_ids: test.subjects?.map(subject => subject.id),
+        time_limit: test.time_limit,
+        result_display_type: test.result_display_type,
+    } : null;
 
     return (
         <>
-            <Link to={`/tests/${test.id}`} style={{textDecoration: 'none'}}>
-                <Card sx={{height: '100%'}}>
-                    <CardHeader
-                        title={test.title}
-                        action={
-                            <>
-                                <IconButton
-                                    aria-label="more"
-                                    aria-controls={`menu-for-${test.id}`}
-                                    aria-haspopup="true"
-                                    onClick={handleMenuOpen}
-                                >
-                                    <MoreVertIcon/>
-                                </IconButton>
-                                <Menu
-                                    id={`menu-for-${test.id}`}
-                                    anchorEl={anchorEl}
-                                    open={Boolean(anchorEl)}
-                                    onClose={handleMenuClose}
-                                >
-                                    <MenuItem
-                                        onClick={handleClickOpenDialogEdit}>Редагувати</MenuItem>
-                                    <FormTest open={openDialogEdit}
-                                              onClose={handleCloseDialogEdit}
-                                        // test={outputClassItem}
-                                    />
-                                    <MenuItem
-                                        onClick={handleClickOpenDialogDelete}>Видалити</MenuItem>
-                                    <DeleteTest open={openDialogDelete}
-                                                onClose={handleCloseDialogDelete} test={test}
-                                    />
-                                </Menu>
-                            </>
-                        }
-                    />
-                    <CardContent>
+            {/*<Link to={`/tests/${test.id}`} style={{textDecoration: 'none'}}>*/}
+            <Card sx={{height: '100%'}}>
+                <CardHeader
+                    title={<NavLink to={`/tests/${test.id}`} style={{color: '#1a237e'}}>
+                        {test.title}
+                    </NavLink>
+                    }
+                    action={
+                        <>
+                            <IconButton
+                                aria-label="more"
+                                aria-controls={`menu-for-${test.id}`}
+                                aria-haspopup="true"
+                                onClick={handleMenuOpen}
+                            >
+                                <MoreVertIcon/>
+                            </IconButton>
+                            <Menu
+                                id={`menu-for-${test.id}`}
+                                anchorEl={anchorEl}
+                                open={Boolean(anchorEl)}
+                                onClose={handleMenuClose}
+                            >
+                                <MenuItem
+                                    onClick={handleClickOpenDialogEdit}>Редагувати</MenuItem>
+                                <FormTest open={openDialogEdit}
+                                          onClose={handleCloseDialogEdit}
+                                          test={outputTest}
+                                />
+                                <MenuItem
+                                    onClick={handleClickOpenDialogDelete}>Видалити</MenuItem>
+                                <DeleteTest open={openDialogDelete}
+                                            onClose={handleCloseDialogDelete} test={test}
+                                />
+                            </Menu>
+                        </>
+                    }
+                />
+                <CardContent>
+                    <Stack sx={{mb: '5px'}}>
                         <Box display="flex" flexWrap="wrap" alignItems="center">
                             <QueryBuilderIcon style={{marginRight: 10}}/>
                             <Typography
                                 sx={{color: 'gray', fontStyle: 'italic', paddingRight: '5px'}}>
                                 {'Дата вікриття :'} <span
-                                style={{color: 'black'}}> {test.start_time ? formattedDate(test.start_time) : 'не зазначено'}</span> </Typography>
+                                style={{color: 'black'}}> {test.start_time ? formattedDate(test.start_time) : 'не зазначено'}</span>
+                            </Typography>
                         </Box>
                         <Box display="flex" flexWrap="wrap" alignItems="center">
                             <QueryBuilderIcon style={{marginRight: 10}}/>
                             <Typography
                                 sx={{color: 'gray', fontStyle: 'italic', paddingRight: '5px'}}>
                                 {'Дата закриття :'} <span
-                                style={{color: 'black'}}> {test.end_time ? formattedDate(test.end_time) : 'не зазначено'}</span> </Typography>
+                                style={{color: 'black'}}> {test.end_time ? formattedDate(test.end_time) : 'не зазначено'}</span>
+                            </Typography>
                         </Box>
                         <Box display="flex" flexWrap="wrap" alignItems="center">
-                            <QueryBuilderIcon style={{marginRight: 10}}/>
+                            <TimerIcon style={{marginRight: 10}}/>
                             <Typography
                                 sx={{color: 'gray', fontStyle: 'italic', paddingRight: '5px'}}>
                                 {'Тривалість :'} <span
-                                style={{color: 'black'}}>{test.time_limit ? test.time_limit + ' хвилин' : 'необмежений у часі'}</span> </Typography>
+                                style={{color: 'black'}}>{test.time_limit ? test.time_limit + ' хвилин' : 'необмежений у часі'}</span>
+                            </Typography>
                         </Box>
-                        <Typography style={{
-                            fontSize: "0.8em",
-                            color: "grey",
-                            top: "10px",
-                            position: "relative"
-                        }}>
-                            Створено: {test.created_at}
-                        </Typography>
-                    </CardContent>
-                </Card>
-            </Link>
+                    </Stack>
+                    <Stack direction="row" spacing={1}>
+                        {user.role === 'admin' || user.role === "teacher" ? test.subjects?.map((subject) => {
+                            return (
+                                <Chip key={subject?.id} label={subject?.name} color="primary"/>
+                            )
+                        }) : ''}
+                    </Stack>
+                    <Typography style={{
+                        fontSize: "0.8em",
+                        color: "grey",
+                        top: "10px",
+                        position: "relative"
+                    }}>
+                        Створено: {test.created_at}
+                    </Typography>
+                </CardContent>
+            </Card>
+            {/*</Link>*/}
         </>
     )
 }

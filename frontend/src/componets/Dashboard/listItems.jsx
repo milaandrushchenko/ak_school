@@ -111,38 +111,38 @@ export const AdminSecondaryListItems = (
                 </ListItemButton>
             )}
         </NavLink>
-        <NavLink to='/roles' className={
-            classNames(
-                styles['nav-link'],
-            )
-        }>
-            {({isActive, isExact}) => (
-                <ListItemButton
-                    className={isActive ? classNames(styles.active) : ''}
-                >
-                    <ListItemIcon>
-                        <ContactEmergencyRoundedIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="РОЛІ"/>
-                </ListItemButton>
-            )}
-        </NavLink>
-        <NavLink to='/permissions' className={
-            classNames(
-                styles['nav-link'],
-            )
-        }>
-            {({isActive, isExact}) => (
-                <ListItemButton
-                    className={isActive ? classNames(styles.active) : ''}
-                >
-                    <ListItemIcon>
-                        <LockPersonRoundedIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="ДОЗВОЛИ"/>
-                </ListItemButton>
-            )}
-        </NavLink>
+        {/*<NavLink to='/roles' className={*/}
+        {/*    classNames(*/}
+        {/*        styles['nav-link'],*/}
+        {/*    )*/}
+        {/*}>*/}
+        {/*    {({isActive, isExact}) => (*/}
+        {/*        <ListItemButton*/}
+        {/*            className={isActive ? classNames(styles.active) : ''}*/}
+        {/*        >*/}
+        {/*            <ListItemIcon>*/}
+        {/*                <ContactEmergencyRoundedIcon/>*/}
+        {/*            </ListItemIcon>*/}
+        {/*            <ListItemText primary="РОЛІ"/>*/}
+        {/*        </ListItemButton>*/}
+        {/*    )}*/}
+        {/*</NavLink>*/}
+        {/*<NavLink to='/permissions' className={*/}
+        {/*    classNames(*/}
+        {/*        styles['nav-link'],*/}
+        {/*    )*/}
+        {/*}>*/}
+        {/*    {({isActive, isExact}) => (*/}
+        {/*        <ListItemButton*/}
+        {/*            className={isActive ? classNames(styles.active) : ''}*/}
+        {/*        >*/}
+        {/*            <ListItemIcon>*/}
+        {/*                <LockPersonRoundedIcon/>*/}
+        {/*            </ListItemIcon>*/}
+        {/*            <ListItemText primary="ДОЗВОЛИ"/>*/}
+        {/*        </ListItemButton>*/}
+        {/*    )}*/}
+        {/*</NavLink>*/}
     </React.Fragment>
 );
 

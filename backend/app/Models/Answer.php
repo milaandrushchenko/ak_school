@@ -18,6 +18,11 @@ class Answer extends Model
         return $this->belongsTo(Test::class);
     }
 
+    public function scoreForAnswer()
+    {
+        return $this->questionAnswers()->sum('score');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -18,7 +18,7 @@ import {
 import Box from "@mui/material/Box";
 import StartTest from "./StartTest.jsx";
 import Question from "./Question/Question.jsx";
-import Prompt from "./Prompt.jsx";
+import Prompt from "../../core/Prompt.jsx";
 import {format} from "date-fns";
 import Result from "./Result.jsx";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';

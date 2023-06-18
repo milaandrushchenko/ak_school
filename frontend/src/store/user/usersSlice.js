@@ -200,21 +200,10 @@ const usersSlice = createSlice({
             state.errors = action.payload;
             state.isLoading = false;
         });
-        // builder.addCase(fetchStudentsWithoutClass.pending, (state) => {
-        //     state.isLoading = true;
-        // });
         builder.addCase(fetchStudentsWithoutClass.fulfilled, (state, action) => {
             state.status = 'succeeded';
             state.studentsWithoutClass = action.payload.data;
-            // state.visibleData = action.payload.data;
-            // state.meta = action.payload.meta;
-            // state.isLoading = false;
         });
-        // builder.addCase(getUsers.rejected, (state, action) => {
-        //     state.status = 'rejected';
-        //     state.errors = action.payload;
-        //     state.isLoading = false;
-        // });
     },
 });
 

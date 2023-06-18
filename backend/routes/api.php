@@ -60,7 +60,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::put('/tests/{test}', [TestController::class, 'update']);
         Route::post('/tests/{test}/changeTestStatus', [TestController::class, 'changeTestStatus']);
+
     });
+    Route::put('/answers/changeScore/{answer}', [AnswersController::class, 'changeScore']);
     Route::group(['middleware' => ['permission:delete tests' , ]], function () {
         Route::delete('/tests/{test}', [TestController::class, 'destroy']);
     });

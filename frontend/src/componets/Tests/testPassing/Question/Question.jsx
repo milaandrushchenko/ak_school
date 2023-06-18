@@ -7,7 +7,7 @@ import ShortAnswerQuestion from "./questionTypes/ShortAnswerQuestion.jsx";
 import MultiChoiceQuestion from "./questionTypes/MultiChoiceQuestion.jsx";
 import SingleChoiceQuestion from "./questionTypes/SingleChoiceQuestion.jsx";
 import MatchingQuestion from "./questionTypes/MatchingQuestion.jsx";
-import CountDown from "../CountDown.jsx";
+import CountDown from "../../../core/CountDown.jsx";
 
 export default function Question({
                                      showTest,

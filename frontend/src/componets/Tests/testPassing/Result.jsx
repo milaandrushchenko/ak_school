@@ -2,7 +2,7 @@ import Typography from "@mui/material/Typography";
 import React, {useEffect, useState} from "react";
 import Box from "@mui/material/Box";
 import {time_converter} from "../../../utils/common.js";
-import QuestionResults from "../QuestionResults.jsx";
+import QuestionResults from "../result/QuestionResults.jsx";
 import {RESULT_TYPE} from "../../../utils/constans.js";
 
 export default function Result({showResult, test}) {

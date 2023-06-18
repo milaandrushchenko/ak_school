@@ -18,15 +18,6 @@ class Questions extends Model
     public function checkAnswer($answer)
     {
         $options = json_decode($this->options, true);
-//
-//        if ($this->type === 'single-choice') {
-//            $correctOption = collect($options)->firstWhere('isCorrect', true);
-//            $isAnswerCorrect = ($correctOption && $correctOption['text'] === $answer);
-//            if ($isAnswerCorrect) {
-//                return $this->score;
-//            }
-//        }
-
         switch ($this->type) {
             case 'single-choice':
                 $correctOption = collect($options)->firstWhere('isCorrect', true);
