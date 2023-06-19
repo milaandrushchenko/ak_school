@@ -30,7 +30,7 @@ export default function SingleChoiceQuestion({options, studentAnswer, result_dis
 
                     }}>Правильна відповідь :
                     </div>
-                    {options.map((option, index) => (
+                    {options?.map((option, index) => (
                         <Box key={index} display="flex" alignItems="center">
                             <Box flexGrow={1} display="flex" alignItems="center">
                                 <Radio

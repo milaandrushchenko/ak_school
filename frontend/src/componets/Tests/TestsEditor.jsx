@@ -21,11 +21,12 @@ import {Navigate, NavLink, useNavigate, useParams} from "react-router-dom";
 import {getTests} from "../../store/test/testsSlice.js";
 import {theme} from "../../utils/theme.js";
 import Paper from "@mui/material/Paper";
+import HelpIcon from '@mui/icons-material/Help';
 import QueryBuilderIcon from "@mui/icons-material/QueryBuilder.js";
 import {formattedDate} from "../../utils/common.js";
 import TimerIcon from "@mui/icons-material/Timer.js";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import LockPersonIcon from '@mui/icons-material/LockPerson';
+import StarIcon from '@mui/icons-material/Star';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import KeyOffIcon from '@mui/icons-material/KeyOff';
 import KeyIcon from '@mui/icons-material/Key';
@@ -44,6 +45,8 @@ import TestResults from "./result/TestResults.jsx";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace.js";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd.js";
 import FormTask from "../Tasks/FormTask.jsx";
+import TotalDiagram from "./statistic/TotalDiagram.jsx";
+import TestStatistic from "./statistic/TestStatistic.jsx";
 
 const currentDate = dayjs();
 export default function TestsEditor() {
@@ -214,7 +217,19 @@ export default function TestsEditor() {
                                 <Typography component="h2" variant="h6" sx={{paddingBottom: '5px'}}> <span
                                     style={{color: 'gray'}}>Тест:</span> {test?.title}
                                 </Typography>
-                                <Box display="flex" flexWrap="wrap" alignItems="center">
+                                <Box display="flex" alignItems="center">
+                                    <HelpIcon style={{marginRight: 10}}/>
+                                    <Typography
+                                        sx={{
+                                            color: 'gray',
+                                            fontStyle: 'italic',
+                                            paddingRight: '5px'
+                                        }}>
+                                        {'Кількість запитань :'} <span
+                                        style={{color: 'black'}}>{test.questions?.length}</span>
+                                    </Typography>
+                                </Box>
+                                <Box display="flex"  alignItems="center">
                                     <QueryBuilderIcon style={{marginRight: 10}}/>
                                     <Typography
                                         sx={{
@@ -226,7 +241,7 @@ export default function TestsEditor() {
                                         style={{color: 'black'}}> {test.start_time ? formattedDate(test.start_time) : 'не зазначено'}</span>
                                     </Typography>
                                 </Box>
-                                <Box display="flex" flexWrap="wrap" alignItems="center">
+                                <Box display="flex"  alignItems="center">
                                     <QueryBuilderIcon style={{marginRight: 10}}/>
                                     <Typography
                                         sx={{
@@ -238,7 +253,7 @@ export default function TestsEditor() {
                                         style={{color: 'black'}}> {test.end_time ? formattedDate(test.end_time) : 'не зазначено'}</span>
                                     </Typography>
                                 </Box>
-                                <Box display="flex" flexWrap="wrap" alignItems="center">
+                                <Box display="flex"  alignItems="center">
                                     <TimerIcon style={{marginRight: 10}}/>
                                     <Typography
                                         sx={{
@@ -250,11 +265,24 @@ export default function TestsEditor() {
                                         style={{color: 'black'}}>{test.time_limit ? test.time_limit + ' хвилин' : 'необмежений у часі'}</span>
                                     </Typography>
                                 </Box>
+                                <Box display="flex"  alignItems="center">
+                                    <StarIcon style={{marginRight: 10}}/>
+                                    <Typography
+                                        sx={{
+                                            color: 'gray',
+                                            fontStyle: 'italic',
+                                            paddingRight: '5px'
+                                        }}>
+                                        {'Загальна кількість проходжень :'} <span
+                                        style={{color: 'black'}}>{test.results?.length}</span>
+                                    </Typography>
+                                </Box>
                             </Paper>
                             <Tabs value={selectedTab} onChange={handleTabChange}
                                   indicatorColor="primary">
                                 <Tab label="Питання"/>
                                 <Tab label="Результати учнів"/>
+                                <Tab label="Статистика"/>
                             </Tabs>
 
                             {selectedTab === 0 && (
@@ -281,7 +309,8 @@ export default function TestsEditor() {
                                 <>
                                     {test.results.length > 0 ?
                                         test.results?.map((result, index) => (
-                                            <TestResults index={index} testId={test.id} result={result}/>
+                                            <TestResults index={index} test={test}
+                                                         result={result}/>
                                         ))
                                         :
                                         <Typography sx={{pl: 3, pt: 4}} variant="h4"
@@ -289,6 +318,11 @@ export default function TestsEditor() {
                                             тест
                                         </Typography>
                                     }
+                                </>
+                            )}
+                            {selectedTab === 2 && (
+                                <>
+                                    <TestStatistic results={test.results} questions={test.questions}/>
                                 </>
                             )}
 

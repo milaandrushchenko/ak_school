@@ -147,6 +147,21 @@ class TestController extends Controller
 
         $parsedQuestion = json_decode($question, true);
         $parsedQuestion['options'] = json_decode($parsedQuestion['options'], true);
+        $correctCount = QuestionAnswer::where('question_id', $request['question_id'])
+            ->where('score', $question['score'])
+            ->count();
+//            $correctCount = $question->questionAnswers()->where('is_correct', true)->count();
+
+        $incorrectCount = QuestionAnswer::where('question_id', $request['question_id'])
+            ->where('score', 0)
+            ->count();
+
+        $сount = QuestionAnswer::where('question_id', $request['question_id'])
+            ->count();
+
+        $parsedQuestion['correct_count'] = $correctCount;
+        $parsedQuestion['incorrect_count'] = $incorrectCount;
+        $parsedQuestion['partly_correct_count'] = $сount - ($correctCount + $incorrectCount);
 
         return response($parsedQuestion, 201);
     }

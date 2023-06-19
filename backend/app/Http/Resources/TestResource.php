@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\QuestionAnswer;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -25,6 +26,30 @@ class TestResource extends JsonResource
                 $parsedQuestion['options'] = json_decode($parsedQuestion['options'], true);
             }
             $questions[] = $parsedQuestion;
+        }
+
+
+        $questionsWithResults = [];
+        foreach ($questions as $question) {
+            $questionId = $question['id'];
+
+            $correctCount = QuestionAnswer::where('question_id', $questionId)
+                ->where('score', $question['score'])
+                ->count();
+//            $correctCount = $question->questionAnswers()->where('is_correct', true)->count();
+
+            $incorrectCount = QuestionAnswer::where('question_id', $questionId)
+                ->where('score', 0)
+                ->count();
+
+            $сount = QuestionAnswer::where('question_id', $questionId)
+                ->count();
+
+            $question['correct_count'] = $correctCount;
+            $question['incorrect_count'] = $incorrectCount;
+            $question['partly_correct_count'] = $сount - ($correctCount + $incorrectCount);
+
+            $questionsWithResults[] = $question;
         }
 
         $results = $this->when(
@@ -53,7 +78,7 @@ class TestResource extends JsonResource
             'subjects' => $this->subjects,
             'result_display_type' => $this->result_display_type,
             'created_at' => Carbon::parse($this->created_at)->isoFormat('DD MMMM, YYYY HH:mm'),
-            'questions' => $questions,
+            'questions' => $questionsWithResults,
             'results' => $results,
 
         ];

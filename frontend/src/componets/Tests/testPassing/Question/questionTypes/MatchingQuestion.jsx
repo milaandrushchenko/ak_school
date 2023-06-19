@@ -25,7 +25,7 @@ import TableCell from "@mui/material/TableCell";
 import {ukrainianLetters} from "../../../../../utils/common.js";
 import TableBody from "@mui/material/TableBody";
 import Checkbox from "@mui/material/Checkbox";
-import Matrix from "../../../Matrix.jsx";
+import Matrix from "../../../../core/Matrix.jsx";
 
 
 const MatchingQuestion = ({options, answerChanged}) => {

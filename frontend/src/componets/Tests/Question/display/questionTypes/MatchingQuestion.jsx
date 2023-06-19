@@ -21,7 +21,7 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import Checkbox from "@mui/material/Checkbox";
 import Divider from "@mui/material/Divider";
-import Matrix from "../../../Matrix.jsx";
+import Matrix from "../../../../core/Matrix.jsx";
 import {RESULT_TYPE} from "../../../../../utils/constans.js";
 import {useSelector} from "react-redux";
 

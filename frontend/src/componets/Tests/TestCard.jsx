@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import {Link, NavLink} from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import HelpIcon from '@mui/icons-material/Help';
 import React, {useState} from "react";
 import DeleteTest from "./DeleteTest.jsx";
 import FormTest from "./FormTest.jsx";
@@ -119,7 +120,19 @@ export default function TestCard({test, onDelete}) {
                 />
                 <CardContent>
                     <Stack sx={{mb: '5px'}}>
-                        <Box display="flex" flexWrap="wrap" alignItems="center">
+                        <Box display="flex"  alignItems="center">
+                            <HelpIcon style={{marginRight: 10}}/>
+                            <Typography
+                                sx={{
+                                    color: 'gray',
+                                    fontStyle: 'italic',
+                                    paddingRight: '5px'
+                                }}>
+                                {'Кількість запитань :'} <span
+                                style={{color: 'black'}}>{test.questions?.length}</span>
+                            </Typography>
+                        </Box>
+                        <Box display="flex" alignItems="center">
                             <QueryBuilderIcon style={{marginRight: 10}}/>
                             <Typography
                                 sx={{color: 'gray', fontStyle: 'italic', paddingRight: '5px'}}>
@@ -127,7 +140,7 @@ export default function TestCard({test, onDelete}) {
                                 style={{color: 'black'}}> {test.start_time ? formattedDate(test.start_time) : 'не зазначено'}</span>
                             </Typography>
                         </Box>
-                        <Box display="flex" flexWrap="wrap" alignItems="center">
+                        <Box display="flex" alignItems="center">
                             <QueryBuilderIcon style={{marginRight: 10}}/>
                             <Typography
                                 sx={{color: 'gray', fontStyle: 'italic', paddingRight: '5px'}}>
@@ -135,7 +148,7 @@ export default function TestCard({test, onDelete}) {
                                 style={{color: 'black'}}> {test.end_time ? formattedDate(test.end_time) : 'не зазначено'}</span>
                             </Typography>
                         </Box>
-                        <Box display="flex" flexWrap="wrap" alignItems="center">
+                        <Box display="flex" alignItems="center">
                             <TimerIcon style={{marginRight: 10}}/>
                             <Typography
                                 sx={{color: 'gray', fontStyle: 'italic', paddingRight: '5px'}}>

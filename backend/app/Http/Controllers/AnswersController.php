@@ -96,13 +96,22 @@ class AnswersController extends Controller
         $test = Test::find($request['test_id']);
         $maximumScore = $test->maximumScoreForTest();
 
-        $totalScoreForAnswer= $answer->scoreForAnswer();
+        $totalScoreForAnswer = $answer->scoreForAnswer();
 
         $answer->total_score = 12 * ($totalScoreForAnswer / $maximumScore);
         $answer->save();
 
 
-        return response(new AnswerResource($answer), 201);
+        $question = Questions::find($request['question_id']);
+
+        if (isset($question['options'])) {
+            $question['options'] = json_decode($question['options'], true);
+        }
+        $question = $question->addOptions();
+        return response()->json([
+            'question' => $question,
+            'answer' => new AnswerResource($answer)
+        ], 201);
     }
 
 }

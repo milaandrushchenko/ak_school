@@ -4,7 +4,7 @@ import {
     DialogContent,
     DialogTitle, TextField
 } from "@mui/material";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import Typography from "@mui/material/Typography";
 import {QUESTION} from "../../../utils/constans.js";
@@ -20,13 +20,14 @@ export default function QuestionResults(props) {
     const dispatch = useDispatch();
     const {user, userToken} = useSelector((state) => state.currentUser)
 
-    const {open, onClose, questionAnswer, result_display_type, answer, testId} = props;
-    const {question, user_answer, score, question_id} = questionAnswer;
+    const {open, onClose, questionAnswer, result_display_type, answer, test} = props;
+    const {user_answer, score, question_id, index} = questionAnswer;
 
     const [changeScore, setChangeScore] = useState({change: false, score: score});
+    const [question, setQuestion] = useState({change: false, score: score});
 
     let data = {
-        test_id: testId,
+        test_id: test.id,
         question_id: question.id,
         score: changeScore.score
     }
@@ -72,6 +73,9 @@ export default function QuestionResults(props) {
         })
     }
 
+    useEffect(() => {
+        setQuestion(test.questions.find(q => q.id === question_id));
+    }, [props])
     return (
         <>
             <Dialog
@@ -81,7 +85,7 @@ export default function QuestionResults(props) {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {`Запитання ${question_id + 1}`}
+                    {`Запитання ${index + 1}`}
                 </DialogTitle>
                 <DialogContent sx={{maxWidth: '900px', width: '100%', minWidth: '400px'}}>
                     <Typography component="div" variant="body1"
@@ -91,21 +95,21 @@ export default function QuestionResults(props) {
                              className="question-content"/>
                     </Typography>
                     {question.type === QUESTION.SHORT_ANSWER && <ShortAnswerQuestion
-                        options={JSON.parse(question.options)}
+                        options={question.options}
                         result_display_type={result_display_type}
                         studentAnswer={user_answer}/>}
                     {question.type === QUESTION.MULTIPLE_CHOICE &&
                         <MultiChoiceQuestion
-                            options={JSON.parse(question.options)}
+                            options={question.options}
                             result_display_type={result_display_type}
                             studentAnswer={user_answer}/>}
                     {question.type === QUESTION.SINGLE_CHOICE &&
                         <SingleChoiceQuestion
-                            options={JSON.parse(question.options)}
+                            options={question.options}
                             result_display_type={result_display_type}
                             studentAnswer={user_answer}/>}
                     {question.type === QUESTION.MATCHING &&
-                        <MatchingQuestion options={JSON.parse(question.options)}
+                        <MatchingQuestion options={question.options}
                                           result_display_type={result_display_type}
                                           studentAnswer={user_answer}/>}
 

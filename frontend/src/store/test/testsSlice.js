@@ -378,8 +378,9 @@ const testsSlice = createSlice({
         builder.addCase(changeScoreForQuestion.fulfilled, (state, action) => {
             state.status = 'succeeded';
             console.log(action.payload);
-
-            state.test.results = state.test.results.map(result => result.id === action.payload.id ? action.payload : result)
+            const {answer, question} = action.payload;
+            state.test.results = state.test.results.map(result => result.id === answer.id ? answer : result)
+            state.test.questions = state.test.questions.map(item => item.id === question.id ? question : item)
             // state.test = action.payload;
         });
         builder.addCase(changeScoreForQuestion.rejected, (state, action) => {

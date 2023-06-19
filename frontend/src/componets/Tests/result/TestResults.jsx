@@ -9,7 +9,7 @@ import QuestionResults from "./QuestionResults.jsx";
 import {findAllInRenderedTree} from "react-dom/test-utils";
 import ShowUser from "../../Users/ShowUser.jsx";
 
-export default function TestResults({result, index,testId}) {
+export default function TestResults({result, index,test}) {
 
 
     const [notification, setNotification] = useState(false);
@@ -131,7 +131,7 @@ export default function TestResults({result, index,testId}) {
                                 alignItems="center"
                                 justifyContent="center"
                                 p={1}
-                                bgcolor={+questionAnswer.score === +questionAnswer.question.score ? 'green' : +questionAnswer.score !== 0 ? 'orange' : 'red'}
+                                bgcolor={+questionAnswer.score === +test.questions.find(q => q.id === questionAnswer.question_id).score ? 'green' : +questionAnswer.score !== 0 ? 'orange' : 'red'}
                                 m={1}
                                 color='white'
                                 width={24}
@@ -145,7 +145,7 @@ export default function TestResults({result, index,testId}) {
                             {openQuestionResult !== null && (
                                 <QuestionResults
                                     answer={result}
-                                    testId={testId}
+                                    test={test}
                                     open={openQuestionResult.question_id === questionAnswer.question_id}
                                     onClose={handleQuestionResultClose}
                                     questionAnswer={openQuestionResult}/>

@@ -49,7 +49,7 @@ class Questions extends Model
                 }
                 break;
             case 'matching':
-                $correctOptions =$options['correctAnswers'];
+                $correctOptions = $options['correctAnswers'];
                 $scoreForEachCorrectAnswer = $this->score / count($correctOptions);
                 $totalScore = 0;
                 $countCorrectAnswer = 0;
@@ -72,5 +72,26 @@ class Questions extends Model
     public function test()
     {
         return $this->belongsTo(Test::class, 'test_id');
+    }
+
+    public function questionAnswers()
+    {
+        return $this->hasMany(QuestionAnswer::class,'question_id');
+    }
+
+    public function addOptions()
+    {
+        $correctCount = $this->questionAnswers()->where('score', $this->score)->count();
+
+        $incorrectCount = $this->questionAnswers()->where('score', 0)->count();
+
+        $сount = $this->questionAnswers()->count();
+
+        $this->correct_count = $correctCount;
+        $this->incorrect_count = $incorrectCount;
+        $this->partly_correct_count = $сount - ($correctCount + $incorrectCount);
+
+        return $this;
+
     }
 }

@@ -21,7 +21,7 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import Checkbox from "@mui/material/Checkbox";
-import Matrix from "../../../Matrix.jsx";
+import Matrix from "../../../../core/Matrix.jsx";
 
 const MatchingQuestionForm = ({formik}) => {
 
