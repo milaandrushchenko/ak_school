@@ -15,7 +15,6 @@ export const getTasks = createAsyncThunk(
     async (_, {rejectWithValue}) => {
         try {
             const res = await axiosClient.get('/tasks');
-            // console.log(res.data)
             return res.data;
         } catch (error) {
             if (!error.response) {

@@ -1,5 +1,5 @@
 import {useDispatch} from "react-redux";
-import {deleteTask} from "../../store/subject/subjectsSlice";
+import {deleteTask} from "../../../store/subject/subjectsSlice.js";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography} from "@mui/material";
 import React from "react";
 

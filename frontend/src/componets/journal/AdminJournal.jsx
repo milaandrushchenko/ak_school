@@ -15,6 +15,8 @@ import {ExpandMore} from "@mui/icons-material";
 
 export default function AdminJournal({subjects}){
     const {classes} = useSelector((state)=> state.classes)
+    const {tests} = useSelector((state)=>state.tests)
+    console.log(tests)
     return (
         <Grid container>
             {subjects.map((subject) => (
@@ -26,7 +28,7 @@ export default function AdminJournal({subjects}){
                                 <div key={cls.id} style={{marginBottom:10}}>
                                     <Accordion>
                                         <AccordionSummary  expandIcon={<ExpandMore/>} sx={{borderBottom: "1px solid lightGrey"}}>
-                                            {classes.find((c) => c.id === cls.id).name}
+                                            {classes ? classes.find((c) => c.id === cls.id).name : ""}
                                         </AccordionSummary>
                                         <AccordionDetails sx={{backgroundColor: "#f5f5f5"}}>
                                             <TableContainer component={Paper}>
@@ -35,7 +37,7 @@ export default function AdminJournal({subjects}){
                                                         <TableRow>
                                                             <TableCell sx={{fontWeight: "bold", fontSize: "1.2em"}}>Завдання</TableCell>
                                                             {cls.students ? cls.students.map((s)=>(
-                                                                <TableCell key={s.id} sx={{fontWeight: "bold", fontSize: "1.2em"}} align="center">{s.second_name} {s.first_name}</TableCell>
+                                                                <TableCell key={s.id} sx={{fontWeight: "bold"}} align="center">{s.second_name} {s.first_name}</TableCell>
                                                             )):""}
                                                         </TableRow>
                                                     </TableHead>
@@ -47,14 +49,14 @@ export default function AdminJournal({subjects}){
                                                                 </TableCell>
                                                                 {cls.students ? cls.students.map((s)=>(
                                                                     <TableCell key={s.id} align="center">
-                                                                        {typeof t.attempts.attempts.find((a) => a.student_id === s.id) === 'undefined' ? "-" : t.attempts.attempts.find((a) => a.student_id === s.id).score || t.attempts.attempts.find((a) => a.student_id === s.id).score === '0.00'
+                                                                        {t ? typeof t.attempts.attempts.find((a) => a.student_id === s.id) === 'undefined' ? "-" : t.attempts.attempts.find((a) => a.student_id === s.id).score || t.attempts.attempts.find((a) => a.student_id === s.id).score === '0.00'
                                                                             ?
                                                                             <Chip label={t.attempts.attempts.find((a) => a.student_id === s.id).score.split('.')[0]} sx={{opacity: "0.75"}}
                                                                                   color={parseInt(t.attempts.attempts.find((a) => a.student_id === s.id).score.split('.')[0]) <=6 ? "error" :
                                                                                       parseInt(t.attempts.attempts.find((a) => a.student_id === s.id).score.split('.')[0]) <= 9 ? "primary" : "success"
                                                                                   }
                                                                             />
-                                                                            : ""}
+                                                                            : "" : ""}
                                                                     </TableCell>
                                                                 )): ""}
                                                             </TableRow>

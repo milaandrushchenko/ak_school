@@ -8,8 +8,8 @@ import TestsList from "./componets/Tests/TestsList.jsx";
 import TestsEditor from "./componets/Tests/TestsEditor.jsx";
 import SubjectsList from "./componets/Subjects/SubjectsList.jsx";
 import TestPage from "./componets/Tests/testPassing/TestPage.jsx";
-import TasksList from "./componets/Tasks/TasksList.jsx";
-import TaskPage from "./componets/Tasks/Attempts/TaskPage.jsx";
+import SubjectPage from "./componets/Subjects/SubjectPage.jsx";
+import TaskPage from "./componets/Subjects/Tasks/Attempts/TaskPage.jsx";
 import NotFound from "./componets/errors/NotFound";
 import Journal from "./componets/journal/Journal.jsx";
 import Profile from "./componets/Users/Profile.jsx";
@@ -66,7 +66,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/subjects/:id',
-                element: <TasksList />
+                element: <SubjectPage />
             },
             {
                 path: '/task/:id',

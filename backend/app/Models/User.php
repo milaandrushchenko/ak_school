@@ -106,5 +106,8 @@ class User extends Authenticatable
     public function teacherSubjects(){
         return $this->hasMany(Subject::class, 'teacher_id');
     }
+    public function sessionScores(){
+        return $this->hasMany(SessionScores::class, 'student_id');
+    }
 
 }

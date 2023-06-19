@@ -14,7 +14,7 @@ class TasksController extends Controller
 //        $user = auth()->user();
 //
 //        if ($user->hasRole('admin')) {
-            $tasks = Task::query()->orderBy('created_at', 'desc')->get();
+            $tasks = Task::query()->orderBy('done_to', 'desc')->get();
 //        } else if ($user->hasRole('teacher')) {
 //            $subjects = Subject::query()->where('teacher_id', $user['id']) ->orderBy('name', 'desc')->get();
 //        } else if ($user->hasRole('student')) {

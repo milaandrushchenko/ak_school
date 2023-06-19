@@ -6,6 +6,7 @@ import classesSlice from "./class/classesSlice.js";
 import testsSlice from "./test/testsSlice.js";
 import subjectsSlice from "./subject/subjectsSlice.js";
 import attemptsSlice from "./task_attempts/attemptsSlice.js";
+import statementSlice from "./statement/statementSlice.js";
 
 export const store = configureStore({
     reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
         tests: testsSlice,
         subjects: subjectsSlice,
         tasks: attemptsSlice,
+        statements: statementSlice,
     },
     // middleware: (getDefaultMiddleware) =>
     //     getDefaultMiddleware({

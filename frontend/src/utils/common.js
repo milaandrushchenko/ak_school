@@ -26,7 +26,7 @@ export const generatePassword = (length) => {
 
 export const formattedDate = (dateTime) => {
     if (dateTime) {
-        return dayjs(dateTime).locale('uk').format('DD MMMM YYYY року , HH:mm');
+        return dayjs(dateTime).locale('uk').format('DD MMMM YYYY року, HH:mm');
     }
     return '';
 }
