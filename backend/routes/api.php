@@ -88,6 +88,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('/tasks', TasksController::class);
     Route::put('/tasks/update-attempt/{attempt_id}', [TasksController::class, 'updateTaskAttempt']);
+//    Route::get('book-upload', [SubjectsController::class, 'getBook'])->name('file.upload');
+//    Route::post('book-upload', [SubjectsController::class, 'storeBook'])->name('file.upload.store');
+
+
+    Route::get('/statements', [SubjectsController::class, 'getStatements']);
+    Route::post('/statement/create', [SubjectsController::class, 'storeStatement']);
+    Route::post('/session-score/create/{statement_id}', [SubjectsController::class, 'storeSessionScore']);
+    Route::put('/session-score/update/{id}', [SubjectsController::class, 'updateSessionScore']);
 });
 
 

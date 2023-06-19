@@ -8,9 +8,7 @@ import Typography from "@mui/material/Typography";
 import styles from "../../styles/Grid.module.css";
 import {Button, CircularProgress} from "@mui/material";
 import {theme} from "../../utils/theme.js";
-import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined.js";
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
-import FormClass from "../Classes/FormClass.jsx";
 import FormSubject from "./FormSubject";
 import {Search, SearchIconWrapper, StyledInputBase} from "../../styles/searchStyles.js";
 import SearchIcon from "@mui/icons-material/Search.js";
@@ -23,7 +21,7 @@ import Box from "@mui/material/Box";
 const SubjectsList = () => {
     const dispatch = useDispatch();
 
-    const {user, userToken} = useSelector((state) => state.currentUser)
+    const {user} = useSelector((state) => state.currentUser)
     const {subjects, isLoading, visibleData} = useSelector((state) => state.subjects)
     const [notification, setNotification] = useState(false);
     const [open, setOpen] = useState(false);
@@ -61,8 +59,6 @@ const SubjectsList = () => {
     useEffect(() => {
         dispatch(searchSubject(searchValue));
     }, [searchValue])
-
-
 
     return (
         <>

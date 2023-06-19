@@ -6,7 +6,10 @@ use App\Http\Requests\StoreSubjectRequest;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateSubjectRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Resources\StatementResource;
 use App\Http\Resources\SubjectResource;
+use App\Models\SessionScores;
+use App\Models\Statement;
 use App\Models\Subject;
 use App\Models\SubjectClass;
 use App\Models\Task;
@@ -16,7 +19,6 @@ use Carbon\Carbon;
 use DateTime;
 use DateTimeZone;
 use Illuminate\Http\Request;
-use PHPUnit\Metadata\Uses;
 
 class SubjectsController extends Controller
 {
@@ -25,12 +27,12 @@ class SubjectsController extends Controller
         $user = auth()->user();
 
         if ($user->hasRole('admin')) {
-            $subjects = Subject::query()->orderBy('updated_at', 'desc')->get();
+            $subjects = Subject::query()->orderBy('created_at', 'desc')->get();
         } else if ($user->hasRole('teacher')) {
-            $subjects =$user->teacherSubjects()->orderBy('name', 'desc')->get();
+            $subjects =$user->teacherSubjects()->orderBy('created_at', 'desc')->get();
         } else if ($user->hasRole('student')) {
             $ids = SubjectClass::where('class_id', $user['class_id'])->pluck('subject_id')->toArray();
-            $subjects = Subject::whereIn('id', $ids)->orderBy('updated_at', 'desc')->get();
+            $subjects = Subject::whereIn('id', $ids)->orderBy('created_at', 'desc')->get();
         } else {
             $subjects = [];
         }
@@ -57,7 +59,7 @@ class SubjectsController extends Controller
 
     public function update(UpdateSubjectRequest $request, Subject $subject){
         $data = $request->validated();
-//        var_dump($subject);
+        var_dump($data);
         $cls = $data['classes_ids'];
         unset($data['classes_ids']);
 
@@ -110,5 +112,41 @@ class SubjectsController extends Controller
         $task->delete();
 
         return response('Task was deleted', 204);
+    }
+
+    public function getStatements(){
+        $user = auth()->user();
+
+        if ($user->hasRole('admin')) {
+            $statements = Statement::query()->orderBy('year', 'desc')->get();
+        } else {
+            $statements = [];
+        }
+        return StatementResource::collection($statements);
+    }
+    public function storeStatement(Request $request){
+        $data = $request->all();
+        $statement = Statement::create($data);
+        $statement['session_scores'] = [];
+        return response($statement, 201);
+    }
+    public function storeSessionScore(Request $request){
+        $data = $request->all();
+        $session_score = SessionScores::create($data);
+        return response($session_score, 201);
+    }
+    public function updateSessionScore(Request $request, string $id){
+        $data = $request->all();
+        $session_score = SessionScores::findOrFail($id);
+        $session_score->update($data);
+        return response($session_score, 201);
+    }
+
+    public function getBook(){
+
+    }
+
+    public function storeBook(){
+
     }
 }

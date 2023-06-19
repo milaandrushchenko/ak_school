@@ -19,7 +19,7 @@ const MenuProps = {
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('Обов\'язкове поле'),
     teacher_id: Yup.number().required('Обов\'язкове поле'),
-    classes_ids: Yup.array().of(Yup.number()).min(1, 'Оберіть хоча б один клас'),
+    // classes_ids: Yup.array().of(Yup.number()).min(1, 'Оберіть хоча б один клас'),
 });
 
 const initialValues = {
@@ -48,24 +48,11 @@ export default function FormSubject({open, onClose, subjectItem}) {
         formik.resetForm(initialValues);
         formik.setErrors({});
     }
-    // try {
-    //     console.log(subjectItem)
-    //     subjectItem.classes.push(16)
-    //     console.log(subjectItem)
-    // } catch {
-    //
-    // }
-    if (subjectItem){
-        subjectItem.classes_ids = subjectItem.classes
-    }
 
-
-    // subjectItem['classes_ids'] = subjectItem.classes
     const formik = useFormik({
         initialValues: subjectItem ? {...subjectItem} : {...initialValues},
         validationSchema,
         onSubmit: async (values, {setErrors, setSubmitting}) => {
-
             if (!subjectItem) {
                 const resultAction = await dispatch(createSubject(values));
                 if (createSubject.fulfilled.match(resultAction)) {
@@ -90,7 +77,7 @@ export default function FormSubject({open, onClose, subjectItem}) {
         if (errorsServer) {
             let errors = {...errorsServer};
             Object.keys(errors).forEach((key) => {
-                const match = key.match(/classes_ids\.\d+/);
+                const match = key.match(/classes\.\d+/);
                 if (match) {
                     const fieldName = match[0].replace(/\.\d+/, '');
                     errors[fieldName] = errors[key];
@@ -102,7 +89,6 @@ export default function FormSubject({open, onClose, subjectItem}) {
         }
 
     }, [errorsServer]);
-    // console.log(formik.values.classes_ids)
     return (
         <>
             <Dialog
@@ -133,6 +119,7 @@ export default function FormSubject({open, onClose, subjectItem}) {
                                 error={formik.touched.name && Boolean(formik.errors?.name)}
                                 helperText={formik.touched.name && formik.errors && formik.errors.name}
                             />
+                            {subjectItem ? subjectItem['classes_ids'] = subjectItem.classes.map(c => c.id) : ""}
                             <FormControl fullWidth sx={{marginTop: 2}}
                                          error={formik.touched.classes_ids && Boolean(formik.errors.classes_ids)}>
                                 <InputLabel id="classes-label">Класи</InputLabel>
@@ -195,6 +182,7 @@ export default function FormSubject({open, onClose, subjectItem}) {
                                     <FormHelperText>{formik.touched.classes_ids && formik.errors && formik.errors.classes_ids}</FormHelperText>
                                 )}
                             </FormControl>
+
 
                             <FormControl fullWidth sx={{marginTop: 2}}
                                          error={formik.touched.teacher_id && Boolean(formik.errors.teacher_id)}>

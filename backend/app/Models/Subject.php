@@ -24,7 +24,6 @@ class Subject extends Model
         return $this->belongsToMany(Classes::class, 'subject_classes', 'subject_id', 'class_id');
     }
 
-
     public function tasks(){
         return $this->hasMany(Task::class, 'subject_id');
     }
@@ -33,5 +32,8 @@ class Subject extends Model
     {
         return $this->belongsToMany(Test::class, 'test_subjects');
     }
-
+    public function statements()
+    {
+        return $this->hasMany(Statement::class, 'subject_id');
+    }
 }

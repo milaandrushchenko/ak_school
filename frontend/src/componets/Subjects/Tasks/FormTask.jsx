@@ -1,21 +1,18 @@
 import dayjs from "dayjs";
 import * as Yup from 'yup';
 import {useDispatch, useSelector} from "react-redux";
-import {clearErrors, getTasks} from "../../store/task/tasksSlice.js";
+import {clearErrors, getTasks} from "../../../store/task/tasksSlice.js";
 import {FormikProvider, useFormik} from "formik";
-import {compareDate} from "../../utils/common.js";
+import {compareDate} from "../../../utils/common.js";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField} from "@mui/material";
 import Box from "@mui/material/Box";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {DateTimePicker} from "@mui/x-date-pickers/DateTimePicker";
 import ClearIcon from "@mui/icons-material/Clear.js";
-import TextEditor from "../core/TextEditor.jsx";
+import TextEditor from "../../core/TextEditor.jsx";
 import React, {useEffect} from "react";
-import {createTask, getSubjectById, getSubjects, updateTask} from "../../store/subject/subjectsSlice.js";
-import {getTestById, getTests} from "../../store/test/testsSlice.js";
-import {useParams} from "react-router-dom";
-
+import {createTask, updateTask} from "../../../store/subject/subjectsSlice.js";
 
 const currentDate = dayjs();
 

@@ -2,17 +2,17 @@ import {NavLink, useParams} from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import {Accordion, AccordionDetails, AccordionSummary, Button, Chip, Paper, Typography} from "@mui/material";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace.js";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getTaskById, updateAttempt} from "../../../store/task_attempts/attemptsSlice.js";
-import AttemptCard from "./AttemptCard";
+import {getTaskById, updateAttempt} from "../../../../store/task_attempts/attemptsSlice.js";
+import AttemptCard from "./AttemptCard.jsx";
 import {ExpandMore} from "@mui/icons-material";
 import dayjs from "dayjs";
-import {getTestById, getTests} from "../../../store/test/testsSlice.js";
-import {getTasks} from "../../../store/task/tasksSlice.js";
-import TextEditor from "../../core/TextEditor.jsx";
+import {getTestById, getTests} from "../../../../store/test/testsSlice.js";
+import {getTasks} from "../../../../store/task/tasksSlice.js";
+import TextEditor from "../../../core/TextEditor.jsx";
 import {FormikProvider, useFormik} from "formik";
-import {createTask, updateTask} from "../../../store/subject/subjectsSlice.js";
+import {createTask, updateTask} from "../../../../store/subject/subjectsSlice.js";
 
 const currentDate = dayjs();
 
@@ -20,6 +20,7 @@ const currentDate = dayjs();
 export default function TaskPage(){
     const {id} = useParams();
     const {attempts, isLoading} = useSelector((state) => state.tasks)
+    console.log(attempts)
     const task = attempts.find((t) => t.id === parseInt(id))
     const {user, userToken} = useSelector((state) => state.currentUser)
     const currentAttempt = task ? task.attempts.find((a) => a.student_id === user.id) : null;

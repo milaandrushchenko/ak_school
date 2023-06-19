@@ -12,6 +12,7 @@ import dayjs from "dayjs";
 import {ExpandMore} from "@mui/icons-material";
 import {useSelector} from "react-redux";
 import DeleteTask from "./DeleteTask.jsx";
+import {formattedDate} from "../../../utils/common.js";
 
 const currentDate = dayjs();
 
@@ -53,13 +54,6 @@ export default function TaskCard({task, openDeleteDialog, onOpenDeleteDialog, on
         } catch {}
     }
     const currentAttempt = att ? att.find((a) => a.student_id === user.id) : null;
-    const monthNames = ["Січня", "Лютого", "Березня", "Квітня", "Травня", "Червня",
-        "Липня", "Серпня", "Вересня", "Жовтня", "Листопада", "Грудня"];
-    const dayNames = ["Понеділок", "Вівторок", "Середа",
-        "Четвер", "П\'ятниця", "Суббота", "Неділя"];
-    const d = new Date(task.done_to)
-    const dc = new Date(task.created_at)
-    const du = new Date(task.updated_at)
     return (
         <>
             <Card sx={{height: '100%'}}>
@@ -67,14 +61,15 @@ export default function TaskCard({task, openDeleteDialog, onOpenDeleteDialog, on
                     sx={{pb:0}}
                     title={
                         <Typography color="primary" variant="h5">
-                            {task.name}{currentAttempt && (currentAttempt.score || currentAttempt.score) !== "0.00" ?
-                            <Chip component="span" label={currentAttempt.score} color="primary" sx={{ml:2}}/> : ""
-                            }
+                            {task.name}
+                            {/*{currentAttempt && (currentAttempt.score && currentAttempt.score !== "0.00") ?*/}
+                            {/*<Chip component="span" label={currentAttempt.score} color="primary" sx={{ml:2}}/> : ""*/}
+                            {/*}*/}
                         </Typography>
                     }
                     subheader={task.done_to ?
                     <Typography sx={{py:1, color: "grey", fontStyle: "italic"}}>
-                        Здати до: <span style={{color: "black"}}>{dayNames[d.getDay()]}, {d.getDate()} {monthNames[d.getMonth()]} {d.getFullYear()}</span>
+                        Здати до: <span style={{color: "black"}}>{formattedDate(task.done_to)}</span>
                         {task.done !== 1 && dayjs(task.done_to) < currentDate ?
                             <Chip component="span" label="Термін здачі вийшов" sx={{backgroundColor: "#ff1744", color: "white", ml:3}} /> : ""}
                     </Typography> : <Typography sx={{py:1, color: "grey", fontStyle: "italic"}}>Без терміну здачі</Typography>}
@@ -129,13 +124,13 @@ export default function TaskCard({task, openDeleteDialog, onOpenDeleteDialog, on
                                         <Typography color="grey" fontStyle="italic">
                                             Опубліковано:
                                             <span style={{color: "black", paddingLeft: "10px"}}>
-                                                {dayNames[dc.getDay()]}, {dc.getDate()} {monthNames[dc.getMonth()]} {dc.getFullYear()}
+                                                {formattedDate(task.created_at)}
                                             </span>
                                         </Typography>
                                         <Typography color="grey" fontStyle="italic">
                                             Відредаговано:
                                             <span style={{color: "black", paddingLeft: "10px"}}>
-                                                {dayNames[du.getDay()]}, {du.getDate()} {monthNames[du.getMonth()]} {du.getFullYear()}
+                                                {formattedDate(task.updated_at)}
                                             </span>
                                         </Typography>
                                     </Grid>
@@ -148,14 +143,16 @@ export default function TaskCard({task, openDeleteDialog, onOpenDeleteDialog, on
                         </>
                         : ""
                     }
-                    <Accordion style={{margin:0}}>
-                        <AccordionSummary expandIcon={<ExpandMore/>} sx={{borderBottom: "1px solid lightGrey"}}>
-                            <Typography variant="h6" color="primary">Завдання</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails sx={{backgroundColor: "#f5f5f5"}}>
-                            <div dangerouslySetInnerHTML={{__html: task.content}}/>
-                        </AccordionDetails>
-                    </Accordion>
+                    {currentAttempt && (!currentAttempt.score || currentAttempt.score === "0.00") &&
+                        <Accordion style={{margin:0}}>
+                            <AccordionSummary expandIcon={<ExpandMore/>} sx={{borderBottom: "1px solid lightGrey"}}>
+                                <Typography variant="h6" color="primary">Завдання</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails sx={{backgroundColor: "#f5f5f5"}}>
+                                <div dangerouslySetInnerHTML={{__html: task.content}}/>
+                            </AccordionDetails>
+                        </Accordion>
+                    }
                 </CardContent>
             </Card>
         </>

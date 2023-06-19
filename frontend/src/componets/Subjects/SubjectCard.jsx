@@ -17,7 +17,7 @@ export default function SubjectCard({subjectItem, onDelete}) {
     const [openDialogEdit, setOpenDialogEdit] = useState(false);
     const [openDialogDelete, setOpenDialogDelete] = useState(false);
     const [notification, setNotification] = useState(false);
-
+    // console.log(subjectItem)
     const handleCloseAlert = (event, reason) => {
         if (reason === 'clickaway') {
             return;
@@ -47,7 +47,7 @@ export default function SubjectCard({subjectItem, onDelete}) {
         id: subjectItem.id,
         name: subjectItem.name,
         teacher_id: subjectItem.teacher.id,
-        classes: subjectItem.classes.map(class_ => class_.class_id)
+        classes: subjectItem.classes
     };
     let subjCls = [];
     const {classes, isLoading} = useSelector((state) => state.classes);
