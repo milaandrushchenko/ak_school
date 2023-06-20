@@ -1,6 +1,7 @@
 import Paper from "@mui/material/Paper";
 import {Chip, Menu, MenuItem} from "@mui/material";
 import Typography from "@mui/material/Typography";
+import Button from '@mui/material/Button';
 import React, {useState} from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -8,8 +9,10 @@ import {time_converter} from "../../../utils/common.js";
 import QuestionResults from "./QuestionResults.jsx";
 import {findAllInRenderedTree} from "react-dom/test-utils";
 import ShowUser from "../../Users/ShowUser.jsx";
+import {useDispatch} from "react-redux";
+import {updateScore} from "../../../store/test/testsSlice.js";
 
-export default function TestResults({result, index,test}) {
+export default function TestResults({result, index, test}) {
 
 
     const [notification, setNotification] = useState(false);
@@ -17,9 +20,18 @@ export default function TestResults({result, index,test}) {
     const [openDialogEdit, setOpenDialogEdit] = useState(false);
     const [openQuestionResult, setOpenQuestionResult] = useState(null);
 
+    const dispatch = useDispatch();
+
+
     const handleQuestionResultOpen = (questionAnswer) => {
         console.log(questionAnswer);
         setOpenQuestionResult(questionAnswer);
+    };
+
+    const handleUpdateScore = () => {
+        console.log(result.id);
+        let answerId = result.id;
+        dispatch(updateScore({answerId}));
     };
 
     const handleQuestionResultClose = () => {
@@ -123,6 +135,7 @@ export default function TestResults({result, index,test}) {
                         Відповіді на питання:
                     </Typography>
                     {result.question_results.map((questionAnswer, index) => (
+                        test.questions?.some(q => q.id === questionAnswer.question_id) &&
                         <React.Fragment key={questionAnswer.question_id}
                         >
                             <Box
@@ -131,7 +144,7 @@ export default function TestResults({result, index,test}) {
                                 alignItems="center"
                                 justifyContent="center"
                                 p={1}
-                                bgcolor={+questionAnswer.score === +test.questions.find(q => q.id === questionAnswer.question_id).score ? 'green' : +questionAnswer.score !== 0 ? 'orange' : 'red'}
+                                bgcolor={+questionAnswer.score === +test.questions?.find(q => q.id === questionAnswer.question_id).score ? 'green' : +questionAnswer.score !== 0 ? 'orange' : 'red'}
                                 m={1}
                                 color='white'
                                 width={24}
@@ -160,6 +173,8 @@ export default function TestResults({result, index,test}) {
                                 sx={{paddingBottom: '5px'}}>
                         {Math.round(result.total_score)}
                     </Typography>
+                    <Button variant="contained" color="secondary" onClick={handleUpdateScore}>Оновити
+                        оцінку</Button>
                 </Grid>
             </Grid>
             <Menu

@@ -1,28 +1,39 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    FormControl,
+    FormHelperText,
+    InputAdornment,
+    InputLabel,
+    MenuItem,
+    Select,
+    Snackbar,
+    TextField
+} from "@mui/material";
 import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import styles from '../../styles/Navlink.module.css';
+import {Visibility, VisibilityOff} from '@mui/icons-material';
 import {jsx} from "@emotion/react";
 import classNames from "classnames";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {clearErrors, loginUser} from "../../store/user/currentUserSlice.js";
 import {Navigate} from "react-router-dom";
-import {Alert, AlertTitle, FormHelperText} from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import {Alert, AlertTitle} from "@mui/material";
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
-import {createUser} from "../../store/user/usersSlice.js";
 
 
 const initialValues = {
@@ -39,6 +50,11 @@ export default function Login() {
 
     const {userToken} = useSelector((state) => state.currentUser)
     let errorsServer = useSelector((state) => state.currentUser.errors)
+
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
 
     if (userToken) {
         return <Navigate to='/'/>
@@ -120,14 +136,29 @@ export default function Login() {
                                 onChange={formik.handleChange}
                                 error={formik.touched.login && Boolean(formik.errors?.login)}
                                 helperText={formik.touched.login && formik.errors && formik.errors.login}
+                                autoComplete="off"
                             />
+
                             <TextField
                                 margin="normal"
                                 required
+                                type={showPassword ? 'text' : 'password'}
                                 fullWidth
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={(e) => e.preventDefault()}
+                                            >
+                                                {showPassword ? <VisibilityOff/> :
+                                                    <Visibility/>}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                }}
                                 name="password"
                                 label="Пароль"
-                                type="password"
                                 id="password"
                                 value={formik.values.password}
                                 onChange={formik.handleChange}

@@ -63,12 +63,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
     });
     Route::put('/answers/changeScore/{answer}', [AnswersController::class, 'changeScore']);
+    Route::put('/answers/updateScore/{answer}', [AnswersController::class, 'updateScore']);
+
     Route::group(['middleware' => ['permission:delete tests' , ]], function () {
         Route::delete('/tests/{test}', [TestController::class, 'destroy']);
     });
 
     Route::group(['middleware' => [
-//        'permission:pass tests' ,
+        'permission:pass tests' ,
         ]], function () {
         Route::get('/tests/get-by-slug/{test:slug}', [TestController::class, 'getBySlug']);
     });

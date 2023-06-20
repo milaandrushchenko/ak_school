@@ -222,6 +222,24 @@ export const changeScoreForQuestion = createAsyncThunk(
     }
 );
 
+export const updateScore = createAsyncThunk(
+    "tests/updateScore",
+    async ({answerId}, {rejectWithValue}) => {
+        try {
+            console.log(answerId);
+            const res = await axiosClient.put(`/answers/updateScore/${answerId}`);
+            return res.data;
+        } catch (error) {
+            if (!error.response) {
+                // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+    }
+);
+
 
 const testsSlice = createSlice({
     name: "tests",
@@ -385,6 +403,19 @@ const testsSlice = createSlice({
             // state.test = action.payload;
         });
         builder.addCase(changeScoreForQuestion.rejected, (state, action) => {
+            state.status = 'rejected';
+            console.log(action.payload);
+            // state.errors = action.payload;
+        });
+        builder.addCase(updateScore.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            // console.log(action.payload);
+            // const {answer, question} = action.payload;
+            state.test.results = state.test.results.map(result => result.id === action.payload.id ? action.payload : result)
+            // state.test.questions = state.test.questions.map(item => item.id === question.id ? question : item)
+            // state.test = action.payload;
+        });
+        builder.addCase(updateScore.rejected, (state, action) => {
             state.status = 'rejected';
             console.log(action.payload);
             // state.errors = action.payload;

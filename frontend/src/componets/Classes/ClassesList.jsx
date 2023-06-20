@@ -15,9 +15,11 @@ import Box from "@mui/material/Box";
 import Notification from "../core/Notification.jsx";
 import FormClass from "./FormClass.jsx";
 import {fetchStudentsWithoutClass, searchUsers} from "../../store/user/usersSlice.js";
-import {searchClass} from "../../store/class/classesSlice.js";
+import {getMyClasses, searchClass} from "../../store/class/classesSlice.js";
 import {useNavigate} from "react-router-dom";
 import {theme} from "../../utils/theme.js";
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 
 export default function ClassesList() {
@@ -83,6 +85,10 @@ export default function ClassesList() {
         setOpen(false);
         if (value) setNotification('Клас успішно доданий в систему');
     };
+    const handleMyClasses = (value) => {
+        dispatch(getMyClasses({user, value}));
+        console.log(value);
+    };
 
     const displayedClasses = visibleData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
@@ -97,59 +103,64 @@ export default function ClassesList() {
     return (
         <>
             <Grid container justifyContent="space-between"
-                  style={{flexWrap: 'wrap', paddingBottom: 5}}
-                  className={styles['no-padding-top']}>
+                  style={{flexWrap: 'wrap', paddingBottom: 5}} className={styles['no-padding-top']}>
                 <Grid item xs={6} lg={8} style={{alignItems: 'end', paddingBottom: 5}}
                       className={styles['no-padding-top']}>
                     <Typography component="h2" variant="h4" color="primary" py="30px" gutterBottom>
                         КЛАСИ
                     </Typography>
-
                 </Grid>
-
                 <Grid item xs={6} lg={3} style={{textAlign: 'right', paddingBottom: 5}}
                       className={styles['no-padding-top']}>
-                    {user.permissions?.includes("create classes") && <Button color="secondary"
-                                                                             style={{
-                                                                                 backgroundColor: theme.palette.secondary.main,
-                                                                                 color: 'white'
-                                                                             }}
-                                                                             onClick={handleClickOpen}
-                    >
-                        <PersonAddAltOutlinedIcon style={{marginRight: 10}}/>
-                        СТВОРИТИ КЛАС
-
-                    </Button>}
-                    <FormClass open={open}
-                               onClose={handleClose}
-                    />
+                    {user.permissions?.includes("create classes") && (
+                        <Button
+                            color="secondary"
+                            style={{backgroundColor: theme.palette.secondary.main, color: 'white'}}
+                            onClick={handleClickOpen}
+                        >
+                            <PersonAddAltOutlinedIcon style={{marginRight: 10}}/>
+                            СТВОРИТИ КЛАС
+                        </Button>
+                    )}
+                    <FormClass open={open} onClose={handleClose}/>
                 </Grid>
-
-                <Grid item xs={7} lg={2} style={{alignItems: 'end', paddingBottom: 5}}
-                      className={styles['no-padding-top']}>
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon/>
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Пошук..."
-                            inputProps={{'aria-label': 'search'}}
-                            onChange={handleSearch}
-                            value={searchValue}
-                        />
-                    </Search>
-                </Grid>
-                <Grid item xs={5} lg={3} style={{textAlign: 'right'}}
-                      className={styles['no-padding-top']}>
-                    <Button color="secondary"
+                <Grid container alignItems="center" className={styles['no-padding-top']}
+                      spacing={1}>
+                    <Grid item xs={7} lg={2}>
+                        <Search>
+                            <SearchIconWrapper>
+                                <SearchIcon/>
+                            </SearchIconWrapper>
+                            <StyledInputBase
+                                placeholder="Пошук..."
+                                inputProps={{'aria-label': 'search'}}
+                                onChange={handleSearch}
+                                value={searchValue}
+                            />
+                        </Search>
+                    </Grid>
+                    {user.role === 'teacher' &&
+                        <Grid item>
+                            <FormControlLabel
+                                control={<Checkbox
+                                    onClick={(e) => handleMyClasses(e.target.checked)}/>}
+                                label="Мої класи"/>
+                        </Grid>
+                    }
+                    <Grid item xs={12} lg={8} style={{textAlign: 'right'}}
+                          className={styles['no-padding-top']}>
+                        <Button
+                            color="secondary"
                             style={{backgroundColor: '#676FC9', color: 'white'}}
                             onClick={onClickReset}
-                    >
-                        <ClearIcon style={{marginRight: 10}}/>
-                        СКИНУТИ
-                    </Button>
+                        >
+                            <ClearIcon style={{marginRight: 10}}/>
+                            СКИНУТИ
+                        </Button>
+                    </Grid>
                 </Grid>
             </Grid>
+
             {isLoading &&
                 <Box sx={{display: 'flex', justifyContent: 'center'}}>
                     <CircularProgress/>

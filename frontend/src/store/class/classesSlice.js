@@ -93,6 +93,18 @@ const classesSlice = createSlice({
             state.visibleData = state.classes;
             state.errors = null;
         },
+        getMyClasses: (state, {payload}) => {
+            const {user, value} = payload;
+            console.log(user);
+            if (value) {
+                state.visibleData = state.classes.filter(
+                    (item) => item.teacher.id === user.id)
+            } else {
+                state.visibleData = state.classes;
+            }
+            console.log(state.visibleData);
+
+        },
         searchClass: (state, {payload}) => {
             state.visibleData = state.classes.filter(
                 (item) =>
@@ -159,6 +171,6 @@ const classesSlice = createSlice({
     },
 });
 
-export const {clearErrors, reset, searchClass} = classesSlice.actions;
+export const {clearErrors, reset, searchClass, getMyClasses} = classesSlice.actions;
 
 export default classesSlice.reducer;

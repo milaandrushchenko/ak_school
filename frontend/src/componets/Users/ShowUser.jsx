@@ -80,14 +80,14 @@ export default function ShowUser({user, open, onClose}) {
                                         {user.second_name}
                                     </TableCell>
                                 </TableRow>
-                                <TableRow hover tabIndex={-1}>
-                                    <TableCell>
-                                        Поштова скринька
-                                    </TableCell>
-                                    <TableCell>
-                                        {user.email ? user.email : '—'}
-                                    </TableCell>
-                                </TableRow>
+                                {/*<TableRow hover tabIndex={-1}>*/}
+                                {/*    <TableCell>*/}
+                                {/*        Поштова скринька*/}
+                                {/*    </TableCell>*/}
+                                {/*    <TableCell>*/}
+                                {/*        {user.email ? user.email : '—'}*/}
+                                {/*    </TableCell>*/}
+                                {/*</TableRow>*/}
                                 <TableRow hover tabIndex={-1}>
                                     <TableCell>
                                         Роль

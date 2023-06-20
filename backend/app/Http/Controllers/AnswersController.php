@@ -56,7 +56,7 @@ class AnswersController extends Controller
         $maximumScore = $test->maximumScoreForTest();
 
 
-        $answerCreated->total_score = 12 * ($totalScore / $maximumScore);
+        $answerCreated->total_score = round(12 * ($totalScore / $maximumScore));
         $answerCreated->save();
 
         return response(new TestResource($test), 201);
@@ -96,9 +96,11 @@ class AnswersController extends Controller
         $test = Test::find($request['test_id']);
         $maximumScore = $test->maximumScoreForTest();
 
-        $totalScoreForAnswer = $answer->scoreForAnswer();
+//        $totalScoreForAnswer = $answer->scoreForAnswer();
+        $totalScoreForAnswer = $answer->scoreForAllQuestion();
 
-        $answer->total_score = 12 * ($totalScoreForAnswer / $maximumScore);
+        $answer->total_score = round(12 * ($totalScoreForAnswer / $maximumScore));
+
         $answer->save();
 
 
@@ -107,11 +109,26 @@ class AnswersController extends Controller
         if (isset($question['options'])) {
             $question['options'] = json_decode($question['options'], true);
         }
+
         $question = $question->addOptions();
         return response()->json([
             'question' => $question,
             'answer' => new AnswerResource($answer)
         ], 201);
+    }
+
+    public function updateScore(Request $request, Answer $answer)
+    {
+
+        $totalScoreForAnswer = $answer->scoreForAnswer();
+        $maximumScore = $answer->test->maximumScoreForTest();
+
+        $answer->total_score = round( 12 * ($totalScoreForAnswer / $maximumScore));
+
+
+        $answer->save();
+
+        return response(new AnswerResource($answer), 201);
     }
 
 }

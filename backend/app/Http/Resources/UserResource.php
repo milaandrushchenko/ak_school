@@ -28,7 +28,7 @@ class UserResource extends JsonResource
             'status' => User::getStatusTitleAttribute($this),
             //'email' => $this->email,
             'role' => isset($this->getRoleNames()[0]) ? $this->getRoleNames()[0] : null,
-            'class' => $this->classes,
+            'class' => $this->hasRole('teacher')? $this->teacherClasses:$this->classes,
 
             'permissions' => $this->getPermissionsViaRoles()->pluck('name'),
             'created_at' => Carbon::parse($this->created_at)->isoFormat('DD MMMM, YYYY HH:mm'),

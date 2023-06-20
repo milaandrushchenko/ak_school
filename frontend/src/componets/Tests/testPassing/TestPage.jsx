@@ -62,6 +62,10 @@ export default function TestPage() {
 
     // Start Quiz
     const startTest = () => {
+        let dd = {
+            'test_id': test.id
+        }
+        dispatch(start(dd))
         setShowStart(false);
         setShowTest(true);
         setStartTime(Date.now());
