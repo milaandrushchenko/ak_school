@@ -11,6 +11,7 @@ import FormSubject from "./FormSubject";
 import DeleteSubject from "./DeleteSubject.jsx";
 import {useSelector} from "react-redux";
 import Box from "@mui/material/Box";
+import {formattedDate} from "../../utils/common.js";
 
 export default function SubjectCard({subjectItem, onDelete}) {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -46,12 +47,12 @@ export default function SubjectCard({subjectItem, onDelete}) {
     const outputSubjectItem = {
         id: subjectItem.id,
         name: subjectItem.name,
-        teacher_id: subjectItem.teacher.id,
+        teacher_id: subjectItem.teacher && subjectItem.teacher.id,
         classes: subjectItem.classes
     };
     let subjCls = [];
     const {classes, isLoading} = useSelector((state) => state.classes);
-    subjectItem.classes.map((cls) => {
+    subjectItem.classes && subjectItem.classes.map((cls) => {
         subjCls.push(classes.find(item => item.id === cls.id))
     })
 
@@ -81,12 +82,9 @@ export default function SubjectCard({subjectItem, onDelete}) {
                                 onClose={() => setAnchorEl(null)}
                             >
                                 <MenuItem onClick={handleClickOpenDialogEdit}>Редагувати</MenuItem>
-                                <FormSubject open={openDialogEdit}
-                                           onClose={handleCloseDialogEdit}
-                                           subjectItem={outputSubjectItem}/>
+                                <FormSubject open={openDialogEdit} onClose={handleCloseDialogEdit} subjectItem={outputSubjectItem}/>
                                 <MenuItem onClick={handleClickOpenDialogDelete}>Видалити</MenuItem>
-                                <DeleteSubject open={openDialogDelete}
-                                             onClose={handleCloseDialogDelete} subjectItem={subjectItem}
+                                <DeleteSubject open={openDialogDelete} onClose={handleCloseDialogDelete} subjectItem={subjectItem}
                                 />
                             </Menu>
                         </>
@@ -102,8 +100,8 @@ export default function SubjectCard({subjectItem, onDelete}) {
                         <>
                             <Typography>Викладає:</Typography>
                             <Typography>
-                                <Button component={NavLink} to={`/user/${subjectItem.teacher.id}`}>
-                                    {`${subjectItem.teacher.first_name} ${subjectItem.teacher.second_name}`}
+                                <Button component={NavLink} to={`/user/${subjectItem.teacher && subjectItem.teacher.id}`}>
+                                    {`${subjectItem.teacher && subjectItem.teacher.first_name} ${subjectItem.teacher && subjectItem.teacher.second_name}`}
                                 </Button>
                             </Typography>
                             <Stack direction="row" spacing={1}>
@@ -114,16 +112,14 @@ export default function SubjectCard({subjectItem, onDelete}) {
                                 }) : ''}
                             </Stack>
                             <Typography style={{fontSize: "0.8em", color: "grey", top: "10px", position: "relative"}}>
-                                Створено: {subjectItem.created_at}
+                                Створено: {formattedDate(subjectItem.created_at)}
                             </Typography>
                         </>
                     }
                 </CardContent>
             </Card>
             {notification && (
-                <Notification notification={!!notification}
-                              handleCloseAlert={handleCloseAlert} hideDuration={3000}
-                              text={notification}/>
+                <Notification notification={!!notification} handleCloseAlert={handleCloseAlert} hideDuration={3000} text={notification}/>
             )}
         </>
     )

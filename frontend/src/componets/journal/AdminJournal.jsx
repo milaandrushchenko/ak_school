@@ -16,7 +16,7 @@ import {ExpandMore} from "@mui/icons-material";
 export default function AdminJournal({subjects}){
     const {classes} = useSelector((state)=> state.classes)
     const {tests} = useSelector((state)=>state.tests)
-    console.log(tests)
+
     return (
         <Grid container>
             {subjects.map((subject) => (

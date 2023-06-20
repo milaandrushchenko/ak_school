@@ -1,39 +1,39 @@
-import {Button, Card, CardContent, CardHeader, Paper, Tab, Table, TableBody, TableCell,
-    TableContainer, TableHead, TableRow, Tabs, Typography} from "@mui/material";
+import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    Button,
+    Card,
+    CardContent,
+    CardHeader, Chip,
+    Paper,
+    Tab,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Tabs,
+    Typography
+} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import TaskCard from "../Tasks/TaskCard.jsx";
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import StatementTableRowSingle from "../Statements/StatementTableRowSingle.jsx";
-import {useFormik} from "formik";
-import {createSessionScore, createStatement, updateSessionScore} from "../../../store/statement/statementSlice.js";
+import {createStatement} from "../../../store/statement/statementSlice.js";
 import dayjs from "dayjs";
 import TwoSemesters from "../Statements/TwoSemesters.jsx";
 import OneSemester from "../Statements/OneSemester.jsx";
-import FormStatement from "../Statements/FormStatement.jsx";
-import {theme} from "../../../utils/theme.js";
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd.js";
-import {changeTestStatus} from "../../../store/test/testsSlice.js";
-import KeyOffIcon from "@mui/icons-material/KeyOff.js";
-import KeyIcon from "@mui/icons-material/Key.js";
 import Notification from "../../core/Notification.jsx";
-import {useNavigate} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
+import {ExpandMore} from "@mui/icons-material";
 
 
 export default function AdminTabs({subject}){
     const [notification, setNotification] = useState(false);
     const dispatch = useDispatch();
-    const [openStatementForm, setOpenStatementForm] = useState(false);
-    const handleClickOpenStatementForm = (value) => {
-        setOpenStatementForm(true);
-    };
-    const handleClickCloseStatementForm = (value) => {
-        console.log(value);
-        setOpenStatementForm(false);
-        if (value) {
-            setNotification('Відомість успішно додано!');
-        }
-    };
+
     const {statements} = useSelector((state) => state.statements)
     const [openDialogDeleteTask, setOpenDialogDeleteTask] = useState(false);
 
@@ -47,7 +47,7 @@ export default function AdminTabs({subject}){
 
     const handleCloseDialogDeleteTask = (value) => {
         setOpenDialogDeleteTask(false);
-        if (value) setNotification({text: 'Завдання успішно видалено!', color: 'success'});
+        if (value) setNotification('Завдання успішно видалено!');
     };
     const handleClickOpenDialogDeleteTask = () => {
         setOpenDialogDeleteTask(true);
@@ -72,7 +72,7 @@ export default function AdminTabs({subject}){
                 semester: parseInt(e.target.value)
             }));
             if (createStatement.fulfilled.match(resultAction)){
-                // setNotification('Успішно оновлено!');
+                setNotification('Успішно оновлено!');
                 navigate('/subjects/'+subject.id)
             }
         }
@@ -80,11 +80,14 @@ export default function AdminTabs({subject}){
     }
 
     const {user} = useSelector(state => state.currentUser)
+    const {classes} = useSelector((state)=> state.classes)
+    const {attempts, isLoading} = useSelector((state) => state.tasks)
     return (
         <>
             <Tabs value={selectedTab} onChange={handleTabChange}
                   indicatorColor="primary">
                 <Tab label="Завдання"/>
+                <Tab label="Журнал"/>
                 <Tab label="Відомість"/>
             </Tabs>
             {selectedTab === 0 && (
@@ -104,6 +107,54 @@ export default function AdminTabs({subject}){
                 </Grid>
             )}
             {selectedTab === 1 && (
+                <>
+                    {subject.tasks.length > 0 ?
+                        <div style={{paddingTop: "30px"}}>
+                            {subject.classes.map((cls)=>(
+                                <div key={cls.id} style={{marginBottom:10}}>
+                                    <Accordion>
+                                        <AccordionSummary  expandIcon={<ExpandMore/>} sx={{borderBottom: "1px solid lightGrey"}}>
+                                            {classes ? classes.find((c) => c.id === cls.id).name : ""}
+                                        </AccordionSummary>
+                                        <AccordionDetails sx={{backgroundColor: "#f5f5f5"}}>
+                                            <TableContainer component={Paper}>
+                                                <Table aria-label="simple table">
+                                                    <TableHead>
+                                                        <TableRow>
+                                                            <TableCell sx={{fontWeight: "bold", fontSize: "1.2em"}}>Завдання</TableCell>
+                                                            {classes.find((q) => q.id === cls.id).students ? classes.find((q) => q.id === cls.id).students.map((s)=>(
+                                                                <TableCell key={s.id} sx={{fontWeight: "bold"}} align="center">{s.second_name} {s.first_name}</TableCell>
+                                                            )):""}
+                                                        </TableRow>
+                                                    </TableHead>
+                                                    <TableBody>
+                                                        {subject.tasks.map((t)=>(
+                                                            <TableRow key={t.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                                                <TableCell component="th" scope="row" sx={{fontWeight:"bold"}}>
+                                                                    <NavLink to={"/task/" + t.id} color="primary" style={{textDecoration: "none"}}>{t.name}</NavLink>
+                                                                </TableCell>
+                                                                {classes.find((q) => q.id === cls.id).students ? classes.find((q) => q.id === cls.id).students.map((s)=>(
+                                                                    <TableCell key={s.id} align="center">
+                                                                        {!attempts.find((ts) => ts.id === t.id).attempts.find((x) => x.student_id === s.id).score ? "-" :
+                                                                        <Chip label={attempts.find((ts) => ts.id === t.id).attempts.find((x) => x.student_id === s.id).score.split('.')[0]}/>}
+                                                                        {/*<Chip label={typeof task.attempts === 'undefined' ? "-" :*/}
+                                                                        {/*    task.attempts.find((a) => a.student_id === s.id).score.split('.')[0]} sx={{opacity: "0.75"}}/>*/}
+                                                                    </TableCell>
+                                                                )): ""}
+                                                            </TableRow>
+                                                        ))}
+                                                    </TableBody>
+                                                </Table>
+                                            </TableContainer>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                </div>
+                            ))}
+                        </div>
+                        : <Typography variant="h5" color="grey" sx={{p:1, backgroundColor: "lightGrey", borderRadius: 1}}>Завдання відсутні</Typography>}
+                </>
+            )}
+            {selectedTab === 2 && (
                 <div style={{paddingTop: "20px"}}>
                     {user.role === "admin" &&
                         <>

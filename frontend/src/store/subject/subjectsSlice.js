@@ -45,12 +45,25 @@ export const createSubject = createAsyncThunk("subjects/createSubject",
 export const updateSubject = createAsyncThunk("subjects/updateSubject",
     async ({id, values}, {rejectWithValue}) => {
         try {
-            // console.log(values)
             const res = await axiosClient.put(`/subjects/${id}`, values);
             return res.data;
         } catch (error) {
             if (!error.response) {
                 // Якщо немає відповіді від сервера
+                return rejectWithValue("Не вдалося з'єднатися з сервером.");
+            }
+            const {errors} = error.response.data;
+            return rejectWithValue(errors);
+        }
+
+    });
+export const updateSubjectContent = createAsyncThunk("subjects/updateSubjectContent",
+    async ({id, values}, {rejectWithValue}) => {
+        try {
+            const res = await axiosClient.put(`/subjects/content/${id}`, {content: values.content});
+            return res.data;
+        } catch (error) {
+            if (!error.response) {
                 return rejectWithValue("Не вдалося з'єднатися з сервером.");
             }
             const {errors} = error.response.data;
@@ -188,11 +201,20 @@ const subjectsSlice = createSlice({
         });
         builder.addCase(updateSubject.fulfilled, (state, action) => {
             state.status = 'succeeded';
-            state.subjects = state.subjects.map(subjectItem =>
-                subjectItem.id === action.payload.id ? action.payload : subjectItem)
+            state.subjects = state.subjects.map(subjectItem => subjectItem.id === action.payload.id ? action.payload : subjectItem)
             state.visibleData = state.subjects;
         });
         builder.addCase(updateSubject.rejected, (state, action) => {
+            state.status = 'rejected';
+            state.errors = action.payload;
+        });
+        builder.addCase(updateSubjectContent.pending, (state) =>{})
+        builder.addCase(updateSubjectContent.fulfilled, (state, action) =>{
+            state.status = 'succeeded';
+            state.subjects = state.subjects.map(subjectItem => subjectItem.id === action.payload.id ? action.payload : subjectItem)
+            state.visibleData = state.subjects;
+        });
+        builder.addCase(updateSubjectContent.rejected, (state, action) => {
             state.status = 'rejected';
             state.errors = action.payload;
         });

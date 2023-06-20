@@ -149,6 +149,7 @@ const classesSlice = createSlice({
         });
         builder.addCase(updateClass.fulfilled, (state, action) => {
             state.status = 'succeeded';
+            console.log(action.payload)
             state.classes = state.classes.map(classItem => classItem.id === action.payload.id ? action.payload : classItem)
             state.visibleData = state.classes;
         });
