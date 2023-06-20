@@ -5,13 +5,24 @@ import {createAnswer, createTest, getTestBySlug} from "../../../store/test/tests
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import {alpha, Button, Card, CardContent, CircularProgress} from "@mui/material";
+import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    alpha,
+    Button,
+    Card,
+    CardContent,
+    CircularProgress
+} from "@mui/material";
 import Box from "@mui/material/Box";
 import StartTest from "./StartTest.jsx";
 import Question from "./Question/Question.jsx";
-import Prompt from "./Prompt.jsx";
+import Prompt from "../../core/Prompt.jsx";
 import {format} from "date-fns";
 import Result from "./Result.jsx";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {time_converter} from "../../../utils/common.js";
 
 export default function TestPage() {
     const navigate = useNavigate();
@@ -30,6 +41,12 @@ export default function TestPage() {
     const [showResult, setShowResult] = useState(false);
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(parseInt(storage?.endTime) || null);
+    const [expanded, setExpanded] = React.useState(false);
+
+    const handleChange = (panel) => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false);
+    };
+
 
     const {isLoading, test, errors} = useSelector((state) => state.tests)
 
@@ -79,7 +96,6 @@ export default function TestPage() {
             localStorage.removeItem("test");
         }
     }
-    console.log(showResult);
     const timeOver = () => {
         setShowTest(false);
         localStorage.removeItem("test");
@@ -141,7 +157,7 @@ export default function TestPage() {
                             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
                             textAlign: showTest ? 'start' : 'center'
                         }}>
-                            <StartTest test={test} startTest={startTest} showStart={showStart}/>
+                            <StartTest testItem={test} startTest={startTest} showStart={showStart}/>
                             <Question showTest={showTest} question={question}
                                       test={test} questionIndex={questionIndex}
                                       nextQuestion={nextQuestion} answers={answers}
@@ -155,6 +171,68 @@ export default function TestPage() {
                             />
                         </Paper>
                     </Grid>
+                    {test.results.length > 0 && showStart && (
+                        <Grid item lg={8} xs={12} sx={{paddingTop: '10px'}}>
+                            {test.results.map((result, index) => (
+                                <Accordion expanded={expanded === `panel${index}`}
+                                           onChange={handleChange(`panel${index}`)}>
+                                    <AccordionSummary
+                                        expandIcon={<ExpandMoreIcon/>}
+                                        aria-controls="panel1bh-content"
+                                        id="panel1bh-header"
+                                    >
+                                        <Typography sx={{width: '33%', flexShrink: 0}}>
+                                            {`Спроба ${index + 1}`}
+                                        </Typography>
+                                        <Typography sx={{color: 'text.secondary'}}>
+                                            {`Оцінка : ${result.total_score}/12`}
+                                        </Typography>
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        <Box display="flex" flexWrap="wrap">
+                                            <Typography
+                                                sx={{
+                                                    color: 'gray',
+                                                    fontStyle: 'italic',
+                                                    paddingRight: '5px'
+                                                }}>
+                                                Розпочато : </Typography>
+                                            <Typography variant="subtitle1" component="label">
+                                                {result.start_time}
+                                            </Typography>
+                                        </Box>
+                                        <Box display="flex" flexWrap="wrap">
+                                            <Typography
+                                                sx={{
+                                                    color: 'gray',
+                                                    fontStyle: 'italic',
+                                                    paddingRight: '5px'
+                                                }}>
+                                                Завершено :
+                                            </Typography>
+                                            <Typography variant="subtitle1" component="label">
+                                                {result.end_time}
+                                            </Typography>
+                                        </Box>
+                                        <Box display="flex" flexWrap="wrap">
+                                            <Typography
+                                                sx={{
+                                                    color: 'gray',
+                                                    fontStyle: 'italic',
+                                                    paddingRight: '5px'
+                                                }}>
+                                                Витрачено часу :
+                                            </Typography>
+                                            <Typography variant="subtitle1" component="label">
+                                                {time_converter(result.time_taken)}
+                                            </Typography>
+                                        </Box>
+                                    </AccordionDetails>
+                                </Accordion>
+                            ))}
+                        </Grid>
+                    )
+                    }
                 </Grid>
             }
         </>

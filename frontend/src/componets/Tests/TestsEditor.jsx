@@ -17,15 +17,16 @@ import {
     searchTest,
     updateTest
 } from "../../store/test/testsSlice.js";
-import {Navigate, useNavigate, useParams} from "react-router-dom";
+import {Navigate, NavLink, useNavigate, useParams} from "react-router-dom";
 import {getTests} from "../../store/test/testsSlice.js";
 import {theme} from "../../utils/theme.js";
 import Paper from "@mui/material/Paper";
+import HelpIcon from '@mui/icons-material/Help';
 import QueryBuilderIcon from "@mui/icons-material/QueryBuilder.js";
 import {formattedDate} from "../../utils/common.js";
 import TimerIcon from "@mui/icons-material/Timer.js";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import LockPersonIcon from '@mui/icons-material/LockPerson';
+import StarIcon from '@mui/icons-material/Star';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import KeyOffIcon from '@mui/icons-material/KeyOff';
 import KeyIcon from '@mui/icons-material/Key';
@@ -40,7 +41,11 @@ import FormTest from "./FormTest.jsx";
 import dayjs from "dayjs";
 import DeleteTest from "./DeleteTest.jsx";
 import QuestionCard from "./Question/display/QuestionCard.jsx";
-import TestResults from "./TestResults.jsx";
+import TestResults from "./result/TestResults.jsx";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace.js";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd.js";
+import TotalDiagram from "./statistic/TotalDiagram.jsx";
+import TestStatistic from "./statistic/TestStatistic.jsx";
 
 const currentDate = dayjs();
 export default function TestsEditor() {
@@ -192,6 +197,8 @@ export default function TestsEditor() {
     };
     return (
         <>
+
+
             {isLoading &&
                 <Box sx={{display: 'flex', justifyContent: 'center'}}>
                     <CircularProgress/>
@@ -210,6 +217,18 @@ export default function TestsEditor() {
                                     style={{color: 'gray'}}>Тест:</span> {test?.title}
                                 </Typography>
                                 <Box display="flex" alignItems="center">
+                                    <HelpIcon style={{marginRight: 10}}/>
+                                    <Typography
+                                        sx={{
+                                            color: 'gray',
+                                            fontStyle: 'italic',
+                                            paddingRight: '5px'
+                                        }}>
+                                        {'Кількість запитань :'} <span
+                                        style={{color: 'black'}}>{test.questions?.length}</span>
+                                    </Typography>
+                                </Box>
+                                <Box display="flex"  alignItems="center">
                                     <QueryBuilderIcon style={{marginRight: 10}}/>
                                     <Typography
                                         sx={{
@@ -217,11 +236,11 @@ export default function TestsEditor() {
                                             fontStyle: 'italic',
                                             paddingRight: '5px'
                                         }}>
-                                        {'Дата вікриття :'} </Typography>
-                                    <Typography> {formattedDate(test?.start_time)}
+                                        {'Дата вікриття :'} <span
+                                        style={{color: 'black'}}> {test.start_time ? formattedDate(test.start_time) : 'не зазначено'}</span>
                                     </Typography>
                                 </Box>
-                                <Box style={{paddingTop: 5}} display="flex" alignItems="center">
+                                <Box display="flex"  alignItems="center">
                                     <QueryBuilderIcon style={{marginRight: 10}}/>
                                     <Typography
                                         sx={{
@@ -229,12 +248,11 @@ export default function TestsEditor() {
                                             fontStyle: 'italic',
                                             paddingRight: '5px'
                                         }}>
-                                        Дата закриття:</Typography>
-                                    <Typography>
-                                        {formattedDate(test?.end_time)}
+                                        {'Дата закриття :'} <span
+                                        style={{color: 'black'}}> {test.end_time ? formattedDate(test.end_time) : 'не зазначено'}</span>
                                     </Typography>
                                 </Box>
-                                <Box style={{paddingTop: 5}} display="flex" alignItems="center">
+                                <Box display="flex"  alignItems="center">
                                     <TimerIcon style={{marginRight: 10}}/>
                                     <Typography
                                         sx={{
@@ -242,66 +260,47 @@ export default function TestsEditor() {
                                             fontStyle: 'italic',
                                             paddingRight: '5px'
                                         }}>
-                                        Тривалість:</Typography>
-                                    <Typography> {test?.time_limit ? test?.time_limit + ' хвилин' : 'Необмежений у часі'}
+                                        {'Тривалість :'} <span
+                                        style={{color: 'black'}}>{test.time_limit ? test.time_limit + ' хвилин' : 'необмежений у часі'}</span>
                                     </Typography>
                                 </Box>
-                                <Box style={{paddingTop: 15}} display="flex" alignItems="center">
-                                    <Button
-                                        color="secondary"
-                                        style={{
-                                            color: 'white',
-                                            marginRight: 10,
-                                        }}
-                                        // startIcon={<QuestionMarkIcon/>}
-                                        // endIcon={<KeyboardArrowDownIcon/>}
-                                        variant="contained"
-                                        disableElevation
-                                        onClick={handleClickOpenDialogEdit}
-                                    >
-                                        Редагувати
-                                    </Button>
-                                    <Button
-                                        style={{
-                                            color: 'white',
-                                        }}
-                                        variant="contained" color="error"
-                                        // startIcon={<QuestionMarkIcon/>}
-                                        // endIcon={<KeyboardArrowDownIcon/>}
-                                        disableElevation
-                                        onClick={handleClickOpenDialogDelete}
-                                    >
-                                        Видалити
-                                    </Button>
+                                <Box display="flex"  alignItems="center">
+                                    <StarIcon style={{marginRight: 10}}/>
+                                    <Typography
+                                        sx={{
+                                            color: 'gray',
+                                            fontStyle: 'italic',
+                                            paddingRight: '5px'
+                                        }}>
+                                        {'Загальна кількість проходжень :'} <span
+                                        style={{color: 'black'}}>{test.results?.length}</span>
+                                    </Typography>
                                 </Box>
                             </Paper>
-                            {/*{test.questions?.map((question, index) => (*/}
-                            {/*    <QuestionCard key={question.id} sum={sumOfScores} index={index}*/}
-                            {/*                  question={question} count={test.questions.length}*/}
-                            {/*                  openDeleteDialog={openDialogDeleteQuestion}*/}
-                            {/*                  onOpenDeleteDialog={handleClickOpenDialogDeleteQuestion}*/}
-                            {/*                  onCloseDeleteDialog={handleCloseDialogDeleteQuestion}/>*/}
-                            {/*))}*/}
                             <Tabs value={selectedTab} onChange={handleTabChange}
                                   indicatorColor="primary">
                                 <Tab label="Питання"/>
                                 <Tab label="Результати учнів"/>
+                                <Tab label="Статистика"/>
                             </Tabs>
 
                             {selectedTab === 0 && (
                                 <>
-                                    {test.questions?.map((question, index) => (
-                                        <QuestionCard
-                                            key={question.id}
-                                            sum={sumOfScores}
-                                            index={index}
-                                            question={question}
-                                            count={test.questions.length}
-                                            openDeleteDialog={openDialogDeleteQuestion}
-                                            onOpenDeleteDialog={handleClickOpenDialogDeleteQuestion}
-                                            onCloseDeleteDialog={handleCloseDialogDeleteQuestion}
-                                        />
-                                    ))}
+                                    {test.questions?.length > 0 ? test.questions?.map((question, index) => (
+                                            <QuestionCard
+                                                key={question.id}
+                                                sum={sumOfScores}
+                                                index={index}
+                                                question={question}
+                                                count={test.questions.length}
+                                                openDeleteDialog={openDialogDeleteQuestion}
+                                                onOpenDeleteDialog={handleClickOpenDialogDeleteQuestion}
+                                                onCloseDeleteDialog={handleCloseDialogDeleteQuestion}
+                                            />
+                                        )) :
+                                        <Typography sx={{pl: 3, pt: 4}} variant="h4" color="grey">Запитання
+                                            відсутні</Typography>
+                                    }
                                 </>
                             )}
 
@@ -309,10 +308,26 @@ export default function TestsEditor() {
                                 <>
                                     {test.results.length > 0 ?
                                         test.results?.map((result, index) => (
-                                            <TestResults index={index} result={result}/>
+                                            <TestResults index={index} test={test}
+                                                         result={result}/>
                                         ))
                                         :
-                                        <div>Цей тест ще ніхто не проходив</div>
+                                        <Typography sx={{pl: 3, pt: 4}} variant="h4"
+                                                    color="grey"> Щоден учень ще не проходив даний
+                                            тест
+                                        </Typography>
+                                    }
+                                </>
+                            )}
+                            {selectedTab === 2 && (
+                                <>
+                                    {test.results.length > 0 ?
+                                            <TestStatistic results={test.results} questions={test.questions}/>
+                                        :
+                                        <Typography sx={{pl: 3, pt: 4}} variant="h4"
+                                                    color="grey"> Щоден учень ще не проходив даний
+                                            тест
+                                        </Typography>
                                     }
                                 </>
                             )}
@@ -349,24 +364,28 @@ export default function TestsEditor() {
                                     }}
                                 >
                                     <MenuItem
+                                        sx={{whiteSpace: 'normal'}}
                                         onClick={() => handleClickOpenQuestionForm(QUESTION.SINGLE_CHOICE)}
                                         disableRipple>
                                         <RadioButtonCheckedIcon sx={{marginRight: '8px'}}/>
                                         З однією правильною відовіддю
                                     </MenuItem>
                                     <MenuItem
+                                        sx={{whiteSpace: 'normal'}}
                                         onClick={() => handleClickOpenQuestionForm(QUESTION.MULTIPLE_CHOICE)}
                                         disableRipple>
                                         <FormatListBulletedIcon sx={{marginRight: '8px'}}/>
                                         З кількома правильними відповідями
                                     </MenuItem>
                                     <MenuItem
+                                        sx={{whiteSpace: 'normal'}}
                                         onClick={() => handleClickOpenQuestionForm(QUESTION.MATCHING)}
                                         disableRipple>
                                         <SyncAltIcon sx={{marginRight: '8px'}}/>
                                         На встановлення відповідності
                                     </MenuItem>
                                     <MenuItem
+                                        sx={{whiteSpace: 'normal'}}
                                         onClick={() => handleClickOpenQuestionForm(QUESTION.SHORT_ANSWER)}
                                         disableRipple>
                                         <ShortTextIcon sx={{marginRight: '8px'}}/>
@@ -376,20 +395,6 @@ export default function TestsEditor() {
                                 <QuestionForm open={openQuestionForm}
                                               onClose={handleClickCloseQuestionForm}
                                               type={selectedTaskType}/>
-                                <Button
-                                    color="primary"
-                                    style={{
-                                        backgroundColor: theme.palette.secondary.main,
-                                        color: 'white',
-                                        marginTop: 10,
-                                        width: '100%'
-
-                                    }}
-                                    startIcon={<LockPersonIcon/>}
-                                    // onClick={handleClickOpen}
-                                >
-                                    Керувати доступом
-                                </Button>
                                 <Button
                                     variant="contained"
                                     style={{
@@ -401,6 +406,35 @@ export default function TestsEditor() {
                                     onClick={handleChangeTestStatus}
                                 >
                                     {test?.is_active ? 'Деактивувати тест' : 'Активувати тест'}
+                                </Button>
+                                <Button
+                                    color="secondary"
+                                    style={{
+                                        color: 'white',
+                                        marginTop: 10,
+                                        width: '100%',
+                                    }}
+                                    // startIcon={<QuestionMarkIcon/>}
+                                    // endIcon={<KeyboardArrowDownIcon/>}
+                                    variant="contained"
+                                    disableElevation
+                                    onClick={handleClickOpenDialogEdit}
+                                >
+                                    Редагувати
+                                </Button>
+                                <Button
+                                    style={{
+                                        color: 'white',
+                                        marginTop: 10,
+                                        width: '100%',
+                                    }}
+                                    variant="contained" color="error"
+                                    // startIcon={<QuestionMarkIcon/>}
+                                    // endIcon={<KeyboardArrowDownIcon/>}
+                                    disableElevation
+                                    onClick={handleClickOpenDialogDelete}
+                                >
+                                    Видалити
                                 </Button>
                             </Box>
                         </Grid>

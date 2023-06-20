@@ -5,18 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="369ea667-65c6-4f76-97c2-3e996c2a7e9c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/app/Models/TestSubjects.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/ClassesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/ClassesController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/test/StoreTestRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/test/StoreTestRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/test/UpdateTestRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/test/UpdateTestRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Resources/TestResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Resources/TestResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Subject.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Subject.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Test.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Test.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Subjects/SubjectCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Subjects/SubjectCard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/FormTest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/FormTest.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/seeders/PermissionsSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/PermissionsSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Dashboard/listItems.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Dashboard/listItems.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/TestCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestCard.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsEditor.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsEditor.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Result.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Result.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/StartTest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/StartTest.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/TestPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/TestPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/UsersList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Users/UsersList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/test/testsSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/test/testsSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/user/usersSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/user/usersSlice.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -185,11 +187,11 @@
       <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\testPassing" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\core" />
+      <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests" />
+      <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\result" />
       <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\testPassing\Question" />
       <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\testPassing" />
-      <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\Question\manage" />
-      <recent name="C:\OSPanel\domains\diploma\frontend\src\componets\Tests\Question" />
-      <recent name="C:\OSPanel\domains\diploma\frontend\public" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -270,7 +272,14 @@
       <workItem from="1686547061391" duration="39382000" />
       <workItem from="1686635689090" duration="23255000" />
       <workItem from="1686680576120" duration="8273000" />
-      <workItem from="1686725535463" duration="19775000" />
+      <workItem from="1686725535463" duration="20397000" />
+      <workItem from="1686805572662" duration="29646000" />
+      <workItem from="1686889609567" duration="4292000" />
+      <workItem from="1687002262410" duration="18467000" />
+      <workItem from="1687067618157" duration="3495000" />
+      <workItem from="1687150590255" duration="28989000" />
+      <workItem from="1687225507235" duration="18060000" />
+      <workItem from="1687255384219" duration="2719000" />
     </task>
     <servers />
   </component>

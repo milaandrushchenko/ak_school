@@ -59,31 +59,34 @@ class PermissionsSeeder extends Seeder
 
         /////////TESTS//////
 
-        $permissionsTestsForTeacher = [
-            'view tests',
-            'create tests',
-            'delete tests',
-            'update tests',
-            'view test results',
-        ];
+//        $permissionsTestsForTeacher = [
+//            'view tests',
+//            'create tests',
+//            'delete tests',
+//            'update tests',
+//            'view test results',
+//        ];
+//
+//        $teacher = Role::findByName('teacher');
+//
+//        foreach ($permissionsTestsForTeacher as $permission) {
+//            $permission = Permission::create(['name' => $permission]);
+//            $teacher->givePermissionTo($permission);
+//        }
+//
+//        $permissionsTestsForStudent = [
+//            'pass tests',
+//        ];
+//
+//        $student = Role::findByName('student');
+//
+//        foreach ($permissionsTestsForStudent as $permission) {
+//            $permission = Permission::create(['name' => $permission]);
+//            $student->givePermissionTo($permission);
+//        }
 
-        $teacher = Role::findByName('teacher');
-
-        foreach ($permissionsTestsForTeacher as $permission) {
-            $permission = Permission::create(['name' => $permission]);
-            $teacher->givePermissionTo($permission);
-        }
-
-        $permissionsTestsForStudent = [
-            'pass tests',
-        ];
-
-        $student = Role::findByName('student');
-
-        foreach ($permissionsTestsForStudent as $permission) {
-            $permission = Permission::create(['name' => $permission]);
-            $student->givePermissionTo($permission);
-        }
-
+        $permission = Permission::where('name', 'update tests')->first();
+        $adminRole = Role::where('name', 'admin')->first();
+        $adminRole->givePermissionTo($permission);
     }
 }

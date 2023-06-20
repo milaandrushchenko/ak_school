@@ -4,12 +4,12 @@ import Typography from "@mui/material/Typography";
 import React, {useState} from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import {time_converter} from "../../utils/common.js";
+import {time_converter} from "../../../utils/common.js";
 import QuestionResults from "./QuestionResults.jsx";
 import {findAllInRenderedTree} from "react-dom/test-utils";
-import ShowUser from "../Users/ShowUser.jsx";
+import ShowUser from "../../Users/ShowUser.jsx";
 
-export default function TestResults({result, index}) {
+export default function TestResults({result, index,test}) {
 
 
     const [notification, setNotification] = useState(false);
@@ -53,12 +53,11 @@ export default function TestResults({result, index}) {
 
         setNotification(false);
     };
-    console.log(result.end_time - result.start_time);
 
     return (
 
         <Paper key={index} sx={{padding: '20px', marginTop: '10px'}}>
-            <Grid container alignItems="center" >
+            <Grid container alignItems="center">
                 <Grid item xs={12} lg={8}>
                     <Typography component="div" color="primary" variant="h5"
                                 sx={{paddingBottom: '5px'}}>
@@ -73,7 +72,7 @@ export default function TestResults({result, index}) {
                                 fontStyle: 'italic',
                                 paddingRight: '5px'
                             }}>
-                            Дата приєднання :          </Typography>
+                            Дата приєднання : </Typography>
                         <Typography variant="subtitle1" component="label">
                             {result.user.created_at}
                         </Typography>
@@ -85,7 +84,7 @@ export default function TestResults({result, index}) {
                                 fontStyle: 'italic',
                                 paddingRight: '5px'
                             }}>
-                            Розпочато :           </Typography>
+                            Розпочато : </Typography>
                         <Typography variant="subtitle1" component="label">
                             {result.start_time}
                         </Typography>
@@ -132,7 +131,7 @@ export default function TestResults({result, index}) {
                                 alignItems="center"
                                 justifyContent="center"
                                 p={1}
-                                bgcolor={+questionAnswer.score === +questionAnswer.question.score ? 'green' : +questionAnswer.score !== 0 ? 'orange' : 'red'}
+                                bgcolor={+questionAnswer.score === +test.questions.find(q => q.id === questionAnswer.question_id).score ? 'green' : +questionAnswer.score !== 0 ? 'orange' : 'red'}
                                 m={1}
                                 color='white'
                                 width={24}
@@ -145,6 +144,8 @@ export default function TestResults({result, index}) {
                             </Box>
                             {openQuestionResult !== null && (
                                 <QuestionResults
+                                    answer={result}
+                                    test={test}
                                     open={openQuestionResult.question_id === questionAnswer.question_id}
                                     onClose={handleQuestionResultClose}
                                     questionAnswer={openQuestionResult}/>
@@ -157,7 +158,7 @@ export default function TestResults({result, index}) {
                     Оцінка за тест:
                     <Typography component="div" color="primary" variant="h1"
                                 sx={{paddingBottom: '5px'}}>
-                        {result.total_score}
+                        {Math.round(result.total_score)}
                     </Typography>
                 </Grid>
             </Grid>

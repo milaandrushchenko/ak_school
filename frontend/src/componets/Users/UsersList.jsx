@@ -42,6 +42,7 @@ export default function UsersList() {
 
     const {users, visibleData, meta, isLoading} = useSelector((state) => state.users)
     const {user, userToken} = useSelector((state) => state.currentUser)
+    let errorsServer = useSelector((state) => state.users.errors)
 
     const hasPermission = user.permissions?.includes("show users");
 
@@ -65,13 +66,24 @@ export default function UsersList() {
     const [editUser, setEditUser] = useState(null);
     const [deleteUser, setDeleteUser] = useState(null);
 
-    const [notification, setNotification] = useState(false);
+    // const [notification, setNotification] = useState(false);
+    const [notification, setNotification] = useState({text: '', color: 'success'});
+
+    // const handleCloseAlert = (event, reason) => {
+    //     if (reason === 'clickaway') {
+    //         return;
+    //     }
+    //
+    //     setNotification(false);
+    // };
+
     const handleCloseAlert = (event, reason) => {
         if (reason === 'clickaway') {
             return;
         }
 
-        setNotification(false);
+        setNotification(prevNotification => ({...prevNotification, text: ''}));
+
     };
     const handleDeleteUserOpen = (user) => {
         // Логіка видалення користувача
@@ -80,7 +92,11 @@ export default function UsersList() {
 
     function handleDeleteUserClose(value, user = '') {
         setDeleteUser(null);
-        if (value) setNotification(`Користувач ${user} успішно видалений`);
+        // if (value) setNotification(`Користувач ${user} успішно видалений`);
+        if (value) {
+            setNotification({text: `Користувач ${user} успішно видалений`, color: 'success'});
+        }
+
     }
 
     function handleShowUserOpen(user) {
@@ -98,7 +114,10 @@ export default function UsersList() {
 
     function handleEditUserClose(value) {
         setEditUser(null);
-        if (value) setNotification('Дані користувача оновлено');
+        // if (value) setNotification('Дані користувача оновлено');
+        if (value) {
+            setNotification({text: 'Дані користувача оновлено', color: 'success'});
+        }
     }
 
     const handleSortRequest = (column) => {
@@ -113,8 +132,10 @@ export default function UsersList() {
 
     const handleClose = (value) => {
         setOpen(false);
-        if (value) setNotification('Користувач успішно доданий в систему');
-        // else setNotification('Форма була закрита без додавання користувача');
+        // if (value) setNotification('Користувач успішно доданий в систему');
+        if (value) {
+            setNotification({text: 'Користувач успішно доданий в систему', color: 'success'});
+        }
     };
 
     const handleChangePage = (event, newPage) => {
@@ -142,6 +163,13 @@ export default function UsersList() {
         dispatch(sortUsers({order, orderBy}));
     }, [order, orderBy])
 
+    useEffect(() => {
+        if (deleteUser && errorsServer) {
+            setNotification({text: errorsServer, color: 'error'});
+            setDeleteUser(null);
+        }
+    }, [errorsServer])
+
     return (
         <>
             <Grid container justifyContent="space-between"
@@ -149,7 +177,7 @@ export default function UsersList() {
                   className={styles['no-padding-top']}>
                 <Grid item xs={6} lg={8} style={{alignItems: 'end', paddingBottom: 5}}
                       className={styles['no-padding-top']}>
-                    <Typography component="h2" variant="h6" color="primary" gutterBottom>
+                    <Typography component="h2" variant="h4" color="primary" py="30px" gutterBottom>
                         Користувачі
                     </Typography>
 
@@ -311,11 +339,17 @@ export default function UsersList() {
                     {deleteUser && (
                         <DeleteUser open={true} onClose={handleDeleteUserClose} user={deleteUser}/>
                     )}
+                    {/*{notification && (*/}
+                    {/*    <Notification notification={!!notification}*/}
+                    {/*                  handleCloseAlert={handleCloseAlert} hideDuration={3000}*/}
+                    {/*                  text={notification}/>*/}
+                    {/*)}*/}
                     {notification && (
-                        <Notification notification={!!notification}
+                        <Notification notification={!!notification.text}
                                       handleCloseAlert={handleCloseAlert} hideDuration={3000}
-                                      text={notification}/>
-                    )}
+                                      text={notification.text} color={notification.color}/>
+                    )
+                    }
                 </>
             }
         </>

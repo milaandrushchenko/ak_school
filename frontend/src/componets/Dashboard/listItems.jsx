@@ -72,6 +72,22 @@ export const AdminMainListItems = (
                 </ListItemButton>
             )}
         </NavLink>
+        <NavLink to='/tests' className={
+            classNames(
+                styles['nav-link'],
+            )
+        }>
+            {({isActive, isExact}) => (
+                <ListItemButton
+                    className={isActive ? classNames(styles.active) : ''}
+                >
+                    <ListItemIcon>
+                        <FactCheckIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="ТЕСТИ"/>
+                </ListItemButton>
+            )}
+        </NavLink>
         <NavLink to='/journal' className={
             classNames(
                 styles['nav-link'],
@@ -112,38 +128,38 @@ export const AdminSecondaryListItems = (
                 </ListItemButton>
             )}
         </NavLink>
-        <NavLink to='/roles' className={
-            classNames(
-                styles['nav-link'],
-            )
-        }>
-            {({isActive, isExact}) => (
-                <ListItemButton
-                    className={isActive ? classNames(styles.active) : ''}
-                >
-                    <ListItemIcon>
-                        <ContactEmergencyRoundedIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="РОЛІ"/>
-                </ListItemButton>
-            )}
-        </NavLink>
-        <NavLink to='/permissions' className={
-            classNames(
-                styles['nav-link'],
-            )
-        }>
-            {({isActive, isExact}) => (
-                <ListItemButton
-                    className={isActive ? classNames(styles.active) : ''}
-                >
-                    <ListItemIcon>
-                        <LockPersonRoundedIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="ДОЗВОЛИ"/>
-                </ListItemButton>
-            )}
-        </NavLink>
+        {/*<NavLink to='/roles' className={*/}
+        {/*    classNames(*/}
+        {/*        styles['nav-link'],*/}
+        {/*    )*/}
+        {/*}>*/}
+        {/*    {({isActive, isExact}) => (*/}
+        {/*        <ListItemButton*/}
+        {/*            className={isActive ? classNames(styles.active) : ''}*/}
+        {/*        >*/}
+        {/*            <ListItemIcon>*/}
+        {/*                <ContactEmergencyRoundedIcon/>*/}
+        {/*            </ListItemIcon>*/}
+        {/*            <ListItemText primary="РОЛІ"/>*/}
+        {/*        </ListItemButton>*/}
+        {/*    )}*/}
+        {/*</NavLink>*/}
+        {/*<NavLink to='/permissions' className={*/}
+        {/*    classNames(*/}
+        {/*        styles['nav-link'],*/}
+        {/*    )*/}
+        {/*}>*/}
+        {/*    {({isActive, isExact}) => (*/}
+        {/*        <ListItemButton*/}
+        {/*            className={isActive ? classNames(styles.active) : ''}*/}
+        {/*        >*/}
+        {/*            <ListItemIcon>*/}
+        {/*                <LockPersonRoundedIcon/>*/}
+        {/*            </ListItemIcon>*/}
+        {/*            <ListItemText primary="ДОЗВОЛИ"/>*/}
+        {/*        </ListItemButton>*/}
+        {/*    )}*/}
+        {/*</NavLink>*/}
     </React.Fragment>
 );
 

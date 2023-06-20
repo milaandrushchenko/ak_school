@@ -27,10 +27,10 @@ class AnswerResource extends JsonResource
             if ($this->isJson($decodedAnswer)) {
                 $decodedAnswer = json_decode($decodedAnswer, true);
             }
-            
+
             $results[] = [
-                'question_id' => $index,
-                'question' => $questionAnswer->question,
+                'index' => $index,
+                'question_id' => $questionAnswer->question['id'],
                 'user_answer' => $decodedAnswer,
 //                'user_answer' => is_string($questionAnswer->answer) ? json_decode($questionAnswer->answer, true) : $questionAnswer->answer,
                 'score' => $questionAnswer->score,
@@ -46,8 +46,6 @@ class AnswerResource extends JsonResource
             'start_time' => Carbon::parse($this->start_time)->isoFormat('DD MMMM, YYYY HH:mm:ss'),
             'end_time' => Carbon::parse($this->end_time)->isoFormat('DD MMMM, YYYY HH:mm:ss'),
             'time_taken' => Carbon::parse($this->end_time)->diffInMilliseconds($this->start_time),
-//            'start_time' => $this->start_time,
-//            'end_time' => $this->end_time,
             'total_score' => $this->total_score,
             'question_results' => $results,
         ];

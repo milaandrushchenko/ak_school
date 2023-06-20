@@ -55,8 +55,12 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $data = $request->validated();
+        $role = $data['role'];
+        unset($data['role']);
 
-        $user->syncRoles($data['role']);
+        $role = Role::findByName($role, 'web'); // знайти роль за іменем
+
+        $user->syncRoles($role);
 
         $user->update($data);
         return new UserResource($user);
@@ -79,6 +83,22 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        if ($user->hasRole('student')) {
+            if ($user->classes) {
+                return response([
+                    'message' => 'Помилка! Даний користувач не може бути видаленим! ',
+                    'data' => [$user->classes]
+                ], 422);
+            }
+        }
+        if ($user->hasRole('teacher')){
+            if ($user->teacherClasses->count() > 0 || $user->teacherTests->count() > 0 || $user->teacherSubjects->count() > 0) {
+                return response([
+                    'message' => 'Помилка! Даний користувач не може бути видаленим!',
+                    'data' => [$user->monitorClasses, $user->teacherClasses, $user->teacherTests, $user->teacherSubjects]
+                ], 422);
+            }
+        }
         $user->delete();
 
         return response('user was deleted', 204);

@@ -7,10 +7,17 @@ use App\Http\Requests\test\StoreTestRequest;
 use App\Http\Requests\test\UpdateQuestionsRequest;
 use App\Http\Requests\test\UpdateTestRequest;
 use App\Http\Resources\TestResource;
+use App\Models\Answer;
+use App\Models\QuestionAnswer;
 use App\Models\Questions;
 use App\Models\Subject;
+use App\Models\SubjectClass;
 use App\Models\Test;
+use App\Models\TestSubjects;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
 
 class TestController extends Controller
 {
@@ -29,6 +36,15 @@ class TestController extends Controller
         } else if ($user->hasRole('teacher')) {
             // Якщо користувач є вчителем, показуємо тільки ті класи, в яких він є класним керівником
             $tests = $user->teacherTests()->orderBy('title', 'desc')->get();
+        } else if ($user->hasRole('student')) {
+            $classId = $user->class_id;
+
+            $subjectIds = SubjectClass::where('class_id', $classId)->pluck('subject_id');
+
+            $testIds = TestSubjects::whereIn('subject_id', $subjectIds)->pluck('test_id');
+
+            $tests = Test::whereIn('id', $testIds)->get();
+
         } else {
             // Якщо роль користувача не відповідає жодній з вище перерахованих, показуємо порожній список класів
             $tests = [];
@@ -53,7 +69,7 @@ class TestController extends Controller
             return Subject::findOrFail($subjectId);
         });
 
-        $test->subjects()->attach($subjects);
+        $test->subjects()->attach($subjects->pluck('id'));
 
         return response(new TestResource($test), 201);
 
@@ -142,6 +158,21 @@ class TestController extends Controller
 
         $parsedQuestion = json_decode($question, true);
         $parsedQuestion['options'] = json_decode($parsedQuestion['options'], true);
+        $correctCount = QuestionAnswer::where('question_id', $request['question_id'])
+            ->where('score', $question['score'])
+            ->count();
+//            $correctCount = $question->questionAnswers()->where('is_correct', true)->count();
+
+        $incorrectCount = QuestionAnswer::where('question_id', $request['question_id'])
+            ->where('score', 0)
+            ->count();
+
+        $сount = QuestionAnswer::where('question_id', $request['question_id'])
+            ->count();
+
+        $parsedQuestion['correct_count'] = $correctCount;
+        $parsedQuestion['incorrect_count'] = $incorrectCount;
+        $parsedQuestion['partly_correct_count'] = $сount - ($correctCount + $incorrectCount);
 
         return response($parsedQuestion, 201);
     }
@@ -157,9 +188,9 @@ class TestController extends Controller
 
     public function getBySlug(Test $test)
     {
-        if (!$test->is_active) {
-            return response('', 404);
-        }
+//        if (!$test->is_active) {
+//            return response('', 404);
+//        }
 //        $currentDate = new \DateTime();
 //        $expireDate = new \DateTime($survey->expire_date);
 //        if ($currentDate > $expireDate) {
@@ -167,6 +198,5 @@ class TestController extends Controller
 //        };
         return new TestResource($test);
     }
-
 
 }
