@@ -22,8 +22,6 @@ export default function Result({showResult, test}) {
         lastResult = test.results[test.results.length - 1];
         return lastResult;
     }
-
-    console.log(showResult);
     useEffect(() => {
         getLastResult();
     }, [test]);
@@ -90,7 +88,8 @@ export default function Result({showResult, test}) {
                                     alignItems="center"
                                     justifyContent="center"
                                     p={1}
-                                    bgcolor={+questionAnswer.score === +questionAnswer.question.score ? 'green' : +questionAnswer.score !== 0 ? 'orange' : 'red'}
+                                    bgcolor={+questionAnswer.score === +test.questions.find(q => q.id === questionAnswer.question_id).score ? 'green' : +questionAnswer.score !== 0 ? 'orange' : 'red'}
+
                                     m={1}
                                     color='white'
                                     width={24}
@@ -104,6 +103,7 @@ export default function Result({showResult, test}) {
                                 {openQuestionResult !== null && (
                                     <QuestionResults
                                         open={openQuestionResult.question_id === questionAnswer.question_id}
+                                        test={test}
                                         onClose={handleQuestionResultClose}
                                         result_display_type={test.result_display_type}
                                         questionAnswer={openQuestionResult}/>

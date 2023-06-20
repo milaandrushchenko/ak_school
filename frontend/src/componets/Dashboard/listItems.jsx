@@ -72,6 +72,22 @@ export const AdminMainListItems = (
                 </ListItemButton>
             )}
         </NavLink>
+        <NavLink to='/tests' className={
+            classNames(
+                styles['nav-link'],
+            )
+        }>
+            {({isActive, isExact}) => (
+                <ListItemButton
+                    className={isActive ? classNames(styles.active) : ''}
+                >
+                    <ListItemIcon>
+                        <FactCheckIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="ТЕСТИ"/>
+                </ListItemButton>
+            )}
+        </NavLink>
         <NavLink to='/journal' className={
             classNames(
                 styles['nav-link'],

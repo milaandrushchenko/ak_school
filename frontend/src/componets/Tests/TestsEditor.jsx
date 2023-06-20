@@ -44,7 +44,6 @@ import QuestionCard from "./Question/display/QuestionCard.jsx";
 import TestResults from "./result/TestResults.jsx";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace.js";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd.js";
-import FormTask from "../Tasks/FormTask.jsx";
 import TotalDiagram from "./statistic/TotalDiagram.jsx";
 import TestStatistic from "./statistic/TestStatistic.jsx";
 
@@ -322,7 +321,14 @@ export default function TestsEditor() {
                             )}
                             {selectedTab === 2 && (
                                 <>
-                                    <TestStatistic results={test.results} questions={test.questions}/>
+                                    {test.results.length > 0 ?
+                                            <TestStatistic results={test.results} questions={test.questions}/>
+                                        :
+                                        <Typography sx={{pl: 3, pt: 4}} variant="h4"
+                                                    color="grey"> Щоден учень ще не проходив даний
+                                            тест
+                                        </Typography>
+                                    }
                                 </>
                             )}
 

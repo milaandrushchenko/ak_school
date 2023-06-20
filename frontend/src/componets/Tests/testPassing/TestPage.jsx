@@ -96,7 +96,6 @@ export default function TestPage() {
             localStorage.removeItem("test");
         }
     }
-    console.log(showResult);
     const timeOver = () => {
         setShowTest(false);
         localStorage.removeItem("test");
@@ -158,7 +157,7 @@ export default function TestPage() {
                             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
                             textAlign: showTest ? 'start' : 'center'
                         }}>
-                            <StartTest test={test} startTest={startTest} showStart={showStart}/>
+                            <StartTest testItem={test} startTest={startTest} showStart={showStart}/>
                             <Question showTest={showTest} question={question}
                                       test={test} questionIndex={questionIndex}
                                       nextQuestion={nextQuestion} answers={answers}

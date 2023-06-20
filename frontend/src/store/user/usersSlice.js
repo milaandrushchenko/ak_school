@@ -69,7 +69,7 @@ export const getUsers = createAsyncThunk(
 );
 export const fetchStudentsWithoutClass = createAsyncThunk(
     'users/fetchStudentsWithoutClass',
-    async (classId , {rejectWithValue}) => {
+    async (classId, {rejectWithValue}) => {
         try {
             const res = await axiosClient.get(`/students-without-class/${classId}`);
             return res.data;
@@ -95,8 +95,8 @@ export const deleteUser = createAsyncThunk(
                 // Якщо немає відповіді від сервера
                 return rejectWithValue("Не вдалося з'єднатися з сервером.");
             }
-            const {errors} = error.response.data;
-            return rejectWithValue(errors);
+            const errors = error.response.data;
+            return rejectWithValue(errors.errors ? errors.errors : errors);
         }
 
     }
@@ -174,6 +174,8 @@ const usersSlice = createSlice({
             state.errors = action.payload;
         });
         builder.addCase(deleteUser.pending, (state) => {
+            state.errors = null;
+
             //state.isLoading = true;
         });
         builder.addCase(deleteUser.fulfilled, (state, action) => {
@@ -183,7 +185,8 @@ const usersSlice = createSlice({
         });
         builder.addCase(deleteUser.rejected, (state, action) => {
             state.status = 'rejected';
-            state.errors = action.payload;
+            state.errors = action.payload.message ? action.payload.message : action.payload;
+            console.log(state.errors);
         });
         builder.addCase(getUsers.pending, (state) => {
             state.isLoading = true;

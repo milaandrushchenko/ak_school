@@ -2,58 +2,80 @@ import Typography from "@mui/material/Typography";
 import {Button} from "@mui/material";
 import dayjs from "dayjs";
 import {useEffect, useState} from "react";
+import {useSelector} from "react-redux";
 
 const currentDate = dayjs();
 
-export default function StartTest({test, startTest, showStart}) {
-    const [access, setAccess] = useState({access: true, notification: ''});
-    const testAvailability = () => {
-        if (test.is_active !== 1) {
+export default function StartTest({testItem, startTest, showStart}) {
+    const [access, setAccess] = useState({access: true, notification: ""});
+    const {tests, isLoading, visibleData} = useSelector((state) => state.tests);
+
+    // const [isObjectInArray, setIsObjectInArray] = useState(false);
+
+    const testAvailability = (isObjectInArray) => {
+        if (!isObjectInArray) {
             setAccess({
                 access: false,
-                notification: 'Тест неактивний'
+                notification: "Немає доступу",
             });
-            console.log('неактивний')
+            console.log(tests);
+            console.log(testItem);
+            console.log(isObjectInArray);
+            return;
         }
-        if (currentDate > dayjs(test.end_time)) {
+        if (testItem.is_active !== 1) {
             setAccess({
                 access: false,
-                notification: 'Тест закрився'
+                notification: "Тест неактивний",
             });
-            console.log('дата завершення пройшла')
+            console.log("неактивний");
         }
-        if (test.results.length >= test.max_attempts) {
+        if (currentDate > dayjs(testItem.end_time)) {
             setAccess({
                 access: false,
-                notification: 'У Вас більше немає спроб'
+                notification: "Тест закрився",
             });
-            console.log('У Вас більше немає спроб')
+            console.log("дата завершення пройшла");
         }
-    }
+        if (
+            testItem.results.length > 0 &&
+            testItem.results.length >= testItem.max_attempts
+        ) {
+            setAccess({
+                access: false,
+                notification: "У Вас більше немає спроб",
+            });
+            console.log("У Вас більше немає спроб");
+        }
+    };
+
 
     useEffect(() => {
-        testAvailability();
-    }, [test]);
+        if (tests.length>0) {
+            testAvailability(tests.some((obj) => obj.id === testItem.id));
+        }
+    }, [testItem, tests]);
 
     return (
         <>
             {showStart && (
                 <>
                     <Typography variant="h4" sx={{marginBottom: "24px"}}>
-                        {test.title}
+                        {testItem.title}
                     </Typography>
 
                     <Typography variant="subtitle1" sx={{marginBottom: "16px"}}>
-                        Кількість дозволених
-                        спроб: {test.max_attempts !== 0 ? test.max_attempts : 'необмежена кількість'}
+                        Кількість дозволених спроб:{" "}
+                        {testItem.max_attempts !== 0
+                            ? testItem.max_attempts
+                            : "необмежена кількість"}
                     </Typography>
 
-
-                    {test.time_limit && (
+                    {testItem.time_limit && (
                         <Typography variant="subtitle1" sx={{marginBottom: "16px"}}>
-                            Обмеження в часі : {test.time_limit} хв
-                        </Typography>)
-                    }
+                            Обмеження в часі: {testItem.time_limit} хв
+                        </Typography>
+                    )}
                     {access.access && (
                         <Button variant="contained" color="primary" onClick={startTest}>
                             Розпочати тестування
@@ -65,8 +87,7 @@ export default function StartTest({test, startTest, showStart}) {
                         </Typography>
                     )}
                 </>
-            )
-            }
+            )}
         </>
-    )
+    );
 }

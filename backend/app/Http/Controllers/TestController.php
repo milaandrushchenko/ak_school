@@ -11,7 +11,9 @@ use App\Models\Answer;
 use App\Models\QuestionAnswer;
 use App\Models\Questions;
 use App\Models\Subject;
+use App\Models\SubjectClass;
 use App\Models\Test;
+use App\Models\TestSubjects;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -34,6 +36,15 @@ class TestController extends Controller
         } else if ($user->hasRole('teacher')) {
             // Якщо користувач є вчителем, показуємо тільки ті класи, в яких він є класним керівником
             $tests = $user->teacherTests()->orderBy('title', 'desc')->get();
+        } else if ($user->hasRole('student')) {
+            $classId = $user->class_id;
+
+            $subjectIds = SubjectClass::where('class_id', $classId)->pluck('subject_id');
+
+            $testIds = TestSubjects::whereIn('subject_id', $subjectIds)->pluck('test_id');
+
+            $tests = Test::whereIn('id', $testIds)->get();
+
         } else {
             // Якщо роль користувача не відповідає жодній з вище перерахованих, показуємо порожній список класів
             $tests = [];

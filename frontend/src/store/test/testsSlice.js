@@ -74,6 +74,7 @@ export const getTests = createAsyncThunk(
     async (_, {rejectWithValue}) => {
         try {
             const res = await axiosClient.get('/tests');
+            console.log(res.data);
             return res.data;
         } catch (error) {
             if (!error.response) {

@@ -120,7 +120,18 @@ export default function TestCard({test, onDelete}) {
                 />
                 <CardContent>
                     <Stack sx={{mb: '5px'}}>
-                        <Box display="flex"  alignItems="center">
+                        {user.role === 'admin' &&
+                            <Box display="flex" alignItems="center">
+                                <Typography fontWeight="bold">Власник:</Typography>
+
+                                <Typography>
+                                    <Button component={NavLink} to={`/students/${test.teacher.id}`}>
+                                        {`${test.teacher.first_name} ${test.teacher.second_name}`}
+                                    </Button>
+                                </Typography>
+                            </Box>
+                        }
+                        <Box display="flex" alignItems="center">
                             <HelpIcon style={{marginRight: 10}}/>
                             <Typography
                                 sx={{

@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="369ea667-65c6-4f76-97c2-3e996c2a7e9c" name="Changes" comment="" />
+    <list default="true" id="369ea667-65c6-4f76-97c2-3e996c2a7e9c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/seeders/PermissionsSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/PermissionsSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Dashboard/listItems.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Dashboard/listItems.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/TestCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsEditor.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/TestsEditor.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Result.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/Result.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/StartTest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/StartTest.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/TestPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/TestPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/UsersList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Users/UsersList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/test/testsSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/test/testsSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/user/usersSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/user/usersSlice.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -262,7 +277,9 @@
       <workItem from="1686889609567" duration="4292000" />
       <workItem from="1687002262410" duration="18467000" />
       <workItem from="1687067618157" duration="3495000" />
-      <workItem from="1687150590255" duration="24497000" />
+      <workItem from="1687150590255" duration="28989000" />
+      <workItem from="1687225507235" duration="18060000" />
+      <workItem from="1687255384219" duration="2719000" />
     </task>
     <servers />
   </component>
