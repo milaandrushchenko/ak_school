@@ -25,7 +25,7 @@ export const getAttempts = createAsyncThunk('tasks/getTasks',
     });
 export const updateAttempt = createAsyncThunk("tasks/updateTaskAttempt",
     async ({attempt_id, values}, {rejectWithValue}) => {
-        console.log(values)
+        console.log(values.done_at)
         try {
             const res = await axiosClient.put(`/tasks/update-attempt/${attempt_id}`, values)
             console.log(res.data)

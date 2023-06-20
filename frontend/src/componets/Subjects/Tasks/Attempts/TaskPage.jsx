@@ -20,7 +20,6 @@ const currentDate = dayjs();
 export default function TaskPage(){
     const {id} = useParams();
     const {attempts, isLoading} = useSelector((state) => state.tasks)
-    console.log(attempts)
     const task = attempts.find((t) => t.id === parseInt(id))
     const {user, userToken} = useSelector((state) => state.currentUser)
     const currentAttempt = task ? task.attempts.find((a) => a.student_id === user.id) : null;
@@ -33,13 +32,16 @@ export default function TaskPage(){
 
         fetchData();
     }, [id])
+    const date = new Date();
     const initialValues = {
-        content: null
+        content: null,
+        done_at: date.toISOString()
     }
     const formik = useFormik({
         initialValues: currentAttempt ? currentAttempt : initialValues,
         enableReinitialize: true, // Увімкнути оновлення значень initialValues
         onSubmit: async (values, {setErrors, setSubmitting}) => {
+            values.done_at =date.toISOString()
             console.log(values)
             const attempt_id = currentAttempt.id
             await dispatch(updateAttempt({attempt_id, values}));

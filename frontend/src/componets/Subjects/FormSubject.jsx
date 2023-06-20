@@ -29,7 +29,6 @@ const initialValues = {
 };
 
 export default function FormSubject({open, onClose, subjectItem}) {
-    // console.log(subjectItem)
     const dispatch = useDispatch();
 
     const {user, userToken} = useSelector((state) => state.currentUser)
@@ -40,7 +39,7 @@ export default function FormSubject({open, onClose, subjectItem}) {
     const {users} = useSelector((state) => state.users)
     const teachers = users.filter(user => user.role === 'teacher');
     // console.log(teachers)
-
+    const {subjects} = useSelector((state) => state.subjects)
     let errorsServer = useSelector((state) => state.subjects.errors)
     const close = (value) => {
         onClose(value);
@@ -61,11 +60,9 @@ export default function FormSubject({open, onClose, subjectItem}) {
                 }
             } else {
                 let id = subjectItem.id;
-                console.log(id);
                 const resultAction = await dispatch(updateSubject({id, values}));
                 if (updateSubject.fulfilled.match(resultAction)) {
                     console.log('subject updated');
-                    console.log(values);
                     close(true);
                 }
             }
@@ -89,6 +86,7 @@ export default function FormSubject({open, onClose, subjectItem}) {
         }
 
     }, [errorsServer]);
+    subjectItem ? subjectItem['classes_ids'] = subjectItem.classes.map(c => c.id) : ""
     return (
         <>
             <Dialog
@@ -119,7 +117,6 @@ export default function FormSubject({open, onClose, subjectItem}) {
                                 error={formik.touched.name && Boolean(formik.errors?.name)}
                                 helperText={formik.touched.name && formik.errors && formik.errors.name}
                             />
-                            {subjectItem ? subjectItem['classes_ids'] = subjectItem.classes.map(c => c.id) : ""}
                             <FormControl fullWidth sx={{marginTop: 2}}
                                          error={formik.touched.classes_ids && Boolean(formik.errors.classes_ids)}>
                                 <InputLabel id="classes-label">Класи</InputLabel>

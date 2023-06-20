@@ -26,6 +26,7 @@ class UpdateSubjectRequest extends FormRequest
                     }
                 }
             ],
+            'done_at' => 'nullable|date',
             'classes_ids' => 'nullable|array',
             'content' => 'nullable|string',
             'classes_ids.*' => [
