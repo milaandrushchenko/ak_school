@@ -1,6 +1,6 @@
 import {Link, NavLink, useNavigate, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import {getSubjectById, getSubjects, updateSubject} from "../../store/subject/subjectsSlice.js";
+import {getSubjectById, getSubjects, updateSubject, updateSubjectContent} from "../../store/subject/subjectsSlice.js";
 import {useDispatch, useSelector} from "react-redux";
 import Grid from "@mui/material/Grid";
 import TaskCard from "./Tasks/TaskCard.jsx";
@@ -36,7 +36,6 @@ export default function SubjectPage(){
         setOpenTaskForm(true);
     };
     const handleClickCloseTaskForm = (value) => {
-        console.log(value);
         setOpenTaskForm(false);
         if (value) {
             setNotification({text: 'Завдання успішно додано!', color: 'success'});
@@ -61,14 +60,10 @@ export default function SubjectPage(){
         initialValues: subject ? subject : initialValues,
         enableReinitialize: true, // Увімкнути оновлення значень initialValues
         onSubmit: async (values, {setErrors, setSubmitting}) => {
-            values['classes_ids'] = values.classes.map(c => c.id);
             let id = subject.id;
-            console.log(id);
-            const resultAction = await dispatch(updateSubject({id, values}));
-            if (updateSubject.fulfilled.match(resultAction)) {
-                console.log('subject updated');
-                console.log(values);
-                close(true);
+            const resultAction = await dispatch(updateSubjectContent({id, values}));
+            if (updateSubjectContent.fulfilled.match(resultAction)) {
+                console.log("content updated")
             }
         }
     });

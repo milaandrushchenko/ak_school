@@ -85,6 +85,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/subjects/create-task/{subject_id}', [SubjectsController::class, 'createTask']);
     Route::put('/subjects/update-task/{task_id}', [SubjectsController::class, 'updateTask']);
     Route::delete('/subjects/delete-task/{task_id}', [SubjectsController::class, 'deleteTask']);
+    Route::put('/subjects/content/{subject_id}', [SubjectsController::class, 'updateContent']);
 
     Route::apiResource('/tasks', TasksController::class);
     Route::put('/tasks/update-attempt/{attempt_id}', [TasksController::class, 'updateTaskAttempt']);

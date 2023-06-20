@@ -59,9 +59,9 @@ class SubjectsController extends Controller
 
     public function update(UpdateSubjectRequest $request, Subject $subject){
         $data = $request->validated();
-        var_dump($data);
         $cls = $data['classes_ids'];
         unset($data['classes_ids']);
+        unset($data['classes']);
 
         $subject->update($data);
 
@@ -117,11 +117,12 @@ class SubjectsController extends Controller
     public function getStatements(){
         $user = auth()->user();
 
-        if ($user->hasRole('admin')) {
+//        if ($user->hasRole('admin') || $user->hasRole('teacher')) {
             $statements = Statement::query()->orderBy('year', 'desc')->get();
-        } else {
-            $statements = [];
-        }
+//        } else {
+//
+//            $statements = [];
+//        }
         return StatementResource::collection($statements);
     }
     public function storeStatement(Request $request){
@@ -142,11 +143,10 @@ class SubjectsController extends Controller
         return response($session_score, 201);
     }
 
-    public function getBook(){
-
-    }
-
-    public function storeBook(){
-
+    public function updateContent(Request $request, string $id){
+        $data = $request->all();
+        $subject = Subject::findOrFail($id);
+        $subject->update($data);
+        return response($subject, 201);
     }
 }

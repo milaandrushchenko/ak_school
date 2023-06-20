@@ -13,6 +13,7 @@ import {ExpandMore} from "@mui/icons-material";
 import {useSelector} from "react-redux";
 import DeleteTask from "./DeleteTask.jsx";
 import {formattedDate} from "../../../utils/common.js";
+import Notification from "../../core/Notification.jsx";
 
 const currentDate = dayjs();
 
@@ -26,7 +27,7 @@ export default function TaskCard({task, openDeleteDialog, onOpenDeleteDialog, on
     const handleCloseDialogEdit = (value) => {
         setOpenDialogEdit(false);
         console.log(value)
-        if (value) setNotification('Завдання успішно оновлено!');
+        if (value) setNotification({text: 'Завдання успішно оновлено!', color: "success"});
     };
     const handleCloseAlert = (event, reason) => {
         if (reason === 'clickaway') {
@@ -62,17 +63,23 @@ export default function TaskCard({task, openDeleteDialog, onOpenDeleteDialog, on
                     title={
                         <Typography color="primary" variant="h5">
                             {task.name}
-                            {/*{currentAttempt && (currentAttempt.score && currentAttempt.score !== "0.00") ?*/}
-                            {/*<Chip component="span" label={currentAttempt.score} color="primary" sx={{ml:2}}/> : ""*/}
-                            {/*}*/}
+                            {user.role === 'student'
+                                && task.done_to
+                                && (currentAttempt && currentAttempt.done_at && currentAttempt.done_at > task.done_to ?
+                                    <Chip component="span" label="Протерміновано" sx={{backgroundColor: "#ff1744", color: "white", ml:3}} /> : "")}
                         </Typography>
                     }
-                    subheader={task.done_to ?
-                    <Typography sx={{py:1, color: "grey", fontStyle: "italic"}}>
-                        Здати до: <span style={{color: "black"}}>{formattedDate(task.done_to)}</span>
-                        {task.done !== 1 && dayjs(task.done_to) < currentDate ?
-                            <Chip component="span" label="Термін здачі вийшов" sx={{backgroundColor: "#ff1744", color: "white", ml:3}} /> : ""}
-                    </Typography> : <Typography sx={{py:1, color: "grey", fontStyle: "italic"}}>Без терміну здачі</Typography>}
+                    subheader={
+                    <>
+                        { task.done_to ?
+                        <Typography sx={{py:1, color: "grey", fontStyle: "italic"}}>
+                            Здати до: <span style={{color: "black"}}>{formattedDate(task.done_to)}</span>
+                        </Typography> : <Typography sx={{py:1, color: "grey", fontStyle: "italic"}}>Без терміну здачі</Typography>}
+                        {currentAttempt && currentAttempt.done_at &&
+                            <Typography  sx={{py:1, color: "grey", fontStyle: "italic"}}>Здано: <span style={{color: "black"}}>{formattedDate(currentAttempt.done_at)}</span></Typography>}
+                    </>
+
+                   }
                     action={user.role !== 'student' ?
                         <>
                             <IconButton
@@ -153,6 +160,11 @@ export default function TaskCard({task, openDeleteDialog, onOpenDeleteDialog, on
                             </AccordionDetails>
                         </Accordion>
                     }
+                    {notification && (
+                        <Notification notification={!!notification}
+                                      handleCloseAlert={handleCloseAlert} hideDuration={3000}
+                                      text={notification}/>
+                    )}
                 </CardContent>
             </Card>
         </>

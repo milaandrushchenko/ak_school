@@ -19,7 +19,6 @@ class SubjectResource extends JsonResource
             'content' => $this->content,
             'tests' => $this->tests,
             'statements' => $this->statements,
-//            'students' => $this->students,
             'created_at' => Carbon::parse($this->created_at)->isoFormat('DD MMMM, YYYY HH:mm'),
             'updated_at' => Carbon::parse($this->updated_at)->isoFormat('DD MMMM, YYYY HH:mm'),
         ];

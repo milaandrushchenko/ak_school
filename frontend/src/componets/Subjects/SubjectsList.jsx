@@ -59,7 +59,6 @@ const SubjectsList = () => {
     useEffect(() => {
         dispatch(searchSubject(searchValue));
     }, [searchValue])
-
     return (
         <>
             <Grid container justifyContent="space-between"
@@ -82,9 +81,7 @@ const SubjectsList = () => {
                             ДОДАТИ ПРЕДМЕТ
                         </Button>
                     }
-                    <FormSubject open={open}
-                               onClose={handleClose}
-                    />
+                    <FormSubject open={open} onClose={handleClose}/>
                 </Grid>
 
                 <Grid item xs={7} lg={2} style={{alignItems: 'end', paddingBottom: 5}}
@@ -103,16 +100,11 @@ const SubjectsList = () => {
                 </Grid>
                 <Grid item xs={5} lg={3} style={{textAlign: 'right'}}
                       className={styles['no-padding-top']}>
-                    <Button style={{backgroundColor: '#b3b7d7', color: 'white'}}
-                            onClick={onClickReset}
-                    >
-                        <ClearIcon style={{marginRight: 10}}/>
-                        СКИНУТИ
+                    <Button style={{backgroundColor: '#b3b7d7', color: 'white'}} onClick={onClickReset}>
+                        <ClearIcon style={{marginRight: 10}}/> СКИНУТИ
                     </Button>
                 </Grid>
             </Grid>
-
-
             {isLoading &&
                 <Box sx={{display: 'flex', justifyContent: 'center'}}>
                     <CircularProgress/>
