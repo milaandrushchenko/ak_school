@@ -159,6 +159,7 @@ export default function FormClass({open, onClose, classItem}) {
                                 onChange={formik.handleChange}
                                 error={formik.touched.name && Boolean(formik.errors?.name)}
                                 helperText={formik.touched.name && formik.errors && formik.errors.name}
+                                autoComplete="off"
                             />
                             <FormControl fullWidth sx={{marginTop: 2}}
                                          error={formik.touched.student_ids && Boolean(formik.errors.student_ids)}>

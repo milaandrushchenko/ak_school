@@ -60,9 +60,9 @@ class Questions extends Model
                         $totalScore += $scoreForEachCorrectAnswer;
                     }
                 }
-                if ($countCorrectAnswer === count($answer)) {
+//                if ($countCorrectAnswer === count($answer)) {
                     return $totalScore;
-                }
+//                }
                 break;
         }
         return 0;

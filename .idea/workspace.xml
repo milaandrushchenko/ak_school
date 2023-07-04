@@ -6,19 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="369ea667-65c6-4f76-97c2-3e996c2a7e9c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Console/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Console/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/AnswersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/AnswersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Resources/UserResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Resources/UserResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Answer.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Answer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Classes/ClassesList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Classes/ClassesList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/result/TestResults.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/result/TestResults.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/Questions.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Questions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Classes/FormClass.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Classes/FormClass.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/FormTest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/FormTest.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/TestPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Tests/testPassing/TestPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Users/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/Profile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Users/Profile.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/ShowUser.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Users/ShowUser.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/class/classesSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/class/classesSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/test/testsSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/test/testsSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/componets/Users/UserForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/componets/Users/UserForm.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -281,7 +273,10 @@
       <workItem from="1687225507235" duration="18060000" />
       <workItem from="1687255384219" duration="22534000" />
       <workItem from="1687294990143" duration="2718000" />
-      <workItem from="1687299517793" duration="1368000" />
+      <workItem from="1687299517793" duration="2110000" />
+      <workItem from="1687316794142" duration="3188000" />
+      <workItem from="1687331372940" duration="2022000" />
+      <workItem from="1688478781630" duration="1186000" />
     </task>
     <servers />
   </component>

@@ -148,6 +148,7 @@ export default function FormTest({open, onClose, test}) {
                                 label="Назва"
                                 type="text"
                                 fullWidth
+                                autoComplete="off"
 
                                 value={formik.values.title}
                                 onChange={formik.handleChange}

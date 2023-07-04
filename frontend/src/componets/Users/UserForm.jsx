@@ -119,6 +119,8 @@ export default function UserForm({user, open, onClose}) {
                                 onChange={formik.handleChange}
                                 error={formik.touched.login && Boolean(formik.errors?.login)}
                                 helperText={formik.touched.login && formik.errors && formik.errors.login}
+                                autoComplete="off"
+
                             />
                             {!user && <Grid container spacing={2} alignItems="center"
                                             alignContent={"center"}>
@@ -185,6 +187,8 @@ export default function UserForm({user, open, onClose}) {
                                                label="Ім'я"
                                                type="text"
                                                fullWidth
+                                               autoComplete="off"
+
                                                value={formik.values.first_name}
                                                onChange={formik.handleChange}
                                                error={formik.touched.first_name && Boolean(formik.errors?.first_name)}
@@ -201,6 +205,7 @@ export default function UserForm({user, open, onClose}) {
                                                fullWidth
                                                value={formik.values.second_name}
                                                onChange={formik.handleChange}
+                                               autoComplete="off"
                                                error={formik.touched.second_name && Boolean(formik.errors?.second_name)}
                                                helperText={formik.touched.second_name && formik.errors && formik.errors.second_name}
                                     />
